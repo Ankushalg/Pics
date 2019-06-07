@@ -3,6 +3,8 @@
 [Pics](https://www.github.com/ankushalg/pics) is a Backup and Restore tool with integrated Pics Messaging App based on Telegram APIs with a focus on speed and security. It’s superfast, simple and free.
 This repo contains the official source code for [Pics App for Android](https://www.github.com/ankushalg/pics).
 
+Please **Note** that **Pics Messaging App** is an **UNOFFICIAL** Telegram App (i.e. It's not an official Telegram App. It just use Telegram APIs)
+
 ## Creating your Pics Application
 
 We welcome all developers to use Pics as well as Telegram API and source code to create applications on Telegram platform.
