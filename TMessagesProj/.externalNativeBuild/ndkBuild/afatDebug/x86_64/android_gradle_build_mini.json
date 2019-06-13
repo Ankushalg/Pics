@@ -1,0 +1,53 @@
+{
+  "buildFiles": [
+    "D:\\Pics\\TMessagesProj\\jni\\Android.mk",
+    "D:\\Pics\\TMessagesProj\\jni\\Application.mk"
+  ],
+  "cleanCommands": [
+    "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 clean"
+  ],
+  "libraries": {
+    "webp-afatDebug-x86_64": {
+      "artifactName": "webp",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libwebp.a",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libwebp.a"
+    },
+    "flac-afatDebug-x86_64": {
+      "artifactName": "flac",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libflac.a",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libflac.a"
+    },
+    "cpufeatures-afatDebug-x86_64": {
+      "artifactName": "cpufeatures",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libcpufeatures.a",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libcpufeatures.a"
+    },
+    "tgnet-afatDebug-x86_64": {
+      "artifactName": "tgnet",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libtgnet.a",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libtgnet.a"
+    },
+    "tmessages.30-afatDebug-x86_64": {
+      "artifactName": "tmessages.30",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libtmessages.30.so",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libtmessages.30.so"
+    },
+    "crypto_x86_64-afatDebug-x86_64": {
+      "artifactName": "crypto_x86_64",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libcrypto_x86_64.a",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libcrypto_x86_64.a"
+    },
+    "sqlite-afatDebug-x86_64": {
+      "artifactName": "sqlite",
+      "buildCommand": "E:\\ndk17\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\Pics\\TMessagesProj\\jni\\Android.mk NDK_APPLICATION_MK\u003dD:\\Pics\\TMessagesProj\\jni\\Application.mk APP_ABI\u003dx86_64 NDK_ALL_ABIS\u003dx86_64 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dD:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj NDK_LIBS_OUT\u003dD:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\lib NDK_APPLICATION_MK:\u003djni/Application.mk APP_PLATFORM:\u003dandroid-17 -j8 D:/Pics/TMessagesProj/build/intermediates/ndkBuild/afat/debug/obj/local/x86_64/libsqlite.a",
+      "abi": "x86_64",
+      "output": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afat\\debug\\obj\\local\\x86_64\\libsqlite.a"
+    }
+  }
+}

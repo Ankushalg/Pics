@@ -15,7 +15,7 @@ configurations.all {
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.1.0-beta01'
+    implementation 'androidx.core:core:1.2.0-alpha01'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
 
@@ -24,10 +24,10 @@ dependencies {
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
     implementation 'com.google.firebase:firebase-messaging:18.0.0'
-    implementation 'com.google.firebase:firebase-config:16.5.0'
+    implementation 'com.google.firebase:firebase-config:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.google.android.gms:play-services-vision:16.2.0'
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
     implementation 'com.google.android.gms:play-services-wallet:16.0.1'
     implementation 'com.google.android.gms:play-services-wearable:16.0.1'
     implementation 'net.hockeyapp.android:HockeySDK:5.1.1'
@@ -42,18 +42,18 @@ android {
     defaultConfig.applicationId = "com.allstudio.pics"
 
 
-//    sourceSets.main.jniLibs.srcDirs = ['./jni/']
-//
+   sourceSets.main.jniLibs.srcDirs = ['./jni/']
+
 //    externalNativeBuild {
 //        ndkBuild {
 //            path "jni/Android.mk"
 //        }
 //    }
 
-    sourceSets.main {
-        jniLibs.srcDir 'libs'
-        jni.srcDirs = [] //disable automatic ndk-build call
-    }
+     sourceSets.main {
+         jniLibs.srcDir 'libs'
+         jni.srcDirs = [] //disable automatic ndk-build call
+     }
 
     lintOptions {
         disable 'MissingTranslation'
@@ -125,9 +125,16 @@ android {
         }
 
         release {
-            debuggable false
-            jniDebuggable false
-            signingConfig signingConfigs.release
+//            debuggable false
+//            jniDebuggable false
+//            signingConfig signingConfigs.release
+//            minifyEnabled true
+//            shrinkResources false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            TODO Change it back to release form when app is ready to launch
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debug
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -291,18 +298,18 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion 17
+        targetSdkVersion 28
         versionName "5.7.1"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
-//        externalNativeBuild {
-//            ndkBuild {
-//                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-16", "-j8"
-//                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-//            }
-//        }
+//       externalNativeBuild {
+//           ndkBuild {
+//               arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-17", "-j8"
+//               abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+//           }
+//       }
 
         manifestPlaceholders = [applicationClassName: "ApplicationLoader"]
     }
