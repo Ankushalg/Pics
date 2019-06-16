@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Telegram</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">Pics</string>
+    <string name="AppNameBeta">Pics</string>
     <string name="LanguageName">Español</string>
     <string name="English">Inglés</string>
     <string name="LanguageNameInEnglish">Spanish</string>
@@ -27,9 +27,9 @@
     <string name="SentAppCode">Enviamos el código a la app de **Telegram** en tu otro dispositivo.</string>
     <string name="SentAppCodeTitle">Revisa tus mensajes en Telegram</string>
     <string name="SentSmsCodeTitle">Pon el código</string>
-    <string name="SentCallCode">Estamos llamando al número **%1$s**.\n\nNo contestes. Telegram hará todo el proceso automáticamente.</string>
+    <string name="SentCallCode">Estamos llamando al número **%1$s**.\n\nNo contestes. Pics hará todo el proceso automáticamente.</string>
     <string name="SentCallOnly">Estamos llamando al **%1$s** para dictar un código.</string>
-    <string name="CallText">Telegram te llamará en %1$d:%2$02d</string>
+    <string name="CallText">Pics te llamará en %1$d:%2$02d</string>
     <string name="SmsText">Te enviaremos un SMS en %1$d:%2$02d</string>
     <string name="Calling">Te estamos llamando...</string>
     <string name="SendingSms">Enviando SMS...</string>
@@ -121,7 +121,7 @@
     <string name="NewGroup">Nuevo grupo</string>
     <string name="Yesterday">ayer</string>
     <string name="NoResult">Sin resultados</string>
-    <string name="NoChats">Bienvenido a Telegram</string>
+    <string name="NoChats">Bienvenido a Pics</string>
     <string name="RecentlyViewed">Vistos recientemente</string>
     <string name="RecentlyViewedHide">OCULTAR</string>
     <string name="NoChatsHelp">Envía mensajes tocando el botón del lápiz en la esquina inferior derecha.</string>
@@ -171,7 +171,7 @@
     <string name="DisappearingPhoto">Foto secreta</string>
     <string name="DisappearingVideo">Video secreto</string>
     <string name="DisappearingGif">GIF secreto</string>
-    <string name="CompatibilityChat">%1$s usa una versión antigua de Telegram, así que las fotos secretas serán mostradas en un modo de compatibilidad.\n\nCuando %2$s actualice Telegram, las fotos con autodestrucción de 1 minuto o menos funcionarán con el modo “Mantén pulsado para ver”, y te notificaremos siempre que la otra parte haga una captura de pantalla.</string>
+    <string name="CompatibilityChat">%1$s usa una versión antigua de Pics, así que las fotos secretas serán mostradas en un modo de compatibilidad.\n\nCuando %2$s actualice Pics, las fotos con autodestrucción de 1 minuto o menos funcionarán con el modo “Mantén pulsado para ver”, y te notificaremos siempre que la otra parte haga una captura de pantalla.</string>
     <string name="SearchMessages">Mensajes</string>
     <string name="Search">Buscar</string>
     <string name="MuteNotifications">Silenciar notificaciones</string>
@@ -203,7 +203,7 @@
     <string name="Italic">Cursiva</string>
     <string name="Mono">Monoespaciado</string>
     <string name="Regular">Normal</string>
-    <string name="ContactsPermissionAlert">**Telegram** necesita acceso a tus contactos para que puedas comunicarte con tus amigos en todos tus dispositivos. Tus contactos se sincronizarán continuamente con los servidores en la nube fuertemente cifrados de Telegram.</string>
+    <string name="ContactsPermissionAlert">**Pics** necesita acceso a tus contactos para que puedas comunicarte con tus amigos en todos tus dispositivos. Tus contactos se sincronizarán continuamente con los servidores en la nube fuertemente cifrados de Telegram.</string>
     <string name="ContactsPermissionAlertNotNow">AHORA NO</string>
     <string name="ContactsPermissionAlertContinue">CONTINUAR</string>
     <string name="YourContacts">Tus contactos en Telegram</string>
@@ -878,7 +878,7 @@
     <string name="NotificationGroupKickYou">%1$s te eliminó del grupo %2$s</string>
     <string name="NotificationGroupLeftMember">%1$s dejó el grupo %2$s</string>
     <string name="NotificationContactJoined">¡%1$s se unió a Telegram!</string>
-    <string name="NotificationUnrecognizedDevice">%1$s,\nDetectamos un inicio de sesión en tu cuenta desde un nuevo dispositivo, el %2$s\n\nDispositivo: %3$s\nUbicación: %4$s\n\nSi no eras tú, puedes ir a Ajustes &gt; Privacidad y seguridad &gt; Sesiones activas y cerrar esa sesión.\n\nSi crees que alguien ha iniciado la sesión sin tu consentimiento, puedes activar la verificación en dos pasos, en los ajustes de privacidad y seguridad.\n\nAtentamente,\nEl equipo de Telegram</string>
+    <string name="NotificationUnrecognizedDevice">%1$s,\nDetectamos un inicio de sesión en tu cuenta desde un nuevo dispositivo, el %2$s\n\nDispositivo: %3$s\nUbicación: %4$s\n\nSi no eras tú, puedes ir a Ajustes &gt; Privacidad y seguridad &gt; Sesiones activas y cerrar esa sesión.\n\nSi crees que alguien ha iniciado la sesión sin tu consentimiento, puedes activar la verificación en dos pasos, en los ajustes de privacidad y seguridad.\n\nAtentamente,\nEl equipo de Pics</string>
     <string name="NotificationContactNewPhoto">%1$s actualizó su foto de perfil</string>
     <string name="NotificationInvitedToGroupByLink">%1$s se unió al grupo %2$s con un enlace de invitación</string>
     <string name="NotificationGroupFew">%1$s envió %3$s al grupo %2$s</string>
@@ -925,13 +925,13 @@
     <string name="NotificationActionPinnedGeoLiveChannel">%1$s ancló una ubicación en tiempo real</string>
     <string name="NotificationActionPinnedGifChannel">%1$s ancló un GIF</string>
     <string name="NotificationActionPinnedMusicChannel">%1$s ancló un audio</string>
-    <string name="SecretChatName">Telegram</string>
+    <string name="SecretChatName">Pics</string>
     <!--contacts view-->
     <string name="SelectContact">Elegir contacto</string>
     <string name="SelectContacts">Elegir contactos</string>
     <string name="ContactShare">COMPARTIR CONTACTO</string>
     <string name="NoContacts">Aún no hay contactos</string>
-    <string name="InviteText2">Estoy usando Telegram para chatear. ¡Únete! Descárgala aquí: %1$s</string>
+    <string name="InviteText2">Estoy usando Pics para chatear. ¡Únete! Descárgala aquí: %1$s</string>
     <string name="TodayAt">a las</string>
     <string name="YesterdayAt">ayer a las</string>
     <string name="TodayAtFormatted">a las %1$s</string>
@@ -949,9 +949,9 @@
     <string name="WithinAMonth">últ. vez hace unas semanas</string>
     <string name="ALongTimeAgo">últ. vez hace mucho tiempo</string>
     <string name="NewMessageTitle">Nuevo mensaje</string>
-    <string name="InviteFriendsHelp">Elige contactos para invitarlos a Telegram</string>
-    <string name="InviteToTelegram">INVITAR A TELEGRAM</string>
-    <string name="ShareTelegram">Compartir Telegram...</string>
+    <string name="InviteFriendsHelp">Elige contactos para invitarlos a Pics</string>
+    <string name="InviteToTelegram">INVITAR A PICS</string>
+    <string name="ShareTelegram">Compartir Pics...</string>
     <string name="UpdateContactsTitle">¿Actualizar contactos?</string>
     <string name="UpdateContactsMessage">Telegram ha detectado muchos contactos sin sincronizar. ¿Quieres sincronizarlos ahora? Elige “OK” si estás usando tu dispositivo, tarjeta SIM y cuenta de Google.</string>
     <string name="SortedByName">Ordenado por nombre</string>
@@ -1094,7 +1094,7 @@
     <string name="NoEmojiFound">No se encontraron emojis</string>
     <string name="NoMasks">Aún no hay máscaras</string>
     <string name="EmojiSuggestions">Sugerencias de emojis</string>
-    <string name="EmojiSuggestionsInfo">**Telegram** te permite encontrar emojis a partir de miles de palabras clave, pero siempre puede faltar alguna. Si quieres sugerir una palabra clave, puedes ayudarnos visitando:</string>
+    <string name="EmojiSuggestionsInfo">**Pics** te permite encontrar emojis a partir de miles de palabras clave, pero siempre puede faltar alguna. Si quieres sugerir una palabra clave, puedes ayudarnos visitando:</string>
     <string name="EmojiSuggestionsUrl">https://translations.telegram.org/%1$s/emoji</string>
     <string name="Masks">Máscaras</string>
     <string name="MasksInfo">Puedes añadir máscaras a las fotos que envías. Para hacerlo, abre el editor de fotos antes de enviar una foto.</string>
@@ -1103,7 +1103,7 @@
     <string name="SuggestStickersAll">Todos los packs</string>
     <string name="SuggestStickersInstalled">Mis packs</string>
     <string name="SuggestStickersNone">Ninguno</string>
-    <string name="FeaturedStickersInfo">Estos stickers son tendencia en Telegram. Puedes añadir stickers personalizados con el bot @stickers.</string>
+    <string name="FeaturedStickersInfo">Estos stickers son tendencia en Pics. Puedes añadir stickers personalizados con el bot @stickers.</string>
     <string name="ArchivedStickers">Stickers archivados</string>
     <string name="ArchivedMasks">Máscaras archivadas</string>
     <string name="ArchivedStickersEmpty">Stickers no archivados</string>
@@ -1156,7 +1156,7 @@
     <string name="ShowAllThemes">Mostrar todos los temas</string>
     <string name="CreateNewThemeMenu">Crear nuevo tema</string>
     <string name="CreateNewThemeHelp">Toca sobre el icono de la paleta de colores para ver la lista de elementos en cada ventana y editarlos.</string>
-    <string name="CreateNewThemeAlert">Puedes crear tu propio tema cambiando los colores dentro de la aplicación.\n\nSiempre puedes volver al tema por defecto de Telegram aquí.</string>
+    <string name="CreateNewThemeAlert">Puedes crear tu propio tema cambiando los colores dentro de la aplicación.\n\nSiempre puedes volver al tema por defecto de Pics aquí.</string>
     <!--settings view-->
     <string name="ResetNotificationsText">Todos los ajustes de notificaciones fueron restablecidos a los valores por defecto</string>
     <string name="ResetNotificationsAlert">¿Quieres restablecer todos los ajustes de notificaciones?</string>
@@ -1278,7 +1278,7 @@
     <string name="LanguageUnofficial">Idiomas no oficiales</string>
     <string name="LanguageUnsupportedError">Ese idioma no está.</string>
     <string name="LanguageSame">Ya estás usando este pack de idioma (**%1$s**). Puedes cambiar el idioma cuando quieras en Ajustes.</string>
-    <string name="LanguageUnknownCustomAlert">Lamentablemente, este pack de idioma personalizado (**%1$s**) no contiene datos para Telegram Android.</string>
+    <string name="LanguageUnknownCustomAlert">Lamentablemente, este pack de idioma personalizado (**%1$s**) no contiene datos para Pics Android.</string>
     <string name="AskAQuestionInfo">Ten en cuenta que el soporte de Telegram está hecho por voluntarios. Respondemos lo antes posible, pero puede tomar tiempo.\n\nPor favor, mira las <![CDATA[<a href=\"https://telegram.org/faq/es#general\">Preguntas frecuentes de Telegram</a>]]>: tienen respuestas para la mayoría de las preguntas y <![CDATA[<a href=\"https://telegram.org/faq#troubleshooting\">soluciones a problemas</a>]]>.</string>
     <string name="AskButton">Preguntar</string>
     <string name="TelegramFAQ">Preguntas frecuentes</string>
@@ -1295,7 +1295,7 @@
     <string name="NotificationsService">Servicio keep-alive</string>
     <string name="NotificationsServiceInfo">Vuelve a abrir la app cuando se cierra. Actívala para notificaciones más fiables.</string>
     <string name="NotificationsServiceConnection">Conexión en segundo plano</string>
-    <string name="NotificationsServiceConnectionInfo">Mantiene una conexión en segundo plano de bajo impacto con Telegram para notificaciones más fiables.</string>
+    <string name="NotificationsServiceConnectionInfo">Mantiene una conexión en segundo plano de bajo impacto con Pics para notificaciones más fiables.</string>
     <string name="SortBy">Ordenar por</string>
     <string name="ImportContacts">Importar contactos</string>
     <string name="SortFirstName">Nombre</string>
@@ -1412,7 +1412,7 @@
     <string name="Emoji">Emoji</string>
     <string name="EmojiBigSize">Usar un emoji grande</string>
     <string name="EmojiUseDefault">Usar emoji predeterminado</string>
-    <string name="TelegramVersion">Telegram para Android %1$s</string>
+    <string name="TelegramVersion">Pics para Android %1$s</string>
     <string name="DebugMenu">Menú de depuración</string>
     <string name="DebugSendLogs">Enviar registros</string>
     <string name="DebugClearLogs">Limpiar registros</string>
@@ -1446,15 +1446,15 @@
     <string name="UseProxyTelegram">Proxy MTProto</string>
     <string name="UseProxyTelegramError">El proxy que estás usando no está configurado correctamente y será desactivado. Por favor, encuentra otro.</string>
     <string name="UseProxySponsor">Sponsor del proxy</string>
-    <string name="UseProxySponsorInfo">Este canal es mostrado por tu servidor proxy. Para eliminar este canal de tu lista de chats, desactiva el proxy en los Ajustes de Telegram.</string>
+    <string name="UseProxySponsorInfo">Este canal es mostrado por tu servidor proxy. Para eliminar este canal de tu lista de chats, desactiva el proxy en los Ajustes de Pics.</string>
     <string name="UseProxyInfo">Ajustes de proxy SOCKS5.</string>
     <string name="UseProxyTelegramInfo">Ajustes de proxy MTProto.</string>
-    <string name="UseProxyTelegramInfo2">Este proxy podría mostrar un canal patrocinado en tu lista de chats. Esto no revela nada de tu tráfico en Telegram.</string>
+    <string name="UseProxyTelegramInfo2">Este proxy podría mostrar un canal patrocinado en tu lista de chats. Esto no revela nada de tu tráfico en Pics.</string>
     <string name="UseProxyForCalls">Usar proxy para llamadas</string>
     <string name="UseProxyForCallsInfo">El proxy puede disminuir la calidad de tus llamadas.</string>
     <string name="ConnectingToProxyEnable">Activar</string>
     <string name="LowDiskSpaceTitle">Atención</string>
-    <string name="LowDiskSpaceMessage">Queda poco espacio en tu dispositivo. Puedes liberar espacio al elegir conservar sólo la caché de la multimedia reciente en Telegram.</string>
+    <string name="LowDiskSpaceMessage">Queda poco espacio en tu dispositivo. Puedes liberar espacio al elegir conservar sólo la caché de la multimedia reciente en Pics.</string>
     <string name="LowDiskSpaceTitle2">Eliminar multimedia tras</string>
     <string name="LowDiskSpaceNeverRemove">Nunca eliminarla</string>
     <string name="AutodownloadContacts">Contactos</string>
@@ -1756,7 +1756,7 @@
     <string name="FingerprintNotRecognized">Huella digital no reconocida. Reinténtalo.</string>
     <string name="ScreenCapture">Mostrar contenido en la multitarea</string>
     <string name="ScreenCaptureInfo">Si está desactivada, no podrás hacer capturas de pantalla en la app pero el contenido del chat estará oculto en la multitarea.</string>
-    <string name="ScreenCaptureAlert">Esto ocultará los contenidos de tus chats o tu lista de chats en la multitarea, pero no podrás hacer capturas de pantalla en Telegram.\n\nTendrás que reiniciar la app para que esto surta efecto.</string>
+    <string name="ScreenCaptureAlert">Esto ocultará los contenidos de tus chats o tu lista de chats en la multitarea, pero no podrás hacer capturas de pantalla en Pics.\n\nTendrás que reiniciar la app para que esto surta efecto.</string>
     <string name="TooManyTries">Demasiados intentos.\nPor favor, reinténtalo en %1$s.</string>
     <!--media view-->
     <string name="January">Enero</string>
@@ -2152,7 +2152,7 @@
     <string name="ActionBotDocumentRentalAgreement">Contrato de alquiler</string>
     <string name="ActionBotDocumentPhone">Número de teléfono</string>
     <string name="ActionBotDocumentEmail">Dirección de correo</string>
-    <string name="UnsupportedMedia">Tu versión de Telegram no es compatible con este mensaje. Por favor, actualiza tu app para verlo: https://telegram.org/update</string>
+    <string name="UnsupportedMedia">Tu versión de Pics no es compatible con este mensaje. Por favor, actualiza tu app para verlo: https://telegram.org/update</string>
     <string name="AttachPhoto">Foto</string>
     <string name="AttachVideo">Video</string>
     <string name="AttachDestructingPhoto">Foto con autodestrucción</string>
@@ -2175,8 +2175,8 @@
     <string name="DeleteAllMessagesAlert">¡Advertencia! Esto **eliminará todos los mensajes** en este chat para **ambos** participantes.</string>
     <string name="DeleteAll">Eliminar todo</string>
     <string name="StopLoading">¿Detener la carga?</string>
-    <string name="UpdateTelegram">Actualizar Telegram</string>
-    <string name="UpdateAppAlert">Lo sentimos, tu app de Telegram no está actualizada y no puede procesar esta solicitud. Por favor, actualiza Telegram.</string>
+    <string name="UpdateTelegram">Actualizar Pics</string>
+    <string name="UpdateAppAlert">Lo sentimos, tu app de Pics no está actualizada y no puede procesar esta solicitud. Por favor, actualiza Pics.</string>
     <string name="InvalidPhoneNumber">Número de teléfono inválido. Por favor, revisa el número y reinténtalo.</string>
     <string name="PleaseLoginPassport">Por favor, inicia sesión en tu cuenta de Telegram para usar Telegram Passport.</string>
     <string name="BannedPhoneNumber">Este número de teléfono está suspendido.</string>
@@ -2263,10 +2263,10 @@
     <string name="SecretLinkPreviewAlert">¿Quieres permitir las vistas previas ampliadas en chats secretos? Ten en cuenta que son generadas en los servidores de Telegram.</string>
     <string name="SecretChatContextBotAlert">Ten en cuenta que los bots integrados son hechos por terceros. Para que funcione, los símbolos escritos después del alias del bot, son enviados al desarrollador respectivo.</string>
     <string name="EditMessageError">Lo sentimos, no puedes editar este mensaje.</string>
-    <string name="AllowReadSms">Por favor, permite a Telegram recibir SMS para que podamos ingresar automáticamente el código por ti.</string>
-    <string name="AllowReadCall">Por favor, permite a Telegram recibir llamadas para que podamos ingresar automáticamente el código por ti.</string>
-    <string name="AllowFillNumber">Por favor, permite a Telegram recibir llamadas para que podamos confirmar tu número de teléfono automáticamente.</string>
-    <string name="AllowReadCallAndSms">Por favor, permite a Telegram recibir llamadas para que podamos confirmar tu número de teléfono automáticamente.</string>
+    <string name="AllowReadSms">Por favor, permite a Pics recibir SMS para que podamos ingresar automáticamente el código por ti.</string>
+    <string name="AllowReadCall">Por favor, permite a Pics recibir llamadas para que podamos ingresar automáticamente el código por ti.</string>
+    <string name="AllowFillNumber">Por favor, permite a Pics recibir llamadas para que podamos confirmar tu número de teléfono automáticamente.</string>
+    <string name="AllowReadCallAndSms">Por favor, permite a Pics recibir llamadas para que podamos confirmar tu número de teléfono automáticamente.</string>
     <string name="UserRestricted">Lo sentimos, no tienes permitido hacer esto.</string>
     <string name="YouBlockedUser">No puedes añadir a este usuario o bot al grupo porque lo has bloqueado. Por favor, desbloquéalo para continuar.</string>
     <string name="JoinGroup">UNIRME AL GRUPO</string>
@@ -2287,28 +2287,28 @@
     <string name="TosDeclineDeleteAccount">Advertencia: Esto eliminará de forma irreversible tu cuenta de Telegram junto a todos los datos que almacenas en la nube de Telegram.\n\nImportante: Puedes Cancelar ahora y exportar tus datos antes de eliminar tu cuenta en vez de perderlo todo. (Para hacerlo, abre la última versión de Telegram Desktop y ve a Ajustes &gt; Exportar datos de Telegram.)</string>
     <!--permissions-->
     <string name="PermissionContacts">Para que puedas comunicarte con tus amigos en todos tus dispositivos, tus contactos se sincronizarán continuamente con los servidores en la nube fuertemente cifrados de Telegram.</string>
-    <string name="PermissionStorage">Telegram necesita acceso a tu espacio de almacenamiento para que puedas enviar y guardar fotos, videos, música y otros archivos.</string>
-    <string name="PermissionNoAudio">Telegram necesita acceso a tu micrófono para que puedas enviar mensajes de voz.</string>
-    <string name="PermissionNoAudioVideo">Telegram necesita acceso a tu micrófono para que puedas grabar videos.</string>
-    <string name="PermissionNoCamera">Telegram necesita acceso a tu cámara para que puedas tomar fotos y videos.</string>
-    <string name="PermissionNoLocation">Telegram necesita acceso a tu ubicación para que puedas compartirla con tus amigos.</string>
-    <string name="PermissionNoLocationPosition">Telegram necesita acceso a tu ubicación.</string>
-    <string name="PermissionDrawAboveOtherApps">Telegram necesita acceso a mostrarse sobre otras aplicaciones para usar el modo Picture-in-Picture.</string>
+    <string name="PermissionStorage">Pics necesita acceso a tu espacio de almacenamiento para que puedas enviar y guardar fotos, videos, música y otros archivos.</string>
+    <string name="PermissionNoAudio">Pics necesita acceso a tu micrófono para que puedas enviar mensajes de voz.</string>
+    <string name="PermissionNoAudioVideo">Pics necesita acceso a tu micrófono para que puedas grabar videos.</string>
+    <string name="PermissionNoCamera">Pics necesita acceso a tu cámara para que puedas tomar fotos y videos.</string>
+    <string name="PermissionNoLocation">Pics necesita acceso a tu ubicación para que puedas compartirla con tus amigos.</string>
+    <string name="PermissionNoLocationPosition">Pics necesita acceso a tu ubicación.</string>
+    <string name="PermissionDrawAboveOtherApps">Pics necesita acceso a mostrarse sobre otras aplicaciones para usar el modo Picture-in-Picture.</string>
     <string name="PermissionOpenSettings">AJUSTES</string>
-    <string name="PermissionXiaomiLockscreen">Por favor, permite a Telegram aparecer en la pantalla bloqueada para que las llamadas funcionen correctamente.</string>
+    <string name="PermissionXiaomiLockscreen">Por favor, permite a Pics aparecer en la pantalla bloqueada para que las llamadas funcionen correctamente.</string>
     <!--Intro view-->
-    <string name="Page1Title">Telegram</string>
+    <string name="Page1Title">Pics</string>
     <string name="Page2Title">Rápida</string>
     <string name="Page3Title">Gratuita</string>
     <string name="Page4Title">Segura</string>
     <string name="Page5Title">Poderosa</string>
     <string name="Page6Title">Basada en la nube</string>
     <string name="Page1Message">La app de mensajería **más rápida**\ndel mundo. Es **gratis** y **segura**.</string>
-    <string name="Page2Message">**Telegram** entrega mensajes más rápido\nque cualquier otra aplicación.</string>
-    <string name="Page3Message">**Telegram** es gratis para siempre.\nSin publicidad. Sin suscripciones.</string>
-    <string name="Page4Message">**Telegram** mantiene tus mensajes\na salvo del ataque de hackers.</string>
-    <string name="Page5Message">**Telegram** no tiene límite de espacio\npara tus archivos multimedia y chats.</string>
-    <string name="Page6Message">**Telegram** te permite acceder a tus\nmensajes desde múltiples dispositivos.</string>
+    <string name="Page2Message">**Pics** entrega mensajes más rápido\nque cualquier otra aplicación.</string>
+    <string name="Page3Message">**Pics** es gratis para siempre.\nSin publicidad. Sin suscripciones.</string>
+    <string name="Page4Message">**Pics** mantiene tus mensajes\na salvo del ataque de hackers.</string>
+    <string name="Page5Message">**Pics** no tiene límite de espacio\npara tus archivos multimedia y chats.</string>
+    <string name="Page6Message">**Pics** te permite acceder a tus\nmensajes desde múltiples dispositivos.</string>
     <string name="StartMessaging">Empezar a chatear</string>
     <!-- VoIP -->
     <string name="AccountSettings">Ajustes de la cuenta</string>
@@ -2323,14 +2323,14 @@
     <string name="VoipFailed">Conexión fallida</string>
     <string name="VoipRinging">Llamando</string>
     <string name="VoipBusy">Línea ocupada</string>
-    <string name="VoipInCallBranding">Llamada de Telegram</string>
-    <string name="VoipOutgoingCall">Llamada de Telegram en curso</string>
+    <string name="VoipInCallBranding">Llamada de Pics</string>
+    <string name="VoipOutgoingCall">Llamada de Pics en curso</string>
     <string name="VoipEndCall">Finalizar llamada</string>
     <string name="VoipOngoingAlertTitle">Otra llamada en curso</string>
     <string name="VoipOngoingAlert">Actualmente tienes una llamada en curso con **%1$s**. ¿Quieres colgar esa llamada y empezar una nueva con **%2$s**?</string>
     <string name="VoipNotificationSettings">Llamadas de voz</string>
     <string name="VoipSettingsRingtone">Tono de llamada</string>
-    <string name="VoipRingtoneInfo">Puedes personalizar el tono de llamada desde este contacto en Telegram.</string>
+    <string name="VoipRingtoneInfo">Puedes personalizar el tono de llamada desde este contacto en Pics.</string>
     <string name="Calls">Llamadas</string>
     <string name="CustomP2PInfo">El peer-to-peer en llamadas será o no será utilizado con estos usuarios, sin importar los ajustes de arriba.</string>
     <string name="P2PEnabledWith">Usar peer-to-peer con</string>
@@ -2357,14 +2357,14 @@
     <string name="NoCallLog">Aún no has realizado llamadas.</string>
     <string name="VoipPeerIncompatible">La app de **%1$s** está usando un protocolo incompatible. Necesita actualizar la app para poder llamar.</string>
     <string name="VoipPeerOutdated">La app de **%1$s** no es compatible con las llamadas. Necesita actualizar la app para poder llamar.</string>
-    <string name="VoipRateCallAlert">Por favor, evalúa la calidad de tu llamada de Telegram</string>
-    <string name="VoipNeedMicPermission">Telegram necesita acceso a tu micrófono para que puedas realizar llamadas.</string>
+    <string name="VoipRateCallAlert">Por favor, evalúa la calidad de tu llamada de Pics</string>
+    <string name="VoipNeedMicPermission">Pics necesita acceso a tu micrófono para que puedas realizar llamadas.</string>
     <string name="VoipFeedbackCommentHint">Añade un comentario opcional</string>
     <string name="CallBack">Devolver llamada</string>
     <string name="CallAgain">Llamar de nuevo</string>
     <string name="DefaultRingtone">Por defecto</string>
     <string name="ConfirmDeleteCallLog">¿Quieres eliminar esta entrada del registro de llamadas?</string>
-    <string name="CallViaTelegram">Llamada de Telegram</string>
+    <string name="CallViaTelegram">Llamada de Pics</string>
     <string name="VoipAudioRoutingEarpiece">Auricular</string>
     <string name="VoipAudioRoutingSpeaker">Altavoz</string>
     <string name="VoipAudioRoutingBluetooth">Bluetooth</string>
@@ -2375,18 +2375,18 @@
     <string name="CallReportHint">¿Qué salió mal?</string>
     <string name="CallReportIncludeLogs">Incluir información técnica</string>
     <string name="CallReportLogsExplain">Esto no revela los contenidos de tu chat y nos ayuda a resolver el problema antes.</string>
-    <string name="CallReportSent">Gracias por ayudarnos a mejorar las llamadas de Telegram.</string>
+    <string name="CallReportSent">Gracias por ayudarnos a mejorar las llamadas de Pics.</string>
     <string name="VoipAnsweringAsAccount">Contestando como %s</string>
     <string name="VoipQuickReplies">Responder con mensaje</string>
-    <string name="VoipQuickRepliesExplain">Estas respuestas rápidas estarán disponibles cuando respondas a una llamada entrante con un mensaje de Telegram. Puedes modificarlas para decir lo que tú quieras.</string>
+    <string name="VoipQuickRepliesExplain">Estas respuestas rápidas estarán disponibles cuando respondas a una llamada entrante con un mensaje de Pics. Puedes modificarlas para decir lo que tú quieras.</string>
     <string name="QuickReplyDefault1">No puedo hablar ahora. ¿Qué pasa?</string>
     <string name="QuickReplyDefault2">Te llamaré enseguida.</string>
     <string name="QuickReplyDefault3">Te llamaré más tarde.</string>
     <string name="QuickReplyDefault4">No puedo hablar ahora. ¿Me llamas más tarde?</string>
     <string name="QuickReplyCustom">Mensaje personalizado...</string>
     <string name="AllowCustomQuickReply">Permitir personalización</string>
-    <string name="VoipInCallBrandingWithName">Llamada de Telegram con %s</string>
-    <string name="VoipErrorUnknown">No se puede establecer una llamada de Telegram en este momento.</string>
+    <string name="VoipInCallBrandingWithName">Llamada de Pics con %s</string>
+    <string name="VoipErrorUnknown">No se puede establecer una llamada de Pics en este momento.</string>
     <string name="RateCallEcho">Escuché mi propia voz</string>
     <string name="RateCallNoise">Escuché ruido de fondo</string>
     <string name="RateCallInterruptions">La otra parte desaparecía</string>
@@ -2413,12 +2413,12 @@
     <string name="TelegramContacts_few">%1$d contactos en Telegram</string>
     <string name="TelegramContacts_many">%1$d contactos en Telegram</string>
     <string name="TelegramContacts_other">%1$d contactos en Telegram</string>
-    <string name="InviteTextNum_zero">Estoy usando Telegram para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
-    <string name="InviteTextNum_one">Estoy usando Telegram para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
-    <string name="InviteTextNum_two">Estoy usando Telegram para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
-    <string name="InviteTextNum_few">Estoy usando Telegram para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
-    <string name="InviteTextNum_many">Estoy usando Telegram para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
-    <string name="InviteTextNum_other">Estoy usando Telegram para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
+    <string name="InviteTextNum_zero">Estoy usando Pics para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
+    <string name="InviteTextNum_one">Estoy usando Pics para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
+    <string name="InviteTextNum_two">Estoy usando Pics para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
+    <string name="InviteTextNum_few">Estoy usando Pics para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
+    <string name="InviteTextNum_many">Estoy usando Pics para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
+    <string name="InviteTextNum_other">Estoy usando Pics para chatear, y también %1$d de nuestros otros contactos. ¡Únete! Descárgala aquí: %2$s</string>
     <string name="Chats_zero">%1$d chats</string>
     <string name="Chats_one">%1$d chat</string>
     <string name="Chats_two">%1$d chats</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">تيليجرام</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">Pics</string>
+    <string name="AppNameBeta">Pics</string>
     <string name="LanguageName">العربية</string>
     <string name="English">الإنجليزية</string>
     <string name="LanguageNameInEnglish">Arabic</string>
@@ -27,9 +27,9 @@
     <string name="SentAppCode">أرسلنا الرمز إلى تطبيق **تيليجرام** على جهازك الآخر.</string>
     <string name="SentAppCodeTitle">قم بتفقُّد رسائل تيليجرام</string>
     <string name="SentSmsCodeTitle">أدخل الرمز</string>
-    <string name="SentCallCode">يتم الاتصال على رقمك **%1$s**.\n\nلا حاجة للرد، سيقوم تيليجرام بعملية التفعيل تلقائيًا.</string>
+    <string name="SentCallCode">يتم الاتصال على رقمك **%1$s**.\n\nلا حاجة للرد، سيقوم Pics بعملية التفعيل تلقائيًا.</string>
     <string name="SentCallOnly">يتم الاتصال برقمك **%1$s** لإملاء الرمز عليك صوتيًا.</string>
-    <string name="CallText">سيتصل بك تيليجرام خلال %2$02d:%1$d</string>
+    <string name="CallText">سيتصل بك Pics خلال %2$02d:%1$d</string>
     <string name="SmsText">سنقوم بإرسال رسالة SMS قصيرة خلال %1$d:%2$02d</string>
     <string name="Calling">يتم الاتصال بك...</string>
     <string name="SendingSms">يتم إرسال رسالة SMS قصيرة...</string>
@@ -121,7 +121,7 @@
     <string name="NewGroup">مجموعة جديدة</string>
     <string name="Yesterday">يوم أمس</string>
     <string name="NoResult">ما من نتائج</string>
-    <string name="NoChats">أهلًا في تيليجرام</string>
+    <string name="NoChats">أهلًا في Pics</string>
     <string name="RecentlyViewed">المستعرضة مؤخرًا</string>
     <string name="RecentlyViewedHide">إخفاء</string>
     <string name="NoChatsHelp">ابدأ المراسلة عبر الضغط على زر القلم في الزاوية السفلية للشاشة.</string>
@@ -171,7 +171,7 @@
     <string name="DisappearingPhoto">صورة سرية</string>
     <string name="DisappearingVideo">مقطع مرئي سري</string>
     <string name="DisappearingGif">صورة متحركة سرية</string>
-    <string name="CompatibilityChat">يستخدم %1$s إصدارًا قديمًا من تيليجرام، لذلك ستظهر الصور السرية في الوضع التوافقي.\n\nعندما يقوم %2$s بتحديث تيليجرام فإن الصور التي بها عداد تدمير خلال دقيقة أو أقل ستعمل بطريقة «الاستمرار بالضغط للمشاهدة»، وسيتم إخبارك عندما يلتقط المستقبل صورة للشاشة.</string>
+    <string name="CompatibilityChat">يستخدم %1$s إصدارًا قديمًا من Pics، لذلك ستظهر الصور السرية في الوضع التوافقي.\n\nعندما يقوم %2$s بتحديث Pics فإن الصور التي بها عداد تدمير خلال دقيقة أو أقل ستعمل بطريقة «الاستمرار بالضغط للمشاهدة»، وسيتم إخبارك عندما يلتقط المستقبل صورة للشاشة.</string>
     <string name="SearchMessages">الرسائل</string>
     <string name="Search">بحث</string>
     <string name="MuteNotifications">كتم الإشعارات</string>
@@ -203,7 +203,7 @@
     <string name="Italic">مائل</string>
     <string name="Mono">رمز</string>
     <string name="Regular">عادي</string>
-    <string name="ContactsPermissionAlert">يحتاج **تيليجرام** إلى الوصول لجهات اتصالك لكي تتمكن من التواصل مع أصدقائك عبر جميع أجهزتك، ستتم مزامنة جهات اتصالك باستمرار مع خوادم تيليجرام السحابية شديدة التشفير.</string>
+    <string name="ContactsPermissionAlert">يحتاج **Pics** إلى الوصول لجهات اتصالك لكي تتمكن من التواصل مع أصدقائك عبر جميع أجهزتك، ستتم مزامنة جهات اتصالك باستمرار مع خوادم تيليجرام السحابية شديدة التشفير.</string>
     <string name="ContactsPermissionAlertNotNow">ليس الآن</string>
     <string name="ContactsPermissionAlertContinue">الاستمرار</string>
     <string name="YourContacts">جهات اتصالك في تيليجرام</string>
@@ -878,7 +878,7 @@
     <string name="NotificationGroupKickYou">أزالك %1$s من مجموعة %2$s</string>
     <string name="NotificationGroupLeftMember">غادر %1$s مجموعة %2$s</string>
     <string name="NotificationContactJoined">انضم %1$s لتيليجرام!</string>
-    <string name="NotificationUnrecognizedDevice">%1$s؛\nلقد تم تسجيل الدخول لحسابك هذا من جهاز جديد في: %2$s\n\nالجهاز: %3$s\nالموقع: %4$s\n\nإذا لم تكن أنت من قام بتسجيل الدخول فيمكنك الذهاب للإعدادات - الخصوصية والأمان - الجلسات النشطة - ومن ثَم إنهاء الجلسات المريبة.\n\nإذا كنت تعتقد أن شخصًا ما قام بتسجيل الدخول دون إذنك فيمكنك تفعيل التحقق بخطوتين عبر قسم الخصوصية واﻷمان في الإعدادات.\n\nشكرًا..\nفريق تيليجرام</string>
+    <string name="NotificationUnrecognizedDevice">%1$s؛\nلقد تم تسجيل الدخول لحسابك هذا من جهاز جديد في: %2$s\n\nالجهاز: %3$s\nالموقع: %4$s\n\nإذا لم تكن أنت من قام بتسجيل الدخول فيمكنك الذهاب للإعدادات - الخصوصية والأمان - الجلسات النشطة - ومن ثَم إنهاء الجلسات المريبة.\n\nإذا كنت تعتقد أن شخصًا ما قام بتسجيل الدخول دون إذنك فيمكنك تفعيل التحقق بخطوتين عبر قسم الخصوصية واﻷمان في الإعدادات.\n\nشكرًا..\nفريق Pics</string>
     <string name="NotificationContactNewPhoto">حدّثَ %1$s صورته الشخصية</string>
     <string name="NotificationInvitedToGroupByLink">%1$s انضم للمجموعة %2$s عبر رابط دعوة</string>
     <string name="NotificationGroupFew">أرسل %1$s %3$s لمجموعة %2$s</string>
@@ -925,13 +925,13 @@
     <string name="NotificationActionPinnedGeoLiveChannel">ثبت %1$s موقعًا حيًا</string>
     <string name="NotificationActionPinnedGifChannel">ثبت %1$s صورةً متحركة</string>
     <string name="NotificationActionPinnedMusicChannel">ثبت %1$s ملفًا صوتيًا</string>
-    <string name="SecretChatName">تيليجرام</string>
+    <string name="SecretChatName">Pics</string>
     <!--contacts view-->
     <string name="SelectContact">اختر جهة اتصال</string>
     <string name="SelectContacts">Select Contacts</string>
     <string name="ContactShare">مشاركة جهة الاتصال</string>
     <string name="NoContacts">لا توجد جهات اتصال بعد</string>
-    <string name="InviteText2">مرحبا، أنا أستخدم تيليجرام للمحادثة، انضم إلي! قم بتنزيله من هنا: %1$s</string>
+    <string name="InviteText2">مرحبا، أنا أستخدم Pics للمحادثة، انضم إلي! قم بتنزيله من هنا: %1$s</string>
     <string name="TodayAt">في</string>
     <string name="YesterdayAt">يوم أمس عند</string>
     <string name="TodayAtFormatted">الساعة %1$s</string>
@@ -949,9 +949,9 @@
     <string name="WithinAMonth">آخر ظهور خلال شهر</string>
     <string name="ALongTimeAgo">آخر ظهور كان منذ زمن طويل</string>
     <string name="NewMessageTitle">رسالة جديدة</string>
-    <string name="InviteFriendsHelp">اختر جهات اتصال لدعوتها إلى تيليجرام</string>
-    <string name="InviteToTelegram">دعوة إلى تيليجرام</string>
-    <string name="ShareTelegram">شارك تيليجرام...</string>
+    <string name="InviteFriendsHelp">اختر جهات اتصال لدعوتها إلى Pics</string>
+    <string name="InviteToTelegram">دعوة إلى Pics</string>
+    <string name="ShareTelegram">شارك Pics...</string>
     <string name="UpdateContactsTitle">هل ترغب في تحديث جهات الاتصال؟</string>
     <string name="UpdateContactsMessage">اكتشف تيليجرام العديد من جهات الاتصال غير المزامَنة، هل ترغب في مزامنتها الآن؟ اختر «نعم» إذا كنت تستخدم جهازك الخاص وشريحتك وحساب جوجل الخاص بك.</string>
     <string name="SortedByName">مرتبة حسب الاسم</string>
@@ -1094,7 +1094,7 @@
     <string name="NoEmojiFound">لم يتم العثور على رموز</string>
     <string name="NoMasks">لا توجد أقنعة بعد</string>
     <string name="EmojiSuggestions">اقتراحات الرموز التعبيرية</string>
-    <string name="EmojiSuggestionsInfo">يسمح لك **تيليجرام** بالعثور على الرموز التعبيرية عبر آلاف الكلمات، لكن من المؤكد أنه لايزال هناك نقصٌ ما، في حال كنت ترغب في اقتراح كلمة مفتاحية جديدة لرمز تعبيري ما، يمكنك مساعدتنا عبر زيارة:</string>
+    <string name="EmojiSuggestionsInfo">يسمح لك **Pics** بالعثور على الرموز التعبيرية عبر آلاف الكلمات، لكن من المؤكد أنه لايزال هناك نقصٌ ما، في حال كنت ترغب في اقتراح كلمة مفتاحية جديدة لرمز تعبيري ما، يمكنك مساعدتنا عبر زيارة:</string>
     <string name="EmojiSuggestionsUrl">https://translations.telegram.org/%1$s/emoji</string>
     <string name="Masks">الأقنعة</string>
     <string name="MasksInfo">يمكنك إضافة أقنعة للصور التي ترسلها، لعمل ذلك قم بفتح محرر الصور قبل إرسال الصورة.</string>
@@ -1103,7 +1103,7 @@
     <string name="SuggestStickersAll">جميع الحزم</string>
     <string name="SuggestStickersInstalled">حزمي</string>
     <string name="SuggestStickersNone">إيقاف</string>
-    <string name="FeaturedStickersInfo">هذه الملصقات شائعة حاليًا على تيليجرام، يمكنك إضافة ملصقات مخصصة عبر البوت @stickers.</string>
+    <string name="FeaturedStickersInfo">هذه الملصقات شائعة حاليًا على Pics، يمكنك إضافة ملصقات مخصصة عبر البوت @stickers.</string>
     <string name="ArchivedStickers">الملصقات المؤرشفة</string>
     <string name="ArchivedMasks">الأقنعة المؤرشفة</string>
     <string name="ArchivedStickersEmpty">ما من ملصقات مؤرشفة</string>
@@ -1156,7 +1156,7 @@
     <string name="ShowAllThemes">Show all Themes</string>
     <string name="CreateNewThemeMenu">إنشاء نمط جديد</string>
     <string name="CreateNewThemeHelp">اضغط على أيقونة الألوان لاستعراض قائمة الخيارات في كل شاشة - ثم قم بتعديلها.</string>
-    <string name="CreateNewThemeAlert">يمكنك إنشاء النمط الخاص بك عبر تغيير الألوان داخل التطبيق.\n\nيمكنك العودة إلى نمط تيليجرام الافتراضي في أي وقت من هنا.</string>
+    <string name="CreateNewThemeAlert">يمكنك إنشاء النمط الخاص بك عبر تغيير الألوان داخل التطبيق.\n\nيمكنك العودة إلى نمط Pics الافتراضي في أي وقت من هنا.</string>
     <!--settings view-->
     <string name="ResetNotificationsText">تم تعيين كل الإشعارات إلى الوضع الافتراضي</string>
     <string name="ResetNotificationsAlert">هل ترغب حقًا في إعادة تعيين جميع إعدادات الإشعارات إلى الوضع الافتراضي؟</string>
@@ -1185,7 +1185,7 @@
     <string name="NotificationsAndSounds">الإشعارات والأصوات</string>
     <string name="CustomNotifications">الإشعارات المخصصة</string>
     <string name="ProfilePopupNotification">الإشعارات المنبثقة</string>
-    <string name="ProfilePopupNotificationInfo">ستظهر الرسائل الجديدة من هذا المستخدم على الشاشة حتى لو كنت خارج تطبيق تيليجرام.</string>
+    <string name="ProfilePopupNotificationInfo">ستظهر الرسائل الجديدة من هذا المستخدم على الشاشة حتى لو كنت خارج تطبيق Pics.</string>
     <string name="NotificationsLed">LED</string>
     <string name="NotificationsLedColor">اللون</string>
     <string name="ColorBlue">أزرق</string>
@@ -1278,7 +1278,7 @@
     <string name="LanguageUnofficial">لغات غير رسمية</string>
     <string name="LanguageUnsupportedError">تعذر العثور على هذه اللغة.</string>
     <string name="LanguageSame">أنت تستخدم حزمة اللغة (**%1$s**) بالفعل، يمكنك تغيير لغتك في أي وقت عبر الإعدادات.</string>
-    <string name="LanguageUnknownCustomAlert">للأسف، لا تحتوي حزمة اللغة المخصصةُ هذه (**%1$s **) على بيانات لتيليجرام للأندرويد.</string>
+    <string name="LanguageUnknownCustomAlert">للأسف، لا تحتوي حزمة اللغة المخصصةُ هذه (**%1$s **) على بيانات ل Pics للأندرويد.</string>
     <string name="AskAQuestionInfo">نرجو الأخذ بالعلم أن الدعم الفني في تيليجرام يقوم به مجموعة من المتطوعين. نحاول الرد سريعًا قدر الإمكان، لكن ذلك قد يستغرق بعض الوقت.\n\nيرجى الإطلاع على<![CDATA[<a href=\"https://telegram.org/faq/ar#a\"> الأسئلة الشائعة عن تيليجرام</a>]]> فهي تحوي إجابات لمعظم الأسئلة  <![CDATA[<a href=\"https://telegram.org/faq/ar#j\">وحلولًا للعديد من المشاكل.</a>]]></string>
     <string name="AskButton">اسأل متطوعًا</string>
     <string name="TelegramFAQ">الأسئلة الشائعة</string>
@@ -1295,7 +1295,7 @@
     <string name="NotificationsService">التشغيل المستمر في الخلفية</string>
     <string name="NotificationsServiceInfo">إعادة تشغيل التطبيق عند إيقافه. قم بالتفعيل لضمان ظهور الإشعارات.</string>
     <string name="NotificationsServiceConnection">الاتصال في الخلفية</string>
-    <string name="NotificationsServiceConnectionInfo">البقاء على اتصال طفيف مع تيليجرام في الخلفية لضمان ظهور الإشعارات.</string>
+    <string name="NotificationsServiceConnectionInfo">البقاء على اتصال طفيف مع Pics في الخلفية لضمان ظهور الإشعارات.</string>
     <string name="SortBy">ترتيب حسب</string>
     <string name="ImportContacts">استيراد جهات الاتصال</string>
     <string name="SortFirstName">الاسم الأول</string>
@@ -1412,7 +1412,7 @@
     <string name="Emoji">الرموز التعبيرية</string>
     <string name="EmojiBigSize">رسمُ رمز تعبيري واحد كبير</string>
     <string name="EmojiUseDefault">استخدم الرموز التعبيرية الافتراضية</string>
-    <string name="TelegramVersion">تيليجرام للأندرويد %1$s</string>
+    <string name="TelegramVersion">Pics للأندرويد %1$s</string>
     <string name="DebugMenu">قائمة المعالجة</string>
     <string name="DebugSendLogs">إرسال السجلات</string>
     <string name="DebugClearLogs">مسح السجلات</string>
@@ -1446,15 +1446,15 @@
     <string name="UseProxyTelegram">بروكسي MTProto</string>
     <string name="UseProxyTelegramError">لم يتم إعداد البروكسي الذي تستخدمه بشكل صحيح وسيتم تعطيله. يرجى العثور على واحد آخر.</string>
     <string name="UseProxySponsor">راعي البروكسي</string>
-    <string name="UseProxySponsorInfo">يقوم البروكسي الخاص بك بعرض هذه القناة. لإزالتها من قائمة محادثاتك، قم بتعطيل البروكسي من إعدادات تيليجرام.</string>
+    <string name="UseProxySponsorInfo">يقوم البروكسي الخاص بك بعرض هذه القناة. لإزالتها من قائمة محادثاتك، قم بتعطيل البروكسي من إعدادات Pics.</string>
     <string name="UseProxyInfo">إعدادات بروكسي SOCKS5</string>
     <string name="UseProxyTelegramInfo">إعدادات بروكسي MTProto.</string>
-    <string name="UseProxyTelegramInfo2">قد يعرض هذا البروكسي قناة إعلانية في قائمة محادثاتك.\nلن يكشف هذا عن أي من بيانات تيليجرام الخاصة بك.</string>
+    <string name="UseProxyTelegramInfo2">قد يعرض هذا البروكسي قناة إعلانية في قائمة محادثاتك.\nلن يكشف هذا عن أي من بيانات Pics الخاصة بك.</string>
     <string name="UseProxyForCalls">استخدام البروكسي للمكالمات</string>
     <string name="UseProxyForCallsInfo">قد تقلل خوادم البروكسي من جودة مكالماتك.</string>
     <string name="ConnectingToProxyEnable">تفعيل</string>
     <string name="LowDiskSpaceTitle">ملحوظة</string>
-    <string name="LowDiskSpaceMessage">مساحة جهازك ممتلئة تقريبًا، لتحرير مساحة إضافية يمكنك جعل تيليجرام يقوم بالتخزين المؤقت للوسائط الحديثة فقط.</string>
+    <string name="LowDiskSpaceMessage">مساحة جهازك ممتلئة تقريبًا، لتحرير مساحة إضافية يمكنك جعل Pics يقوم بالتخزين المؤقت للوسائط الحديثة فقط.</string>
     <string name="LowDiskSpaceTitle2">احذف الوسائط بعد</string>
     <string name="LowDiskSpaceNeverRemove">عدم الإزالة</string>
     <string name="AutodownloadContacts">جهات الاتصال</string>
@@ -1737,7 +1737,7 @@
     <!--passcode view-->
     <string name="Passcode">رمز القفل</string>
     <string name="ChangePasscode">تغيير رمز القفل</string>
-    <string name="ChangePasscodeInfo">عندما تقوم بتعيين رمز قفل إضافي، ستظهر أيقونة قفل أعلى صفحة المحادثات، اضغط عليها لإقفال تيليجرام أو فتحِه.\n\nملحوظة: إذا نسيت رمز القفل ستحتاج لحذف التطبيق وإعادةِ تثبيته، ستَفقد كافة محادثاتك السرية.</string>
+    <string name="ChangePasscodeInfo">عندما تقوم بتعيين رمز قفل إضافي، ستظهر أيقونة قفل أعلى صفحة المحادثات، اضغط عليها لإقفال Pics أو فتحِه.\n\nملحوظة: إذا نسيت رمز القفل ستحتاج لحذف التطبيق وإعادةِ تثبيته، ستَفقد كافة محادثاتك السرية.</string>
     <string name="PasscodePIN">رقم</string>
     <string name="PasscodePassword">كلمة مرور</string>
     <string name="EnterCurrentPasscode">قم بإدخال رمز قفلك الحالي</string>
@@ -1756,7 +1756,7 @@
     <string name="FingerprintNotRecognized">لم يتم التعرف على البصمة. حاول مرة أخرى.</string>
     <string name="ScreenCapture">عرض المحتوى عند التبديل بين التطبيقات</string>
     <string name="ScreenCaptureInfo">إذا تم التعطيل فلن تتمكن من تصوير الشاشة داخل التطبيق، لكن سيتم إخفاء محتوى المحادثات في شاشة تعدد المهام.</string>
-    <string name="ScreenCaptureAlert">سيؤدي هذا لإخفاء محتوى محادثاتك من شاشة تعدد المهام، لكن بالمقابل لن تتمكن من أخذ لقطات الشاشة في تيليجرام.\n\nقد تحتاج لإعادة تشغيل التطبيق ليتم تفعيل هذا الخيار.</string>
+    <string name="ScreenCaptureAlert">سيؤدي هذا لإخفاء محتوى محادثاتك من شاشة تعدد المهام، لكن بالمقابل لن تتمكن من أخذ لقطات الشاشة في  Pics.\n\n قد تحتاج لإعادة تشغيل التطبيق ليتم تفعيل هذا الخيار.</string>
     <string name="TooManyTries">محاولات عديدة.\nأعد المحاولة خلال %1$s.</string>
     <!--media view-->
     <string name="January">يناير</string>
@@ -2152,7 +2152,7 @@
     <string name="ActionBotDocumentRentalAgreement">عقد الإيجار</string>
     <string name="ActionBotDocumentPhone">رقم الهاتف</string>
     <string name="ActionBotDocumentEmail">بريد إلكتروني</string>
-    <string name="UnsupportedMedia">نسختك الحالية من تيليجرام لا تدعم هذه الرسالة؛ رجاء قم بتحديث التطبيق: https://telegram.org/update</string>
+    <string name="UnsupportedMedia">نسختك الحالية من Pics لا تدعم هذه الرسالة؛ رجاء قم بتحديث التطبيق: https://telegram.org/update</string>
     <string name="AttachPhoto">صورة</string>
     <string name="AttachVideo">مقطع مرئي</string>
     <string name="AttachDestructingPhoto">صورة ذاتية التدمير</string>
@@ -2175,8 +2175,8 @@
     <string name="DeleteAllMessagesAlert">Warning! This will **delete all messages** in this chat for **both** participants.</string>
     <string name="DeleteAll">Delete All</string>
     <string name="StopLoading">إيقاف التحميل؟</string>
-    <string name="UpdateTelegram">تحديث تيليجرام</string>
-    <string name="UpdateAppAlert">عذرًا، تطبيق تيليجرام الذي تملكه قديم ولا يمكنه التعامل مع هذا الطلب، يرجى القيام بتحديثه.</string>
+    <string name="UpdateTelegram">تحديث Pics</string>
+    <string name="UpdateAppAlert">عذرًا، تطبيق Pics الذي تملكه قديم ولا يمكنه التعامل مع هذا الطلب، يرجى القيام بتحديثه.</string>
     <string name="InvalidPhoneNumber">رقم هاتف غير صالح، يرجى التحقق من الرقم والمحاولة مرة أخرى.</string>
     <string name="PleaseLoginPassport">يرجى تسجيل الدخول إلى حسابك في تيليجرام لتتمكن من استخدام جواز تيليجرام.</string>
     <string name="BannedPhoneNumber">تم حظر هذا الرقم.</string>
@@ -2263,10 +2263,10 @@
     <string name="SecretLinkPreviewAlert">هل ترغب في تفعيل معاينة الروابط المطولة في المحادثات السرية؟ علمًا أنه يتم توليدها في خوادم تيليجرام.</string>
     <string name="SecretChatContextBotAlert">يرجى ملاحظة أن بوتات المحتوى الاستعلامي يتم تطويرها من مطورين مستقلين. لكي تعمل هذه البوتات، ما تكتبه بعد اسم مستخدم البوت يذهب لمطور البوت.</string>
     <string name="EditMessageError">المعذرة، لا يمكنك تعديل هذه الرسالة.</string>
-    <string name="AllowReadSms">فضلًا قم بالسماح لتيليجرام بتلقي رسائل SMS القصيرة ليتمكن من تفعيل حسابك تلقائيًا.</string>
-    <string name="AllowReadCall">فصلًا قم بالسماح لتيليجرام باستقبال اتصالات ليتمكن من إدخال الرمز لك تلقائيًا.</string>
-    <string name="AllowFillNumber">رجاءً قم بالسماح لتيليجرام بتلقي المكالمات للتمكن من تفعيل رقم هاتفك تلقائيًا.</string>
-    <string name="AllowReadCallAndSms">رجاءً قم بالسماح لتيليجرام بتلقي المكالمات للتمكن من تفعيل رقم هاتفك تلقائيًا.</string>
+    <string name="AllowReadSms">فضلًا قم بالسماح لPics بتلقي رسائل SMS القصيرة ليتمكن من تفعيل حسابك تلقائيًا.</string>
+    <string name="AllowReadCall">فصلًا قم بالسماح لPics باستقبال اتصالات ليتمكن من إدخال الرمز لك تلقائيًا.</string>
+    <string name="AllowFillNumber">رجاءً قم بالسماح لPics بتلقي المكالمات للتمكن من تفعيل رقم هاتفك تلقائيًا.</string>
+    <string name="AllowReadCallAndSms">رجاءً قم بالسماح لPics بتلقي المكالمات للتمكن من تفعيل رقم هاتفك تلقائيًا.</string>
     <string name="UserRestricted">المعذرة، لا يمكنك القيام بذلك.</string>
     <string name="YouBlockedUser">المعذرة، لا يمكنك إضافة هذا المستخدم أو البوت للمجموعات بسبب أنك قمت بحظره. فضلًا قم بإزالة الحظر للاستمرار.</string>
     <string name="JoinGroup">انضمام للمجموعة</string>
@@ -2287,28 +2287,28 @@
     <string name="TosDeclineDeleteAccount">تحذير، سيؤدي هذا إلى حذف حسابك في تيليجرام بشكل نهائي بالإضافة لجميع البيانات التي تخزنها في سحابة تيليجرام.\n\nهام: يمكنك الإلغاء الآن وتصدير بياناتك قبل حذف حسابك عوضًا عن خسارتها كلها. (للقيام بذلك، افتح النسخة الأخيرة من تيليجرام لسطح المكتب وتوجه إلى الإعدادات &gt; تصدير بيانات تيليجرام.)</string>
     <!--permissions-->
     <string name="PermissionContacts">لكي تتمكن من التواصل مع أصدقائك عبر جميع أجهزتك، ستتم مزامنة جهات اتصالك باستمرار مع خوادم تيليجرام السحابية شديدة التشفير.</string>
-    <string name="PermissionStorage">يحتاج تيليجرام إلى السماح له بالوصول لذاكرة التخزين لتتمكن من إرسال وحفظ الصور، المقاطع المرئية، الصوتيات وغيرها من الوسائط.</string>
-    <string name="PermissionNoAudio">يحتاج تيليجرام إلى استخدام الميكروفون من أجل إرسال الرسائل الصوتية.</string>
-    <string name="PermissionNoAudioVideo">يحتاج تيليجرام إلى استخدام الميكروفون من أجل تسجيل المقاطع المرئية.</string>
-    <string name="PermissionNoCamera">يحتاج تيليجرام إلى استخدام الكاميرا لكي تستطيع أخذ الصور والمقاطع المرئية.</string>
-    <string name="PermissionNoLocation">يحتاج تيليجرام إلى السماح له بتحديد موقعك لتتمكن من مشاركته مع أصدقائك.</string>
-    <string name="PermissionNoLocationPosition">يحتاج تيليجرام إلى صلاحية تحديد موقعك.</string>
-    <string name="PermissionDrawAboveOtherApps">يحتاج تيليجرام إلى صلاحية الظهور فوق التطبيقات لتشغيل المقاطع المرئية في وضع (صورة في الصورة).</string>
+    <string name="PermissionStorage">يحتاج Pics إلى السماح له بالوصول لذاكرة التخزين لتتمكن من إرسال وحفظ الصور، المقاطع المرئية، الصوتيات وغيرها من الوسائط.</string>
+    <string name="PermissionNoAudio">يحتاج Pics إلى استخدام الميكروفون من أجل إرسال الرسائل الصوتية.</string>
+    <string name="PermissionNoAudioVideo">يحتاج Pics إلى استخدام الميكروفون من أجل تسجيل المقاطع المرئية.</string>
+    <string name="PermissionNoCamera">يحتاج Pics إلى استخدام الكاميرا لكي تستطيع أخذ الصور والمقاطع المرئية.</string>
+    <string name="PermissionNoLocation">يحتاج Pics إلى السماح له بتحديد موقعك لتتمكن من مشاركته مع أصدقائك.</string>
+    <string name="PermissionNoLocationPosition">يحتاج Pics إلى صلاحية تحديد موقعك.</string>
+    <string name="PermissionDrawAboveOtherApps">يحتاج Pics إلى صلاحية الظهور فوق التطبيقات لتشغيل المقاطع المرئية في وضع (صورة في الصورة).</string>
     <string name="PermissionOpenSettings">الإعدادات</string>
-    <string name="PermissionXiaomiLockscreen">يرجى السماح لتيليجرام بالظهور على شاشة القفل للتمكن من إجراء المكالمات دون مشاكل.</string>
+    <string name="PermissionXiaomiLockscreen">يرجى السماح لPics بالظهور على شاشة القفل للتمكن من إجراء المكالمات دون مشاكل.</string>
     <!--Intro view-->
-    <string name="Page1Title">تيليجرام</string>
+    <string name="Page1Title">Pics</string>
     <string name="Page2Title">سريع</string>
     <string name="Page3Title">مجاني</string>
     <string name="Page4Title">آمن</string>
     <string name="Page5Title">قوي</string>
     <string name="Page6Title">مرتبط بالسحاب</string>
-    <string name="Page1Message">تطبيق المراسلة **الأسرعُ** عالميًّا.\nإنه **مجانيٌّ** و**آمنٌ** كذلك.</string>
-    <string name="Page2Message">**تيليجرام** يوصل الرّسائل أسرع من\nأي تطبيق آخر.</string>
-    <string name="Page3Message">**تيليجرام** مجّاني للأبد. لا إعلانات.\nدون رسوم إشتراك.</string>
-    <string name="Page4Message">يحمي **تيليجرام** رسائلك\nمن هجمات المخترقين.</string>
-    <string name="Page5Message">لا يفرض **تيليجرام** قيودًا على\nحجم وسائطك ومحادثاتك.</string>
-    <string name="Page6Message">**تيليجرام** يتيح لك الوصول لرسائلك\nمن أجهزة متعددة.</string>
+    <string name="Page1Message">تطبيق المراسلة **Pics** عالميًّا.\nإنه **مجانيٌّ** و**آمنٌ** كذلك.</string>
+    <string name="Page2Message">**Pics** يوصل الرّسائل أسرع من\nأي تطبيق آخر.</string>
+    <string name="Page3Message">**Pics** مجّاني للأبد. لا إعلانات.\nدون رسوم إشتراك.</string>
+    <string name="Page4Message">يحمي **Pics** رسائلك\nمن هجمات المخترقين.</string>
+    <string name="Page5Message">لا يفرض **Pics** قيودًا على\nحجم وسائطك ومحادثاتك.</string>
+    <string name="Page6Message">**Pics** يتيح لك الوصول لرسائلك\nمن أجهزة متعددة.</string>
     <string name="StartMessaging">ابدأ المراسلة</string>
     <!-- VoIP -->
     <string name="AccountSettings">إعدادات الحساب</string>
@@ -2323,14 +2323,14 @@
     <string name="VoipFailed">فشل الاتصال</string>
     <string name="VoipRinging">يرن</string>
     <string name="VoipBusy">الخط مشغول</string>
-    <string name="VoipInCallBranding">مكالمة تيليجرام</string>
-    <string name="VoipOutgoingCall">مكالمة تيليجرام الحالية</string>
+    <string name="VoipInCallBranding">مكالمة Pics</string>
+    <string name="VoipOutgoingCall">مكالمة Pics الحالية</string>
     <string name="VoipEndCall">إنهاء المكالمة</string>
     <string name="VoipOngoingAlertTitle">مكالمة أخرى نشطة</string>
     <string name="VoipOngoingAlert">لديك حاليًا مكالمة نشطة مع **%1$s**. هل ترغب في إنهائها وبدءِ مكالمة جديدة مع **%2$s**؟</string>
     <string name="VoipNotificationSettings">المكالمات الصوتية</string>
     <string name="VoipSettingsRingtone">"نغمة الرنين "</string>
-    <string name="VoipRingtoneInfo">يمكنك تخصيص نغمة الرنين عندما يتصل بك هذا المستخدم في تيليجرام.</string>
+    <string name="VoipRingtoneInfo">يمكنك تخصيص نغمة الرنين عندما يتصل بك هذا المستخدم في Pics.</string>
     <string name="Calls">المكالمات</string>
     <string name="CustomP2PInfo">لن يتم استخدام النِّدِّ للنِّدِّ في المكالمات مع هؤلاء المستخدمين بغض النظر عن الإعدادات أعلاه.</string>
     <string name="P2PEnabledWith">استخدام النِّدِّ للنِّد مع</string>
@@ -2355,16 +2355,16 @@
     <string name="CallMessageIncomingDeclined">مكالمة مرفوضة</string>
     <string name="CallMessageWithDuration">%1$s (%2$s)</string>
     <string name="NoCallLog">لم تقم بإجراء أي مكالمة بعد.</string>
-    <string name="VoipPeerIncompatible">يستخدم تطبيق تيليجرام الخاص بـ**%1$s** بروتوكولًا غيرَ متوافقٍ، ينبغي عليهم تحديث تطبيقهم لتتمكن من الاتصال بهم.</string>
+    <string name="VoipPeerIncompatible">يستخدم تطبيق Pics الخاص بـ**%1$s** بروتوكولًا غيرَ متوافقٍ، ينبغي عليهم تحديث تطبيقهم لتتمكن من الاتصال بهم.</string>
     <string name="VoipPeerOutdated">نسخة **%1$s** لا تدعم المكالمات؛ يَلزمُه تحديث تطبيقه قبل أن تتمكن من الاتصال به.</string>
-    <string name="VoipRateCallAlert">فضلًا قم بتقييم جودة اتصالك في تيليجرام</string>
-    <string name="VoipNeedMicPermission">يحتاج تيليجرام إلى استخدام الميكروفون من أجل إجراء المكالمات.</string>
+    <string name="VoipRateCallAlert">فضلًا قم بتقييم جودة اتصالك في Pics</string>
+    <string name="VoipNeedMicPermission">يحتاج Pics إلى استخدام الميكروفون من أجل إجراء المكالمات.</string>
     <string name="VoipFeedbackCommentHint">إضافة تعليق اختياري</string>
     <string name="CallBack">معاودة الاتصال</string>
     <string name="CallAgain">معاودة الاتصال</string>
     <string name="DefaultRingtone">افتراضي</string>
     <string name="ConfirmDeleteCallLog">هل ترغب حقًا في حذف هذه المكالمة من سجل المكالمات؟</string>
-    <string name="CallViaTelegram">مكالمة تيليجرام</string>
+    <string name="CallViaTelegram">مكالمة Pics</string>
     <string name="VoipAudioRoutingEarpiece">سماعة الأذن</string>
     <string name="VoipAudioRoutingSpeaker">مكبر الصوت</string>
     <string name="VoipAudioRoutingBluetooth">بلوتوث</string>
@@ -2375,18 +2375,18 @@
     <string name="CallReportHint">ماذا حدث؟</string>
     <string name="CallReportIncludeLogs">تضمين المعلومات التقنية</string>
     <string name="CallReportLogsExplain">لن تفصح عن محتوى محادثتك وستساعدنا على حل المشكلة بشكل أسرع.</string>
-    <string name="CallReportSent">شكرًا لمساهمتك في تحسين مكالمات تيليجرام.</string>
+    <string name="CallReportSent">شكرًا لمساهمتك في تحسين مكالمات Pics.</string>
     <string name="VoipAnsweringAsAccount">سيتم الرد باسم %s</string>
     <string name="VoipQuickReplies">الرد برسالة</string>
-    <string name="VoipQuickRepliesExplain">ستكون هذه الردود السريعة متاحة لك للرد على مكالمات تيليجرام برسائل داخل التطبيق، يمكنك تغييرها لما يناسبك.</string>
+    <string name="VoipQuickRepliesExplain">ستكون هذه الردود السريعة متاحة لك للرد على مكالمات Pics برسائل داخل التطبيق، يمكنك تغييرها لما يناسبك.</string>
     <string name="QuickReplyDefault1">لا يمكنني التحدثُ الآن، ما الأمر؟</string>
     <string name="QuickReplyDefault2">سأعاود الاتصال بك لاحقًا.</string>
     <string name="QuickReplyDefault3">سأتصل بك لاحقًا.</string>
     <string name="QuickReplyDefault4">لا يمكنني التحدث الآن، نتحدث لاحقًا؟</string>
     <string name="QuickReplyCustom">رسالة مخصصة...</string>
     <string name="AllowCustomQuickReply">السماح برسائل مخصصة</string>
-    <string name="VoipInCallBrandingWithName">مكالمة تيليجرام مع %s</string>
-    <string name="VoipErrorUnknown">لا يمكن إجراء مكالمة تيليجرام حاليًا.</string>
+    <string name="VoipInCallBrandingWithName">مكالمة Pics مع %s</string>
+    <string name="VoipErrorUnknown">لا يمكن إجراء مكالمة Pics حاليًا.</string>
     <string name="RateCallEcho">سمعتُ صدى صوتي</string>
     <string name="RateCallNoise">سمعت ضوضاء في الخلفية</string>
     <string name="RateCallInterruptions">كان صوت الطرف الآخر يتقطع</string>
@@ -2413,12 +2413,12 @@
     <string name="TelegramContacts_few">%1$d جهات اتصال على تيليجرام</string>
     <string name="TelegramContacts_many">%1$d جهة اتصال على تيليجرام</string>
     <string name="TelegramContacts_other">%1$d جهة اتصال على تيليجرام</string>
-    <string name="InviteTextNum_zero">"مرحبا، أنا أستخدم تيليجرام للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
-    <string name="InviteTextNum_one">"مرحبا، أنا وإحدى جهات اتصالي نستخدم تيليجرام للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
-    <string name="InviteTextNum_two">"مرحبا، أنا و%1$d من جهات اتصالي نستخدم تيليجرام للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
-    <string name="InviteTextNum_few">"مرحبا، أنا و%1$d من جهات اتصالي نستخدم تيليجرام للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
-    <string name="InviteTextNum_many">"مرحبا، أنا و%1$d من جهات اتصالي نستخدم تيليجرام للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
-    <string name="InviteTextNum_other">مرحبا، أنا و%1$d من جهات اتصالي نستخدم تيليجرام للمحادثة - يمكنك تنزيله من هنا: %2$s</string>
+    <string name="InviteTextNum_zero">"مرحبا، أنا أستخدم Pics للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
+    <string name="InviteTextNum_one">"مرحبا، أنا وإحدى جهات اتصالي نستخدم Pics للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
+    <string name="InviteTextNum_two">"مرحبا، أنا و%1$d من جهات اتصالي نستخدم Pics للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
+    <string name="InviteTextNum_few">"مرحبا، أنا و%1$d من جهات اتصالي نستخدم Pics للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
+    <string name="InviteTextNum_many">"مرحبا، أنا و%1$d من جهات اتصالي نستخدم Pics للمحادثة - يمكنك تنزيله من هنا: %2$s "</string>
+    <string name="InviteTextNum_other">مرحبا، أنا و%1$d من جهات اتصالي نستخدم Pics للمحادثة - يمكنك تنزيله من هنا: %2$s</string>
     <string name="Chats_zero">%1$d محادثة</string>
     <string name="Chats_one">محادثة واحدة</string>
     <string name="Chats_two">محادثتان</string>

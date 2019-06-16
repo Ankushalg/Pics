@@ -180,7 +180,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", MODE_PRIVATE);
                 Map<String, ?> state = preferences.getAll();
                 if (state.isEmpty()) {
-                    Intent intent2 = new Intent(this, IntroActivity.class);
+//                    <> Pics
+                    Intent intent2 = new Intent(this, MIntroActivity.class);
+//                    Intent intent2 = new Intent(this, IntroActivity.class);
+//                    </> Pics
                     intent2.setData(intent.getData());
                     startActivity(intent2);
                     super.onCreate(savedInstanceState);
@@ -667,7 +670,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
                 rightActionBarLayout.fragmentsStack.clear();
             }
-            Intent intent2 = new Intent(this, IntroActivity.class);
+//            <> Pics
+//            Intent intent2 = new Intent(this, IntroActivity.class);
+            Intent intent2 = new Intent(this, MIntroActivity.class);
+//            </> Pics
             startActivity(intent2);
             onFinish();
             finish();

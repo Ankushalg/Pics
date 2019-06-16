@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Telegram</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">Pics</string>
+    <string name="AppNameBeta">Pics</string>
     <string name="LanguageName">Nederlands</string>
     <string name="English">Engels</string>
     <string name="LanguageNameInEnglish">Dutch</string>
@@ -27,9 +27,9 @@
     <string name="SentAppCode">We hebben de code naar je andere  **Telegram**-app gestuurd.</string>
     <string name="SentAppCodeTitle">Controleer je Telegramberichten</string>
     <string name="SentSmsCodeTitle">Code invoeren</string>
-    <string name="SentCallCode">We bellen je op nummer **%1$s**.\n\nNeem niet op, Telegram verwerkt alles automatisch.</string>
+    <string name="SentCallCode">We bellen je op nummer **%1$s**.\n\nNeem niet op, Pics verwerkt alles automatisch.</string>
     <string name="SentCallOnly">We bellen je op **%1$s** om een code te dicteren.</string>
-    <string name="CallText">Telegram belt je over %1$d:%2$02d min</string>
+    <string name="CallText">Pics belt je over %1$d:%2$02d min</string>
     <string name="SmsText">We sturen je een SMS over %1$d:%2$02d</string>
     <string name="Calling">We bellen je</string>
     <string name="SendingSms">SMS sturen...</string>
@@ -121,7 +121,7 @@
     <string name="NewGroup">Nieuwe groep</string>
     <string name="Yesterday">gisteren</string>
     <string name="NoResult">Geen resultaten</string>
-    <string name="NoChats">Welkom bij Telegram</string>
+    <string name="NoChats">Welkom bij Pics</string>
     <string name="RecentlyViewed">Recent bekeken</string>
     <string name="RecentlyViewedHide">VERBERG</string>
     <string name="NoChatsHelp">Begin een gesprek door op de opstelknop rechtsonder te drukken.</string>
@@ -171,7 +171,7 @@
     <string name="DisappearingPhoto">Geheime foto</string>
     <string name="DisappearingVideo">Geheime video</string>
     <string name="DisappearingGif">Geheime GIF</string>
-    <string name="CompatibilityChat">%1$s gebruikt een oudere versie van Telegram, dus worden geheime foto\'s weergegeven in de compatibiliteitsmodus.\n\nZodra %2$s Telegram updatet werken foto\'s met timers voor 1 minuut of minder in de \'Druk en houd ingedrukt\'-modus en krijg je een bericht wanneer de andere partij een schermafdruk maakt.</string>
+    <string name="CompatibilityChat">%1$s gebruikt een oudere versie van Pics, dus worden geheime foto\'s weergegeven in de compatibiliteitsmodus.\n\nZodra %2$s Pics updatet werken foto\'s met timers voor 1 minuut of minder in de \'Druk en houd ingedrukt\'-modus en krijg je een bericht wanneer de andere partij een schermafdruk maakt.</string>
     <string name="SearchMessages">Berichten</string>
     <string name="Search">Zoeken</string>
     <string name="MuteNotifications">Meldingen stil</string>
@@ -203,7 +203,7 @@
     <string name="Italic">Cursief</string>
     <string name="Mono">Mono</string>
     <string name="Regular">Normaal</string>
-    <string name="ContactsPermissionAlert">**Telegram** heeft toegang tot je contacten nodig zodat je makkelijk contact kunt opnemen met je vrienden vanaf al je apparaten. Telegram synchroniseert je contacten continu naar onze zwaar versleutelde Cloud-servers.</string>
+    <string name="ContactsPermissionAlert">**Pics** heeft toegang tot je contacten nodig zodat je makkelijk contact kunt opnemen met je vrienden vanaf al je apparaten. Telegram synchroniseert je contacten continu naar onze zwaar versleutelde Cloud-servers.</string>
     <string name="ContactsPermissionAlertNotNow">NU NIET</string>
     <string name="ContactsPermissionAlertContinue">DOORGAAN</string>
     <string name="YourContacts">Je contacten op Telegram</string>
@@ -878,7 +878,7 @@
     <string name="NotificationGroupKickYou">%1$s heeft je verwijderd uit de groep %2$s</string>
     <string name="NotificationGroupLeftMember">%1$s heeft de groep %2$s verlaten</string>
     <string name="NotificationContactJoined">%1$s heeft nu Telegram!</string>
-    <string name="NotificationUnrecognizedDevice">%1$s,\nEr is op je account ingelogd vanaf een nieuw apparaat op %2$s\n\nApparaat: %3$s\nLocatie: %4$s\n\nAls jij dit niet was, kun je die sessie beëindigen via Instellingen - Privacy en veiligheid - Sessies.\n\nAls je dat denkt dat iemand anders zonder jouw toestemming is ingelogd kun je twee-staps-verificatie activeren via instellingen - privacy en veiligheid.\n\nBedankt,\nHet Telegram-team</string>
+    <string name="NotificationUnrecognizedDevice">%1$s,\nEr is op je account ingelogd vanaf een nieuw apparaat op %2$s\n\nApparaat: %3$s\nLocatie: %4$s\n\nAls jij dit niet was, kun je die sessie beëindigen via Instellingen - Privacy en veiligheid - Sessies.\n\nAls je dat denkt dat iemand anders zonder jouw toestemming is ingelogd kun je twee-staps-verificatie activeren via instellingen - privacy en veiligheid.\n\nBedankt,\nHet Pics-team</string>
     <string name="NotificationContactNewPhoto">%1$s heeft zijn/haar profielfoto gewijzigd</string>
     <string name="NotificationInvitedToGroupByLink">%1$s is nu lid van de groep %2$s via uitnodigingslink</string>
     <string name="NotificationGroupFew">%1$s heeft %3$s naar de groep %2$s gestuurd</string>
@@ -925,13 +925,13 @@
     <string name="NotificationActionPinnedGeoLiveChannel">%1$s heeft een live-locatie vastgezet</string>
     <string name="NotificationActionPinnedGifChannel">%1$s heeft GIF vastgezet</string>
     <string name="NotificationActionPinnedMusicChannel">%1$s heeft muziekbestand vastgezet</string>
-    <string name="SecretChatName">Telegram</string>
+    <string name="SecretChatName">Pics</string>
     <!--contacts view-->
     <string name="SelectContact">Contact kiezen</string>
     <string name="SelectContacts">Select Contacts</string>
     <string name="ContactShare">Contact delen</string>
     <string name="NoContacts">Nog geen contacten</string>
-    <string name="InviteText2">Ik gebruik Telegram om te chatten. Download de app hier: %1$s</string>
+    <string name="InviteText2">Ik gebruik Pics om te chatten. Download de app hier: %1$s</string>
     <string name="TodayAt">om</string>
     <string name="YesterdayAt">gisteren om</string>
     <string name="TodayAtFormatted">om %1$s</string>
@@ -949,9 +949,9 @@
     <string name="WithinAMonth">afgelopen maand gezien</string>
     <string name="ALongTimeAgo">lang geleden gezien</string>
     <string name="NewMessageTitle">Nieuw bericht</string>
-    <string name="InviteFriendsHelp">Kies contacten en nodig ze uit voor Telegram</string>
-    <string name="InviteToTelegram">NODIG UIT VOOR TELEGRAM</string>
-    <string name="ShareTelegram">Telegram delen...</string>
+    <string name="InviteFriendsHelp">Kies contacten en nodig ze uit voor Pics</string>
+    <string name="InviteToTelegram">NODIG UIT VOOR PICS</string>
+    <string name="ShareTelegram">Pics delen...</string>
     <string name="UpdateContactsTitle">Contacten bijwerken?</string>
     <string name="UpdateContactsMessage">Veel van je contacten zijn niet gesynchroniseerd, wil je deze synchroniseren? Kies \'OK\' als je je eigen apparaat, SIM en Google-account gebruikt.</string>
     <string name="SortedByName">Sorteren op naam</string>
@@ -1094,7 +1094,7 @@
     <string name="NoEmojiFound">Geen Emoji gevonden</string>
     <string name="NoMasks">Nog geen maskers</string>
     <string name="EmojiSuggestions">Emojisuggesties</string>
-    <string name="EmojiSuggestionsInfo">**Telegram** maakt het mogelijk om emoji te vinden op basis van duizenden woorden, maar er zullen er altijd wat missen. Als je suggesties wilt doen om emoji\'s nog makkelijker te vinden kan dat via:\n</string>
+    <string name="EmojiSuggestionsInfo">**Pics** maakt het mogelijk om emoji te vinden op basis van duizenden woorden, maar er zullen er altijd wat missen. Als je suggesties wilt doen om emoji\'s nog makkelijker te vinden kan dat via:\n</string>
     <string name="EmojiSuggestionsUrl">https://translations.telegram.org/%1$s/emoji</string>
     <string name="Masks">Maskers</string>
     <string name="MasksInfo">Je kunt maskers toevoegen aan foto\'s , gebruik de fotobewerkingsoptie en verstuur ze.</string>
@@ -1103,7 +1103,7 @@
     <string name="SuggestStickersAll">Alle bundels</string>
     <string name="SuggestStickersInstalled">Mijn bundels</string>
     <string name="SuggestStickersNone">Geen</string>
-    <string name="FeaturedStickersInfo">Deze stickers zijn momenteel populair op Telegram. Je kunt persoonlijke stickers toevoegen via de @stickers bot.</string>
+    <string name="FeaturedStickersInfo">Deze stickers zijn momenteel populair op Pics. Je kunt persoonlijke stickers toevoegen via de @stickers bot.</string>
     <string name="ArchivedStickers">Gearchiveerde stickers</string>
     <string name="ArchivedMasks">Gearchiveerde maskers</string>
     <string name="ArchivedStickersEmpty">Geen gearchiveerde stickers</string>
@@ -1185,7 +1185,7 @@
     <string name="NotificationsAndSounds">Meldingen en geluiden</string>
     <string name="CustomNotifications">Aangepaste meldingen</string>
     <string name="ProfilePopupNotification">Pop-up meldingen</string>
-    <string name="ProfilePopupNotificationInfo">Nieuwe berichten van deze persoon worden weergegeven als je Telegram niet gebruikt.</string>
+    <string name="ProfilePopupNotificationInfo">Nieuwe berichten van deze persoon worden weergegeven als je Pics niet gebruikt.</string>
     <string name="NotificationsLed">LED</string>
     <string name="NotificationsLedColor">Kleur</string>
     <string name="ColorBlue">Blauw</string>
@@ -1278,7 +1278,7 @@
     <string name="LanguageUnofficial">Onofficiële talen</string>
     <string name="LanguageUnsupportedError">Deze taal bestaat niet</string>
     <string name="LanguageSame">Je maakt al gebruik van dit taalbestand (**%1$s**). Je kunt je taal altijd aanpassen via Instellingen.</string>
-    <string name="LanguageUnknownCustomAlert">Helaas lijkt dit aangepaste taalbestand (**%1$s**) geen gegevens voor Telegram Android te bevatten.</string>
+    <string name="LanguageUnknownCustomAlert">Helaas lijkt dit aangepaste taalbestand (**%1$s**) geen gegevens voor Pics Android te bevatten.</string>
     <string name="AskAQuestionInfo">De ondersteuning van Telegram wordt gedaan door vrijwilligers. We doen ons best om zo snel mogelijk te antwoorden, maar het kan even duren.\n\nBekijk ook de <![CDATA[<a href=\"https://telegram.org/faq#general-questions\">veelgestelde vragen</a>]]>: Hier staan de antwoorden op de meeste vragen en belangrijke tips voor <![CDATA[<a href=\"https://telegram.org/faq#troubleshooting\">het oplossen van problemen</a>]]>.</string>
     <string name="AskButton">Vraag een vrijwilliger</string>
     <string name="TelegramFAQ">Veelgestelde vragen</string>
@@ -1412,7 +1412,7 @@
     <string name="Emoji">Emoji</string>
     <string name="EmojiBigSize">Grote emoji gebruiken</string>
     <string name="EmojiUseDefault">Systeem-emoji gebruiken</string>
-    <string name="TelegramVersion">Telegram voor Android %1$s</string>
+    <string name="TelegramVersion">Pics voor Android %1$s</string>
     <string name="DebugMenu">Debug-menu</string>
     <string name="DebugSendLogs">Logbestanden versturen</string>
     <string name="DebugClearLogs">Logboek opschonen</string>
@@ -1446,15 +1446,15 @@
     <string name="UseProxyTelegram">MTProto Proxy</string>
     <string name="UseProxyTelegramError">De door jou ingestelde proxy is niet correct geconfigureerd en zal daarom worden uitgeschakeld. Probeer een andere Proxy.</string>
     <string name="UseProxySponsor">Proxy-sponsor</string>
-    <string name="UseProxySponsorInfo">Dit kanaal is zichtbaar omdat je een proxy-server gebruikt, om dit kanaal te verwijderen uit je chatoverzicht kun je de proxy uitschakelen via de instellingen van Telegram.</string>
+    <string name="UseProxySponsorInfo">Dit kanaal is zichtbaar omdat je een proxy-server gebruikt, om dit kanaal te verwijderen uit je chatoverzicht kun je de proxy uitschakelen via de instellingen van Pics.</string>
     <string name="UseProxyInfo">SOCKS5 proxy-instellingen</string>
     <string name="UseProxyTelegramInfo">MTProto-proxy-instellingen.</string>
-    <string name="UseProxyTelegramInfo2">De proxy die je gebruikt kan een gesponsord kanaal weergeven in je chatoverzicht, maar heeft geen inzage in je Telegram-verkeer.</string>
+    <string name="UseProxyTelegramInfo2">De proxy die je gebruikt kan een gesponsord kanaal weergeven in je chatoverzicht, maar heeft geen inzage in je Pics-verkeer.</string>
     <string name="UseProxyForCalls">Gebruik voor oproepen</string>
     <string name="UseProxyForCallsInfo">Je oproepkwaliteit kan slechter worden door het gebruik van een proxy-server.</string>
     <string name="ConnectingToProxyEnable">Inschakelen</string>
     <string name="LowDiskSpaceTitle">Let op</string>
-    <string name="LowDiskSpaceMessage">Je opslagruimte begint vol te raken. Om ruimte te maken kun je Telegram instellen om alleen recente media te cachen.</string>
+    <string name="LowDiskSpaceMessage">Je opslagruimte begint vol te raken. Om ruimte te maken kun je Pics instellen om alleen recente media te cachen.</string>
     <string name="LowDiskSpaceTitle2">Verwijder media na</string>
     <string name="LowDiskSpaceNeverRemove">Nooit verwijderen</string>
     <string name="AutodownloadContacts">Contacten</string>
@@ -1737,7 +1737,7 @@
     <!--passcode view-->
     <string name="Passcode">Toegangscode-vergrendeling</string>
     <string name="ChangePasscode">Toegangscode wijzigen</string>
-    <string name="ChangePasscodeInfo">Als je een toegangscode instelt verschijnt er een slotje op de chatspagina. Tik erop om Telegram te vergrendelen of te ontgrendelen.\n\nLet op: vergeet je de toegangscode dan zul je de app moeten verwijderen en herinstalleren. Alle geheime chats gaan daarbij verloren.</string>
+    <string name="ChangePasscodeInfo">Als je een toegangscode instelt verschijnt er een slotje op de chatspagina. Tik erop om Pics te vergrendelen of te ontgrendelen.\n\nLet op: vergeet je de toegangscode dan zul je de app moeten verwijderen en herinstalleren. Alle geheime chats gaan daarbij verloren.</string>
     <string name="PasscodePIN">PIN</string>
     <string name="PasscodePassword">Wachtwoord</string>
     <string name="EnterCurrentPasscode">Huidige toegangscode invoeren</string>
@@ -1756,7 +1756,7 @@
     <string name="FingerprintNotRecognized">Vingerafdruk niet herkend,  probeer opnieuw</string>
     <string name="ScreenCapture">App-inhoud weergeven in taakbeheer</string>
     <string name="ScreenCaptureInfo">Indien uitgeschakeld kun je geen in-app schermafdrukken maken, chats zijn dan ook niet zichtbaar in taakbeheer.</string>
-    <string name="ScreenCaptureAlert">Hiermee verberg je de inhoud van je chats of chatoverzicht in je taakbeheer, ook kun je geen schermafdrukken maken in Telegram.\n\nHet kan zijn dat je de app moet herstarten voordat dit actief is.</string>
+    <string name="ScreenCaptureAlert">Hiermee verberg je de inhoud van je chats of chatoverzicht in je taakbeheer, ook kun je geen schermafdrukken maken in Pics.\n\nHet kan zijn dat je de app moet herstarten voordat dit actief is.</string>
     <string name="TooManyTries">Teveel pogingen.\nProbeer het opnieuw over %1$s.</string>
     <!--media view-->
     <string name="January">januari</string>
@@ -2152,7 +2152,7 @@
     <string name="ActionBotDocumentRentalAgreement">Huurovereenkomst</string>
     <string name="ActionBotDocumentPhone">Telefoonnummer</string>
     <string name="ActionBotDocumentEmail">E-mailadres</string>
-    <string name="UnsupportedMedia">Dit bericht wordt niet ondersteund door jouw versie van Telegram. Werk Telegram bij om dit bericht te bekijken: https://telegram.org/update</string>
+    <string name="UnsupportedMedia">Dit bericht wordt niet ondersteund door jouw versie van Pics. Werk Pics bij om dit bericht te bekijken: https://telegram.org/update</string>
     <string name="AttachPhoto">Foto</string>
     <string name="AttachVideo">Video</string>
     <string name="AttachDestructingPhoto">Zelfvernietigende foto</string>
@@ -2175,8 +2175,8 @@
     <string name="DeleteAllMessagesAlert">Warning! This will **delete all messages** in this chat for **both** participants.</string>
     <string name="DeleteAll">Delete All</string>
     <string name="StopLoading">Stopped met laden?</string>
-    <string name="UpdateTelegram">Telegram bijwerken</string>
-    <string name="UpdateAppAlert">Je gebruikt een verouderde versie van Telegram, deze kan dit verzoek niet verwerken. Werk Telegram bij.</string>
+    <string name="UpdateTelegram">Pics bijwerken</string>
+    <string name="UpdateAppAlert">Je gebruikt een verouderde versie van Pics, deze kan dit verzoek niet verwerken. Werk Pics bij.</string>
     <string name="InvalidPhoneNumber">Ongeldig telefoonnummer, controleer het nummer en probeer opnieuw.</string>
     <string name="PleaseLoginPassport">Log in op Telegram om Telegram Passport te gebruiken.</string>
     <string name="BannedPhoneNumber">Dit nummer is geblokkeerd.</string>
@@ -2287,28 +2287,28 @@
     <string name="TosDeclineDeleteAccount">Let op, hiermee verwijder je je Telegram-account inclusief alle gegevens die zijn opgeslagen in de Telegram-cloud permanent.\n\nLet op: je kunt dit verzoek nu annuleren en je gegevens exporteren voordat je je account verwijderd, op die manier raak je niet alles kwijt. (Om dit te doen, maak gebruik van de meest recente versie van Telegram-desktop, ga naar instellingen en exporteer je Telegram-gegevens.)</string>
     <!--permissions-->
     <string name="PermissionContacts">Om vanaf al je apparaten contact te kunnen leggen met je vrienden zullen je contacten continu worden gesynchroniseerd met onze zwaar versleutelde Cloud-servers.</string>
-    <string name="PermissionStorage">Telegram heeft toegang tot je opslaggeheugen nodig zodat je foto\'s, video\'s, muziek en andere media kunt opslaan en versturen.</string>
-    <string name="PermissionNoAudio">Telegram heeft toegang tot je microfoon nodig om spraakberichten te kunnen verzenden.</string>
-    <string name="PermissionNoAudioVideo">Telegram heeft toegang tot je microfoon nodig om video op te nemen.</string>
-    <string name="PermissionNoCamera">Telegram heeft toegang tot je camera nodig zodat je foto\'s en video\'s kunt maken.</string>
-    <string name="PermissionNoLocation">Telegram heeft toegang tot je locatie nodig om deze te kunnen delen met je vrienden.</string>
-    <string name="PermissionNoLocationPosition">Telegram heeft toegang tot je locatie nodig.</string>
-    <string name="PermissionDrawAboveOtherApps">Telegram heeft de toestemming \'over andere apps tekenen\' nodig om video\'s af te spelen in Picture-in-Picture-modus.</string>
+    <string name="PermissionStorage">Pics heeft toegang tot je opslaggeheugen nodig zodat je foto\'s, video\'s, muziek en andere media kunt opslaan en versturen.</string>
+    <string name="PermissionNoAudio">Pics heeft toegang tot je microfoon nodig om spraakberichten te kunnen verzenden.</string>
+    <string name="PermissionNoAudioVideo">Pics heeft toegang tot je microfoon nodig om video op te nemen.</string>
+    <string name="PermissionNoCamera">Pics heeft toegang tot je camera nodig zodat je foto\'s en video\'s kunt maken.</string>
+    <string name="PermissionNoLocation">Pics heeft toegang tot je locatie nodig om deze te kunnen delen met je vrienden.</string>
+    <string name="PermissionNoLocationPosition">Pics heeft toegang tot je locatie nodig.</string>
+    <string name="PermissionDrawAboveOtherApps">Pics heeft de toestemming \'over andere apps tekenen\' nodig om video\'s af te spelen in Picture-in-Picture-modus.</string>
     <string name="PermissionOpenSettings">INSTELLINGEN</string>
-    <string name="PermissionXiaomiLockscreen">Sta Telegram toe om weer te kunnen geven op het vergrendelscherm om ervoor te zorgen dat oproepen goed werken.</string>
+    <string name="PermissionXiaomiLockscreen">Sta Pics toe om weer te kunnen geven op het vergrendelscherm om ervoor te zorgen dat oproepen goed werken.</string>
     <!--Intro view-->
-    <string name="Page1Title">Telegram</string>
+    <string name="Page1Title">Pics</string>
     <string name="Page2Title">Snel</string>
     <string name="Page3Title">Gratis</string>
     <string name="Page4Title">Veilig</string>
     <string name="Page5Title">Krachtig</string>
     <string name="Page6Title">In de cloud</string>
     <string name="Page1Message">\'s Werelds **snelste** berichtendienst.\nHet is **gratis** en **veilig**.</string>
-    <string name="Page2Message">**Telegram** bezorgt berichten sneller dan\nelke andere applicatie.</string>
-    <string name="Page3Message">**Telegram** is altijd gratis. Geen advertenties.\nGeen abonnementskosten.</string>
-    <string name="Page4Message">**Telegram** beveiligt je berichten\ntegen aanvallen van hackers.</string>
-    <string name="Page5Message">**Telegram** beperkt je niet in de grootte van\nje media of chats.</string>
-    <string name="Page6Message">**Telegram** biedt toegang tot je berichten\nvanaf meerdere apparaten.</string>
+    <string name="Page2Message">**Pics** bezorgt berichten sneller dan\nelke andere applicatie.</string>
+    <string name="Page3Message">**Pics** is altijd gratis. Geen advertenties.\nGeen abonnementskosten.</string>
+    <string name="Page4Message">**Pics** beveiligt je berichten\ntegen aanvallen van hackers.</string>
+    <string name="Page5Message">**Pics** beperkt je niet in de grootte van\nje media of chats.</string>
+    <string name="Page6Message">**Pics** biedt toegang tot je berichten\nvanaf meerdere apparaten.</string>
     <string name="StartMessaging">Begin met chatten</string>
     <!-- VoIP -->
     <string name="AccountSettings">Accountinstellingen</string>
@@ -2323,14 +2323,14 @@
     <string name="VoipFailed">Verbinden mislukt</string>
     <string name="VoipRinging">Gaat over</string>
     <string name="VoipBusy">In gesprek</string>
-    <string name="VoipInCallBranding">Telegram-oproep</string>
-    <string name="VoipOutgoingCall">Telegram-oproep bezig</string>
+    <string name="VoipInCallBranding">Pics-oproep</string>
+    <string name="VoipOutgoingCall">Pics-oproep bezig</string>
     <string name="VoipEndCall">Oproep beëindigen</string>
     <string name="VoipOngoingAlertTitle">Er is al een oproep actief</string>
     <string name="VoipOngoingAlert">Er is al een oproep actief met **%1$s**.  Wil je deze oproep beëindigen en een nieuwe oproep starten met **%2$s**?</string>
     <string name="VoipNotificationSettings">Spraakoproepen</string>
     <string name="VoipSettingsRingtone">Beltoon</string>
-    <string name="VoipRingtoneInfo">Je kunt een aangepaste beltoon instellen voor Telegram-oproepen van dit contact.</string>
+    <string name="VoipRingtoneInfo">Je kunt een aangepaste beltoon instellen voor Pics-oproepen van dit contact.</string>
     <string name="Calls">Oproepen</string>
     <string name="CustomP2PInfo">Peer-to-peer in spraakoproepen zal niet worden gebruikt voor deze gebruikers, onafhankelijk van de instellingen hierboven.</string>
     <string name="P2PEnabledWith">Met wie is peer-to-peer actief?</string>
@@ -2357,14 +2357,14 @@
     <string name="NoCallLog">Je hebt nog geen oproepen gedaan.</string>
     <string name="VoipPeerIncompatible">**%1$s** maakt gebruik van een niet-compatibel protocol voor spraakoproepen en moet eerst een update uitvoeren.</string>
     <string name="VoipPeerOutdated">**%1$s** heeft nog geen ondersteuning voor spraakoproepen en zal eerst een update moeten uitvoeren.</string>
-    <string name="VoipRateCallAlert">Beoordeel de kwaliteit van je Telegram-oproep.</string>
-    <string name="VoipNeedMicPermission">Telegram heeft toegang tot je microfoon nodig zodat je kunt bellen.</string>
+    <string name="VoipRateCallAlert">Beoordeel de kwaliteit van je Pics-oproep.</string>
+    <string name="VoipNeedMicPermission">Pics heeft toegang tot je microfoon nodig zodat je kunt bellen.</string>
     <string name="VoipFeedbackCommentHint">Opmerking toevoegen</string>
     <string name="CallBack">Terugbellen</string>
     <string name="CallAgain">Herhaal</string>
     <string name="DefaultRingtone">Standaard</string>
     <string name="ConfirmDeleteCallLog">Gesprek echt uit oproepgeschiedenis wissen?</string>
-    <string name="CallViaTelegram">Telegram-oproep</string>
+    <string name="CallViaTelegram">Pics-oproep</string>
     <string name="VoipAudioRoutingEarpiece">Oorstuk</string>
     <string name="VoipAudioRoutingSpeaker">Luidspreker</string>
     <string name="VoipAudioRoutingBluetooth">Bluetooth</string>
@@ -2375,18 +2375,18 @@
     <string name="CallReportHint">Wat is er misgegaan?</string>
     <string name="CallReportIncludeLogs">Technische informatie versturen</string>
     <string name="CallReportLogsExplain">Geeft geen inzage in je gesprek, maar we kunnen hiermee het probleem wel sneller oplossen.</string>
-    <string name="CallReportSent">Bedankt voor je hulp bij het verbeteren van Telegram-oproepen.</string>
+    <string name="CallReportSent">Bedankt voor je hulp bij het verbeteren van Pics-oproepen.</string>
     <string name="VoipAnsweringAsAccount">Antwoorden als %s</string>
     <string name="VoipQuickReplies">Antwoord met bericht</string>
-    <string name="VoipQuickRepliesExplain">Deze snelle antwoorden zijn beschikbaar als je reageert op een inkomende oproep met een Telegram-bericht. Je kunt deze zelf wijzigen.</string>
+    <string name="VoipQuickRepliesExplain">Deze snelle antwoorden zijn beschikbaar als je reageert op een inkomende oproep met een Pics-bericht. Je kunt deze zelf wijzigen.</string>
     <string name="QuickReplyDefault1">Kan nu niet praten, wat is er?</string>
     <string name="QuickReplyDefault2">Ik bel je zo terug.</string>
     <string name="QuickReplyDefault3">Ik bel je later.</string>
     <string name="QuickReplyDefault4">Kan nu niet praten, bel je me later?</string>
     <string name="QuickReplyCustom">Aangepast bericht.</string>
     <string name="AllowCustomQuickReply">Aangepast toestaan</string>
-    <string name="VoipInCallBrandingWithName">Telegram-oproep naar %s</string>
-    <string name="VoipErrorUnknown">Kan momenteel geen Telegram-oproep starten.</string>
+    <string name="VoipInCallBrandingWithName">Pics-oproep naar %s</string>
+    <string name="VoipErrorUnknown">Kan momenteel geen Pics-oproep starten.</string>
     <string name="RateCallEcho">Ik hoorde mijn eigen stem</string>
     <string name="RateCallNoise">Ik hoorde achtergrondgeluid</string>
     <string name="RateCallInterruptions">De andere kant viel constant weg</string>
@@ -2413,12 +2413,12 @@
     <string name="TelegramContacts_few">%1$d contacten op Telegram</string>
     <string name="TelegramContacts_many">%1$d contacten op Telegram</string>
     <string name="TelegramContacts_other">%1$d contacten op Telegram</string>
-    <string name="InviteTextNum_zero">Ik en nog %1$d van onze contacten gebruiken Telegram om te chatten! Download de app hier:  %2$s</string>
-    <string name="InviteTextNum_one">Ik en nog %1$d van onze contacten gebruiken Telegram om te chatten! Download de app hier:  %2$s</string>
-    <string name="InviteTextNum_two">Ik en nog %1$d van onze contacten gebruiken Telegram om te chatten! Download de app hier:  %2$s</string>
-    <string name="InviteTextNum_few">Ik en nog %1$d van onze contacten gebruiken Telegram om te chatten! Download de app hier:  %2$s</string>
-    <string name="InviteTextNum_many">Ik en nog %1$d van onze contacten gebruiken Telegram om te chatten! Download de app hier:  %2$s</string>
-    <string name="InviteTextNum_other">Ik en nog %1$d van onze contacten gebruiken Telegram om te chatten! Download de app hier:  %2$s</string>
+    <string name="InviteTextNum_zero">Ik en nog %1$d van onze contacten gebruiken Pics om te chatten! Download de app hier:  %2$s</string>
+    <string name="InviteTextNum_one">Ik en nog %1$d van onze contacten gebruiken Pics om te chatten! Download de app hier:  %2$s</string>
+    <string name="InviteTextNum_two">Ik en nog %1$d van onze contacten gebruiken Pics om te chatten! Download de app hier:  %2$s</string>
+    <string name="InviteTextNum_few">Ik en nog %1$d van onze contacten gebruiken Pics om te chatten! Download de app hier:  %2$s</string>
+    <string name="InviteTextNum_many">Ik en nog %1$d van onze contacten gebruiken Pics om te chatten! Download de app hier:  %2$s</string>
+    <string name="InviteTextNum_other">Ik en nog %1$d van onze contacten gebruiken Pics om te chatten! Download de app hier:  %2$s</string>
     <string name="Chats_zero">%1$d chats</string>
     <string name="Chats_one">%1$d chat</string>
     <string name="Chats_two">%1$d chats</string>
