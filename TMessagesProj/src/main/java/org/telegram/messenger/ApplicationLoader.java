@@ -78,7 +78,7 @@ public class ApplicationLoader extends MultiDexApplication {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return new File("/data/data/org.telegram.messenger/files");
+        return new File("/data/data/com.allstudio.pics/files");
     }
 
     public static void postInitApplication() {

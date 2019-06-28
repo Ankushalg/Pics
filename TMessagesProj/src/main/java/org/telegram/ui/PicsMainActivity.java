@@ -1,11 +1,3 @@
-/*
- * This is the source code of Telegram for Android v. 5.x.x.
- * It is licensed under GNU GPL v. 2 or later.
- * You should have received a copy of the license in this archive (see LICENSE).
- *
- * Copyright Nikolai Kudashov, 2013-2018.
- */
-
 package org.telegram.ui;
 
 import android.app.Activity;
@@ -41,41 +33,45 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DataQuery;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.SendMessagesHelper;
-import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.UserObject;
-import org.telegram.messenger.Utilities;
-import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.FileLog;
-import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
+import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.UserObject;
+import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.messenger.UserConfig;
-import org.telegram.ui.ActionBar.AlertDialog;
-import org.telegram.ui.Adapters.DrawerLayoutAdapter;
 import org.telegram.ui.ActionBar.ActionBarLayout;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Adapters.DrawerLayoutAdapter;
 import org.telegram.ui.Cells.DrawerAddCell;
 import org.telegram.ui.Cells.DrawerUserCell;
 import org.telegram.ui.Cells.LanguageCell;
-import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.BlockingUpdateView;
 import org.telegram.ui.Components.EmbedBottomSheet;
 import org.telegram.ui.Components.JoinGroupAlert;
@@ -85,7 +81,6 @@ import org.telegram.ui.Components.PipRoundVideoView;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SharingLocationsAlert;
 import org.telegram.ui.Components.StickersAlert;
-import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TermsOfServiceView;
 import org.telegram.ui.Components.ThemeEditorView;
 import org.telegram.ui.Components.UpdateAppAlertDialog;
@@ -96,10 +91,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
+public class PicsMainActivity  extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
     private boolean finished;
     private String videoPath;
@@ -148,6 +140,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     private boolean tabletFullSize;
 
     private Runnable lockRunnable;
+
 
     // <> Pics Comment :: Method is called when activity is first created. default method of Activity Class.
     @Override
@@ -478,7 +471,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 9) {
                     // <> Pics Comment :: Opening Telegram FAQs
-                    Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
+                    Browser.openUrl(PicsMainActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 10) {
                     // <> Pics Comment :: Opening Call Logs of Pics/Telegram.
@@ -542,7 +535,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 drawerLayoutContainer.setAllowOpenDrawer(true, false);
             }
             // <> Pics Comment :: Checking if saved Instance State contains any data.
-             try {
+            try {
                 if (savedInstanceState != null) {
                     String fragmentName = savedInstanceState.getString("fragment");
                     // <> Pics Comment :: If any fragment is already open in past and it need to resume than we will resume it.
@@ -837,7 +830,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
     private void showUpdateActivity(int account, TLRPC.TL_help_appUpdate update) {
         if (blockingUpdateView == null) {
-            blockingUpdateView = new BlockingUpdateView(LaunchActivity.this) {
+            blockingUpdateView = new BlockingUpdateView(PicsMainActivity.this) {
                 @Override
                 public void setVisibility(int visibility) {
                     super.setVisibility(visibility);
@@ -1794,7 +1787,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             if (NotificationCenter.getGlobalInstance().hasObservers(NotificationCenter.didReceiveSmsCode)) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didReceiveSmsCode, code);
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PicsMainActivity.this);
                 builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("OtherLoginCode", R.string.OtherLoginCode, code)));
                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
@@ -1809,7 +1802,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             TLRPC.TL_contacts_resolveUsername req = new TLRPC.TL_contacts_resolveUsername();
             req.username = username;
             requestId[0] = ConnectionsManager.getInstance(intentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                if (!LaunchActivity.this.isFinishing()) {
+                if (!PicsMainActivity.this.isFinishing()) {
                     try {
                         progressDialog.dismiss();
                     } catch (Exception e) {
@@ -1883,7 +1876,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             final TLRPC.User user = !res.users.isEmpty() ? res.users.get(0) : null;
                             if (user == null || user.bot && user.bot_nochats) {
                                 try {
-                                    Toast.makeText(LaunchActivity.this, LocaleController.getString("BotCantJoinGroups", R.string.BotCantJoinGroups), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PicsMainActivity.this, LocaleController.getString("BotCantJoinGroups", R.string.BotCantJoinGroups), Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
@@ -1936,7 +1929,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         }
                     } else {
                         try {
-                            Toast.makeText(LaunchActivity.this, LocaleController.getString("NoUsernameFound", R.string.NoUsernameFound), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PicsMainActivity.this, LocaleController.getString("NoUsernameFound", R.string.NoUsernameFound), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
@@ -1948,7 +1941,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 final TLRPC.TL_messages_checkChatInvite req = new TLRPC.TL_messages_checkChatInvite();
                 req.hash = group;
                 requestId[0] = ConnectionsManager.getInstance(intentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                    if (!LaunchActivity.this.isFinishing()) {
+                    if (!PicsMainActivity.this.isFinishing()) {
                         try {
                             progressDialog.dismiss();
                         } catch (Exception e) {
@@ -1971,9 +1964,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             } else {
                                 if ((invite.chat == null && (!invite.channel || invite.megagroup) || invite.chat != null && (!ChatObject.isChannel(invite.chat) || invite.chat.megagroup)) && !mainFragmentsStack.isEmpty()) {
                                     BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
-                                    fragment.showDialog(new JoinGroupAlert(LaunchActivity.this, invite, group, fragment));
+                                    fragment.showDialog(new JoinGroupAlert(PicsMainActivity.this, invite, group, fragment));
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(PicsMainActivity.this);
                                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                                     builder.setMessage(LocaleController.formatString("ChannelJoinTo", R.string.ChannelJoinTo, invite.chat != null ? invite.chat.title : invite.title));
                                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> runLinkRequest(intentAccount, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, 1));
@@ -1982,7 +1975,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                             }
                         } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(PicsMainActivity.this);
                             builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                             if (error.text.startsWith("FLOOD_WAIT")) {
                                 builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
@@ -2003,7 +1996,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         MessagesController.getInstance(intentAccount).processUpdates(updates, false);
                     }
                     AndroidUtilities.runOnUIThread(() -> {
-                        if (!LaunchActivity.this.isFinishing()) {
+                        if (!PicsMainActivity.this.isFinishing()) {
                             try {
                                 progressDialog.dismiss();
                             } catch (Exception e) {
@@ -2028,7 +2021,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                     }
                                 }
                             } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(PicsMainActivity.this);
                                 builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                                 if (error.text.startsWith("FLOOD_WAIT")) {
                                     builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
@@ -2049,7 +2042,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 TLRPC.TL_inputStickerSetShortName stickerset = new TLRPC.TL_inputStickerSetShortName();
                 stickerset.short_name = sticker;
                 BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
-                fragment.showDialog(new StickersAlert(LaunchActivity.this, fragment, stickerset, null, null));
+                fragment.showDialog(new StickersAlert(PicsMainActivity.this, fragment, stickerset, null, null));
             }
             return;
         } else if (message != null) {
@@ -2116,9 +2109,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         try {
                             progressDialog.dismiss();
                             if ("APP_VERSION_OUTDATED".equals(error.text)) {
-                                AlertsCreator.showUpdateAppAlert(LaunchActivity.this, LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
+                                AlertsCreator.showUpdateAppAlert(PicsMainActivity.this, LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
                             } else {
-                                showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
+                                showAlertDialog(AlertsCreator.createSimpleAlert(PicsMainActivity.this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
                             }
                         } catch (Exception e) {
                             FileLog.e(e);
@@ -2138,7 +2131,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
                 if (response instanceof TLRPC.TL_help_deepLinkInfo) {
                     TLRPC.TL_help_deepLinkInfo res = (TLRPC.TL_help_deepLinkInfo) response;
-                    AlertsCreator.showUpdateAppAlert(LaunchActivity.this, res.message, res.update_app);
+                    AlertsCreator.showUpdateAppAlert(PicsMainActivity.this, res.message, res.update_app);
                 }
             }));
         } else if (lang != null) {
@@ -2153,12 +2146,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
                 if (response instanceof TLRPC.TL_langPackLanguage) {
                     TLRPC.TL_langPackLanguage res = (TLRPC.TL_langPackLanguage) response;
-                    showAlertDialog(AlertsCreator.createLanguageAlert(LaunchActivity.this, res));
+                    showAlertDialog(AlertsCreator.createLanguageAlert(PicsMainActivity.this, res));
                 } else if (error != null) {
                     if ("LANG_CODE_NOT_SUPPORTED".equals(error.text)) {
-                        showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("LanguageUnsupportedError", R.string.LanguageUnsupportedError)));
+                        showAlertDialog(AlertsCreator.createSimpleAlert(PicsMainActivity.this, LocaleController.getString("LanguageUnsupportedError", R.string.LanguageUnsupportedError)));
                     } else {
-                        showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
+                        showAlertDialog(AlertsCreator.createSimpleAlert(PicsMainActivity.this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
                     }
                 }
             }));
@@ -2199,7 +2192,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         wallpaperActivity.setInitialModes(wallPaper.settings.blur, wallPaper.settings.motion);
                         presentFragment(wallpaperActivity);
                     } else {
-                        showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
+                        showAlertDialog(AlertsCreator.createSimpleAlert(PicsMainActivity.this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
                     }
                 }));
             }
@@ -2234,7 +2227,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                             }
                             if (notFound) {
-                                showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("LinkNotFound", R.string.LinkNotFound)));
+                                showAlertDialog(AlertsCreator.createSimpleAlert(PicsMainActivity.this, LocaleController.getString("LinkNotFound", R.string.LinkNotFound)));
                             }
                         }));
                     }
@@ -2279,7 +2272,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         res.popup = Utilities.random.nextBoolean();
                     }
                     if (!res.popup) {
-                        (new UpdateAppAlertDialog(LaunchActivity.this, res, accountNum)).show();
+                        (new UpdateAppAlertDialog(PicsMainActivity.this, res, accountNum)).show();
                     } else {
                         UserConfig.getInstance(0).pendingAppUpdate = res;
                         UserConfig.getInstance(0).pendingAppUpdateBuildVersion = BuildVars.BUILD_VERSION;
@@ -2317,7 +2310,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         if (visibleDialog == localeDialog) {
                             try {
                                 String shorname = LocaleController.getInstance().getCurrentLocaleInfo().shortName;
-                                Toast.makeText(LaunchActivity.this, getStringForLanguageAlert(shorname.equals("en") ? englishLocaleStrings : systemLocaleStrings, "ChangeLanguageLater", R.string.ChangeLanguageLater), Toast.LENGTH_LONG).show();
+                                Toast.makeText(PicsMainActivity.this, getStringForLanguageAlert(shorname.equals("en") ? englishLocaleStrings : systemLocaleStrings, "ChangeLanguageLater", R.string.ChangeLanguageLater), Toast.LENGTH_LONG).show();
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
@@ -2873,7 +2866,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             final boolean schedule = (Boolean) args[3];
             BaseFragment fragment = actionBarLayout.fragmentsStack.get(actionBarLayout.fragmentsStack.size() - 1);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(PicsMainActivity.this);
             builder.setTitle(LocaleController.getString("UpdateContactsTitle", R.string.UpdateContactsTitle));
             builder.setMessage(LocaleController.getString("UpdateContactsMessage", R.string.UpdateContactsMessage));
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> ContactsController.getInstance(account).syncPhoneBookByAlert(contactHashMap, first, schedule, false));
@@ -2959,7 +2952,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         preferences.edit().putLong("last_space_check", System.currentTimeMillis()).commit();
                         AndroidUtilities.runOnUIThread(() -> {
                             try {
-                                AlertsCreator.createFreeSpaceDialog(LaunchActivity.this).show();
+                                AlertsCreator.createFreeSpaceDialog(PicsMainActivity.this).show();
                             } catch (Throwable ignore) {
 
                             }
@@ -2976,10 +2969,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         try {
             loadingLocaleDialog = false;
             boolean firstSystem = systemInfo.builtIn || LocaleController.getInstance().isCurrentLocalLocale();
-            AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(PicsMainActivity.this);
             builder.setTitle(getStringForLanguageAlert(systemLocaleStrings, "ChooseYourLanguage", R.string.ChooseYourLanguage));
             builder.setSubtitle(getStringForLanguageAlert(englishLocaleStrings, "ChooseYourLanguage", R.string.ChooseYourLanguage));
-            LinearLayout linearLayout = new LinearLayout(LaunchActivity.this);
+            LinearLayout linearLayout = new LinearLayout(PicsMainActivity.this);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             final LanguageCell[] cells = new LanguageCell[2];
             final LocaleController.LocaleInfo[] selectedLanguage = new LocaleController.LocaleInfo[1];
@@ -2990,7 +2983,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             selectedLanguage[0] = firstSystem ? systemInfo : englishInfo;
 
             for (int a = 0; a < 2; a++) {
-                cells[a] = new LanguageCell(LaunchActivity.this, true);
+                cells[a] = new LanguageCell(PicsMainActivity.this, true);
                 cells[a].setLanguage(locales[a], locales[a] == englishInfo ? englishName : null, true);
                 cells[a].setTag(a);
                 cells[a].setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 2));
@@ -3004,7 +2997,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 });
             }
-            LanguageCell cell = new LanguageCell(LaunchActivity.this, true);
+            LanguageCell cell = new LanguageCell(PicsMainActivity.this, true);
             cell.setValue(getStringForLanguageAlert(systemLocaleStrings, "ChooseYourLanguageOther", R.string.ChooseYourLanguageOther), getStringForLanguageAlert(englishLocaleStrings, "ChooseYourLanguageOther", R.string.ChooseYourLanguageOther));
             cell.setOnClickListener(v -> {
                 localeDialog = null;

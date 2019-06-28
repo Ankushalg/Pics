@@ -71,6 +71,7 @@ import org.telegram.ui.LanguageSelectActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.NotificationsCustomSettingsActivity;
 import org.telegram.ui.NotificationsSettingsActivity;
+import org.telegram.ui.PicsMainActivity;
 import org.telegram.ui.ProfileNotificationsActivity;
 import org.telegram.ui.ReportOtherActivity;
 
@@ -386,6 +387,106 @@ public class AlertsCreator {
 
         return builder;
     }
+
+    // <> Pics
+    public static AlertDialog.Builder createLanguageAlert(PicsMainActivity activity, final TLRPC.TL_langPackLanguage language) {
+        if (language == null) {
+            return null;
+        }
+        language.lang_code = language.lang_code.replace('-', '_').toLowerCase();
+        language.plural_code = language.plural_code.replace('-', '_').toLowerCase();
+        if (language.base_lang_code != null) {
+            language.base_lang_code = language.base_lang_code.replace('-', '_').toLowerCase();
+        }
+
+        SpannableStringBuilder spanned;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        LocaleController.LocaleInfo currentInfo = LocaleController.getInstance().getCurrentLocaleInfo();
+        String str;
+        if (currentInfo.shortName.equals(language.lang_code)) {
+            builder.setTitle(LocaleController.getString("Language", R.string.Language));
+            str = LocaleController.formatString("LanguageSame", R.string.LanguageSame, language.name);
+            builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.setNeutralButton(LocaleController.getString("SETTINGS", R.string.SETTINGS), (dialog, which) -> activity.presentFragment(new LanguageSelectActivity()));
+        } else {
+            if (language.strings_count == 0) {
+                builder.setTitle(LocaleController.getString("LanguageUnknownTitle", R.string.LanguageUnknownTitle));
+                str = LocaleController.formatString("LanguageUnknownCustomAlert", R.string.LanguageUnknownCustomAlert, language.name);
+                builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+            } else {
+                builder.setTitle(LocaleController.getString("LanguageTitle", R.string.LanguageTitle));
+                if (language.official) {
+                    str = LocaleController.formatString("LanguageAlert", R.string.LanguageAlert, language.name, (int) Math.ceil(language.translated_count / (float) language.strings_count * 100));
+                } else {
+                    str = LocaleController.formatString("LanguageCustomAlert", R.string.LanguageCustomAlert, language.name, (int) Math.ceil(language.translated_count / (float) language.strings_count * 100));
+                }
+                builder.setPositiveButton(LocaleController.getString("Change", R.string.Change), (dialogInterface, i) -> {
+                    String key;
+                    if (language.official) {
+                        key = "remote_" + language.lang_code;
+                    } else {
+                        key = "unofficial_" + language.lang_code;
+                    }
+                    LocaleController.LocaleInfo localeInfo = LocaleController.getInstance().getLanguageFromDict(key);
+                    if (localeInfo == null) {
+                        localeInfo = new LocaleController.LocaleInfo();
+                        localeInfo.name = language.native_name;
+                        localeInfo.nameEnglish = language.name;
+                        localeInfo.shortName = language.lang_code;
+                        localeInfo.baseLangCode = language.base_lang_code;
+                        localeInfo.pluralLangCode = language.plural_code;
+                        localeInfo.isRtl = language.rtl;
+                        if (language.official) {
+                            localeInfo.pathToFile = "remote";
+                        } else {
+                            localeInfo.pathToFile = "unofficial";
+                        }
+                    }
+                    LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, UserConfig.selectedAccount);
+                    activity.rebuildAllFragments(true);
+                });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            }
+        }
+
+        spanned = new SpannableStringBuilder(AndroidUtilities.replaceTags(str));
+
+        int start = TextUtils.indexOf(spanned, '[');
+        int end;
+        if (start != -1) {
+            end = TextUtils.indexOf(spanned, ']', start + 1);
+            if (start != -1 && end != -1) {
+                spanned.delete(end, end + 1);
+                spanned.delete(start, start + 1);
+            }
+        } else {
+            end = -1;
+        }
+
+        if (start != -1 && end != -1) {
+            spanned.setSpan(new URLSpanNoUnderline(language.translations_url) {
+                @Override
+                public void onClick(View widget) {
+                    builder.getDismissRunnable().run();
+                    super.onClick(widget);
+                }
+            }, start, end - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        final TextView message = new TextView(activity);
+        message.setText(spanned);
+        message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        message.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
+        message.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
+        message.setPadding(AndroidUtilities.dp(23), 0, AndroidUtilities.dp(23), 0);
+        message.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
+        message.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        builder.setView(message);
+
+        return builder;
+    }
+    // </> Pics
 
     public static AlertDialog.Builder createSimpleAlert(Context context, final String text) {
         if (text == null) {
@@ -1611,6 +1712,77 @@ public class AlertsCreator {
         builder.setNeutralButton(LocaleController.getString("ClearMediaCache", R.string.ClearMediaCache), (dialog, which) -> parentActivity.presentFragment(new CacheControlActivity()));
         return builder.create();
     }
+
+    // <> Pics
+    public static Dialog createFreeSpaceDialog(final PicsMainActivity parentActivity) {
+        final int[] selected = new int[1];
+
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        int keepMedia = preferences.getInt("keep_media", 2);
+        if (keepMedia == 2) {
+            selected[0] = 3;
+        } else if (keepMedia == 0) {
+            selected[0] = 1;
+        } else if (keepMedia == 1) {
+            selected[0] = 2;
+        } else if (keepMedia == 3) {
+            selected[0] = 0;
+        }
+
+        String[] descriptions = new String[]{
+                LocaleController.formatPluralString("Days", 3),
+                LocaleController.formatPluralString("Weeks", 1),
+                LocaleController.formatPluralString("Months", 1),
+                LocaleController.getString("LowDiskSpaceNeverRemove", R.string.LowDiskSpaceNeverRemove)
+        };
+
+        final LinearLayout linearLayout = new LinearLayout(parentActivity);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        TextView titleTextView = new TextView(parentActivity);
+        titleTextView.setText(LocaleController.getString("LowDiskSpaceTitle2", R.string.LowDiskSpaceTitle2));
+        titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
+        linearLayout.addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 24, 0, 24, 8));
+
+        for (int a = 0; a < descriptions.length; a++) {
+            RadioColorCell cell = new RadioColorCell(parentActivity);
+            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+            cell.setTag(a);
+            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+            cell.setTextAndValue(descriptions[a], selected[0] == a);
+            linearLayout.addView(cell);
+            cell.setOnClickListener(v -> {
+                int num = (Integer) v.getTag();
+                if (num == 0) {
+                    selected[0] = 3;
+                } else if (num == 1) {
+                    selected[0] = 0;
+                } else if (num == 2) {
+                    selected[0] = 1;
+                } else if (num == 3) {
+                    selected[0] = 2;
+                }
+                int count = linearLayout.getChildCount();
+                for (int a1 = 0; a1 < count; a1++) {
+                    View child = linearLayout.getChildAt(a1);
+                    if (child instanceof RadioColorCell) {
+                        ((RadioColorCell) child).setChecked(child == v, true);
+                    }
+                }
+            });
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+        builder.setTitle(LocaleController.getString("LowDiskSpaceTitle", R.string.LowDiskSpaceTitle));
+        builder.setMessage(LocaleController.getString("LowDiskSpaceMessage", R.string.LowDiskSpaceMessage));
+        builder.setView(linearLayout);
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> MessagesController.getGlobalMainSettings().edit().putInt("keep_media", selected[0]).commit());
+        builder.setNeutralButton(LocaleController.getString("ClearMediaCache", R.string.ClearMediaCache), (dialog, which) -> parentActivity.presentFragment(new CacheControlActivity()));
+        return builder.create();
+    }
+    // </> Pics
 
     public static Dialog createPrioritySelectDialog(Activity parentActivity, final long dialog_id, final int globalType, final Runnable onSelect) {
         SharedPreferences preferences = MessagesController.getNotificationsSettings(UserConfig.selectedAccount);

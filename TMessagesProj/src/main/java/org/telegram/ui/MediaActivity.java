@@ -42,6 +42,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -1532,6 +1533,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
     public void onResume() {
         super.onResume();
         scrolling = true;
+        Toast.makeText(getParentActivity(), "Debug: Pics Media Activity", Toast.LENGTH_SHORT).show();
         if (photoVideoAdapter != null) {
             photoVideoAdapter.notifyDataSetChanged();
         }
