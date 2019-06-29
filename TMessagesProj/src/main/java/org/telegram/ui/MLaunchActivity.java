@@ -26,6 +26,11 @@ public class MLaunchActivity  extends AppCompatActivity {
             Intent i = new Intent(MLaunchActivity.this, PicsMainActivity.class);
             startActivity(i);
         });
+        findViewById(R.id.ml_b3).setOnClickListener(v -> {
+            Intent i = new Intent(MLaunchActivity.this, PicsMediaBackupActivity.class);
+            startActivity(i);
+        });
+
     }
 
 // </> Pics

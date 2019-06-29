@@ -141,7 +141,6 @@ public class PicsMainActivity  extends Activity implements ActionBarLayout.Actio
 
     private Runnable lockRunnable;
 
-
     // <> Pics Comment :: Method is called when activity is first created. default method of Activity Class.
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="org.telegram.ui.MLaunchActivity">
 
     <Button
         android:layout_width="match_parent"
-        android:layout_centerInParent="true"
         android:text="Open Telegram"
         android:id="@+id/ml_b1"
+        android:layout_margin="16dp"
         android:layout_height="wrap_content" />
 
     <Button
         android:layout_width="match_parent"
+        android:layout_margin="16dp"
         android:text="Open Pics Base"
-        android:layout_alignParentBottom="true"
         android:id="@+id/ml_b2"
         android:layout_height="wrap_content" />
 
-</RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:text="Open Pics BackUp"
+        android:id="@+id/ml_b3"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
