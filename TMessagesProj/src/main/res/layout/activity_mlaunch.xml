@@ -4,29 +4,190 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="org.telegram.ui.MLaunchActivity">
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:text="Open Telegram"
-        android:id="@+id/ml_b1"
-        android:layout_margin="16dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/colorWhite">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_pics_color" />
+            <ImageView
+                android:layout_marginStart="-8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:padding="8dp"
+                android:src="@drawable/ic_pics_text_dark_48dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/al_storage_recycle"
+                    android:background="@drawable/mlaunch_activity_background"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/colorWhite">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Status:"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:layout_margin="8dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ProgressBar
+                            android:layout_width="24dp"
+                            android:id="@+id/al_main_status_p_bar"
+                            android:layout_margin="8dp"
+                            android:layout_height="24dp" />
+                        <TextView
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="0dp"
+                            android:textSize="18sp"
+                            android:maxLines="1"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:id="@+id/al_main_status_t1"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/colorPicsSkyBlue"
+                            android:text="Uploading..."
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:textSize="18sp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:id="@+id/al_main_status_t2"
+                            android:textColor="@color/colorPicsSkyBlue"
+                            android:text="14/228"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorPicsSkyBlueDark"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="Backup Tools:"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_margin="8dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_height="wrap_content" />
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:padding="8dp"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="Apps"
+                                android:id="@+id/al_main_backup_tools_apps"
+                                android:gravity="center"
+                                android:textSize="14sp"
+                                android:drawableTop="@drawable/ic_al_apps_48dp"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:textColor="@color/colorBlack"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="Call History"
+                                android:id="@+id/al_main_backup_tools_calls"
+                                android:drawableTop="@drawable/ic_al_call_history_48dp"
+                                android:textSize="14sp"
+                                android:gravity="center"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:textColor="@color/colorBlack"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="Contacts"
+                                android:id="@+id/al_main_backup_tools_contacts"
+                                android:drawableTop="@drawable/ic_al_contacts"
+                                android:textSize="14sp"
+                                android:gravity="center"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:textColor="@color/colorBlack"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:text="SMS"
+                                android:id="@+id/al_main_backup_tools_sms"
+                                android:gravity="center"
+                                android:drawableTop="@drawable/ic_al_messages_48dp"
+                                android:textSize="14sp"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:textColor="@color/colorBlack"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/al_main_backup_tools_more"
+                                android:text="More"
+                                android:gravity="center"
+                                android:drawableTop="@drawable/ic_al_coming_soon_48dp"
+                                android:textSize="14sp"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:textColor="@color/colorBlack"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorPicsSkyBlueDark"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 
     <Button
+        android:id="@+id/al_main_open_mess"
         android:layout_width="match_parent"
-        android:layout_margin="16dp"
-        android:text="Open Pics Base"
-        android:id="@+id/ml_b2"
-        android:layout_height="wrap_content" />
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_margin="16dp"
-        android:text="Open Pics BackUp"
-        android:id="@+id/ml_b3"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorPicsSkyBlueDark"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Open Messanger"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

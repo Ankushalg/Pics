@@ -304,7 +304,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 18
         targetSdkVersion 28
         versionName "5.7.1"
 
