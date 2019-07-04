@@ -3,6 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_margin="16dp"
+    android:id="@+id/al_si_main"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="264dp"
