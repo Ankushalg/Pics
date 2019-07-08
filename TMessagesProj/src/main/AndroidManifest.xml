@@ -98,6 +98,11 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
+            android:name="org.telegram.ui.PicsFileChooserActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name="org.telegram.ui.PicsMediaBackupActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
