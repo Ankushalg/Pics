@@ -604,6 +604,7 @@ public class MLaunchActivity extends AppCompatActivity {
             holder.rMain.setOnClickListener(v -> {
                 Intent i = new Intent(MLaunchActivity.this, FileViewerActivity.class);
                 i.putExtra("cDir",storageObject.file.getAbsolutePath());
+                i.putExtra("cDirName", storageObject.title);
                 startActivity(i);
             });
         }
