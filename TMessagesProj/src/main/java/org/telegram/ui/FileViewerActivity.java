@@ -7,10 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StatFs;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,7 @@ public class FileViewerActivity  extends AppCompatActivity {
     private LinearLayout selectionBottomNavi;
     private String defaultStorage = Environment.getExternalStorageDirectory().getPath();
     private String currentDir = defaultStorage;
+    private SharedMemory shared;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class FileViewerActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_file_viewer);
         if(getSupportActionBar() != null)
             getSupportActionBar().hide();
+        shared = new SharedMemory(this);
         findViewIds();
         setUpListeners();
         setUpSelectionNavigation();
@@ -86,18 +90,12 @@ public class FileViewerActivity  extends AppCompatActivity {
         }
         getCurrentDirContent();
         setUpRoots();
-        checkIntent();
+        checkSelection();
     }
 
-    private void checkIntent() {
-        Intent i = getIntent();
-        if (i.hasExtra("action")){
-            selectionAction = i.getIntExtra("action", 0);
-        }
-        if (i.hasExtra("selectedFiles")) {
-            selectionActionFilesList = i.getStringArrayListExtra("selectedFiles");
-        }
-        if(selectionAction > 0){
+    private void checkSelection() {
+        if (shared.getFileAction() > 0){
+            selectionBottomNavi.setVisibility(View.VISIBLE);
             naCopy.setVisibility(View.GONE);
             naCut.setVisibility(View.GONE);
             naRename.setVisibility(View.GONE);
@@ -109,16 +107,22 @@ public class FileViewerActivity  extends AppCompatActivity {
             naNewFolder.setVisibility(View.VISIBLE);
             naPaste.setVisibility(View.VISIBLE);
             naCancel.setVisibility(View.VISIBLE);
-        } else {
-            selectionBottomNavi.setVisibility(View.GONE);
         }
-        getCurrentDirContent();
     }
 
+//    private void checkIntent() {
+//        Intent i = getIntent();
+//        if (i.hasExtra("action")){
+//            selectionAction = i.getIntExtra("action", 0);
+//        }
+//        if (i.hasExtra("selectedFiles")) {
+//            selectionActionFilesList = i.getStringArrayListExtra("selectedFiles");
+//        }
+//
+//    }
+
     private TextView naCopy, naCut, naRename, naDelete, naHide, naShow, naBackup, naShare, naNewFolder, naPaste, naCancel, naOpen;
-    private ArrayList<String> selectionActionFilesList;
     private void setUpSelectionNavigation() {
-        selectionActionFilesList = new ArrayList<>();
         naCopy = findViewById(R.id.fv_sn_copy);
         naOpen = findViewById(R.id.fv_sn_open);
         naCut = findViewById(R.id.fv_sn_cut);
@@ -141,8 +145,9 @@ public class FileViewerActivity  extends AppCompatActivity {
             openMenu(3);
         });
         naCancel.setOnClickListener(v -> {
-            selectionAction = 0;
-            selectionActionFilesList.clear();
+            shared.setFileTask(null);
+            shared.setFileAction(0);
+            shared.setFileDestination("");
             naCopy.setVisibility(View.VISIBLE);
             naCut.setVisibility(View.VISIBLE);
             naRename.setVisibility(View.VISIBLE);
@@ -157,10 +162,10 @@ public class FileViewerActivity  extends AppCompatActivity {
             selectionBottomNavi.setVisibility(View.GONE);
         });
         naCopy.setOnClickListener(v -> {
-            selectionActionFilesList.addAll(selectedFiles);
+            shared.setFileTask(new HashSet<>(selectedFiles));
             selectedFiles.clear();
             isSelection = false;
-            selectionAction = 1;
+            shared.setFileAction(1);
             getCurrentDirContent();
             naCopy.setVisibility(View.GONE);
             naCut.setVisibility(View.GONE);
@@ -175,10 +180,10 @@ public class FileViewerActivity  extends AppCompatActivity {
             naCancel.setVisibility(View.VISIBLE);
         });
         naCut.setOnClickListener(v -> {
-            selectionActionFilesList.addAll(selectedFiles);
+            shared.setFileTask(new HashSet<>(selectedFiles));
             selectedFiles.clear();
             isSelection = false;
-            selectionAction = 2;
+            shared.setFileAction(2);
             getCurrentDirContent();
             naCopy.setVisibility(View.GONE);
             naCut.setVisibility(View.GONE);
@@ -221,7 +226,7 @@ public class FileViewerActivity  extends AppCompatActivity {
             selectedFiles.clear();
             isSelection = false;
             getCurrentDirContent();
-            if(selectionAction > 0){
+            if(shared.getFileAction() > 0){
                 naCopy.setVisibility(View.GONE);
                 naCut.setVisibility(View.GONE);
                 naRename.setVisibility(View.GONE);
@@ -260,7 +265,7 @@ public class FileViewerActivity  extends AppCompatActivity {
             selectedFiles.clear();
             isSelection = false;
             getCurrentDirContent();
-            if(selectionAction > 0){
+            if(shared.getFileAction() > 0){
                 naCopy.setVisibility(View.GONE);
                 naCut.setVisibility(View.GONE);
                 naRename.setVisibility(View.GONE);
@@ -278,6 +283,7 @@ public class FileViewerActivity  extends AppCompatActivity {
         });
     }
 
+
     private void deleteSelectedFiles(){
 //        int delFiles = 0;
 //        for (int i = 0; i < selectedFiles.size(); i++){
@@ -292,7 +298,7 @@ public class FileViewerActivity  extends AppCompatActivity {
         ts("We will delete files using async task later.");
         selectedFiles.clear();
         isSelection = false;
-        if(selectionAction > 0){
+        if(shared.getFileAction() > 0){
             naCopy.setVisibility(View.GONE);
             naCut.setVisibility(View.GONE);
             naRename.setVisibility(View.GONE);
@@ -591,7 +597,7 @@ public class FileViewerActivity  extends AppCompatActivity {
             if (type == 5){
                 isSelection = false;
                 selectedFiles.clear();
-                if(selectionAction > 0){
+                if(shared.getFileAction() > 0){
                     naCopy.setVisibility(View.GONE);
                     naCut.setVisibility(View.GONE);
                     naRename.setVisibility(View.GONE);
@@ -646,7 +652,7 @@ public class FileViewerActivity  extends AppCompatActivity {
                        }
                        isSelection = false;
                        selectedFiles.clear();
-                        if(selectionAction > 0){
+                        if(shared.getFileAction() > 0){
                             naCopy.setVisibility(View.GONE);
                             naCut.setVisibility(View.GONE);
                             naRename.setVisibility(View.GONE);
@@ -711,7 +717,7 @@ public class FileViewerActivity  extends AppCompatActivity {
         if (isSelection){
             selectedFiles.clear();
             isSelection = false;
-            if(selectionAction > 0){
+            if(shared.getFileAction() > 0){
                 naCopy.setVisibility(View.GONE);
                 naCut.setVisibility(View.GONE);
                 naRename.setVisibility(View.GONE);
@@ -740,10 +746,6 @@ public class FileViewerActivity  extends AppCompatActivity {
     }
 
     private void finishIt() {
-        Intent i = new Intent(FileViewerActivity.this, MLaunchActivity.class);
-        i.putStringArrayListExtra("selectedFiles", selectionActionFilesList);
-        i.putExtra("action", selectionAction);
-        setResult(101,i);
         finish();
     }
 
@@ -969,7 +971,6 @@ public class FileViewerActivity  extends AppCompatActivity {
 
     private ArrayList<String> selectedFiles;
     private boolean isSelection = false;
-    private int selectionAction = 0;
 
     public class FilesAdapter extends ArrayAdapter<FileObject> {
         FilesAdapter(Context context, int resource, List<FileObject> objects) {
@@ -1045,7 +1046,7 @@ public class FileViewerActivity  extends AppCompatActivity {
 
                 icon.setOnClickListener(v -> {
                     isSelection = true;
-                    if(selectionAction > 0){
+                    if(shared.getFileAction() > 0){
                         naCopy.setVisibility(View.VISIBLE);
                         naCut.setVisibility(View.VISIBLE);
                         naRename.setVisibility(View.VISIBLE);
@@ -1066,7 +1067,7 @@ public class FileViewerActivity  extends AppCompatActivity {
                         main.setBackgroundColor(Color.parseColor("#ffffff"));
                         fO.isSelected = false;
                         if (selectedFiles.size() == 0){
-                            if(selectionAction > 0){
+                            if(shared.getFileAction() > 0){
                                 naCopy.setVisibility(View.GONE);
                                 naCut.setVisibility(View.GONE);
                                 naRename.setVisibility(View.GONE);
@@ -1093,7 +1094,7 @@ public class FileViewerActivity  extends AppCompatActivity {
 
                 main.setOnLongClickListener(v -> {
                     isSelection = true;
-                    if(selectionAction > 0){
+                    if(shared.getFileAction() > 0){
                         naCopy.setVisibility(View.VISIBLE);
                         naCut.setVisibility(View.VISIBLE);
                         naRename.setVisibility(View.VISIBLE);
@@ -1126,7 +1127,7 @@ public class FileViewerActivity  extends AppCompatActivity {
                             fO.isSelected = false;
                             if (selectedFiles.size() == 0){
                                 isSelection = false;
-                                if(selectionAction > 0){
+                                if(shared.getFileAction() > 0){
                                     naCopy.setVisibility(View.GONE);
                                     naCut.setVisibility(View.GONE);
                                     naRename.setVisibility(View.GONE);
@@ -1301,30 +1302,28 @@ public class FileViewerActivity  extends AppCompatActivity {
         }
     }
 
+    private boolean isFilesUnderLimit = true;
     private void shareSelection(){
+        isFilesUnderLimit = true;
         ArrayList<Uri> uris = new ArrayList<>();
         for (int i = 0; i < selectedFiles.size(); i++){
             File f = new File(selectedFiles.get(i));
             if (f.isDirectory()) {
                 ArrayList<Uri> arrayList = getFilesFromLocation(f.getAbsolutePath());
-                if (arrayList == null){
-                    ts("Unable to share Files.");
-                } else {
+                if (arrayList != null){
                     uris.addAll(arrayList);
                 }
             } else {
-//                uris.add(Uri.fromFile(f));
                 uris.add(FileProvider.getUriForFile(FileViewerActivity.this,
                         FileViewerActivity.this.getApplicationContext().getPackageName() + ".provider", f));
             }
             if (uris.size() > 100){
-                uris = null;
+                isFilesUnderLimit = false;
+                ts ("You can't share more than 100.");
                 break;
             }
         }
-        if (uris == null){
-            ts("Unable to share Files.");
-        } else {
+        if (uris.size() > 0 && isFilesUnderLimit){
             if (uris.size() == 1){
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
@@ -1332,7 +1331,6 @@ public class FileViewerActivity  extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_STREAM, uris.get(0));
-//                startActivity(intent);
                 Intent chooser = Intent.createChooser(intent, "Share");
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(chooser);
@@ -1350,16 +1348,29 @@ public class FileViewerActivity  extends AppCompatActivity {
                     startActivity(chooser);
                 }
             }
+        } else {
+            if (!isFilesUnderLimit){
+                tss("Unable to share Files.");
+            } else {
+                ts("These folders are empty.");
+            }
         }
     }
 
-    // TODO Correct It.
+    private void tss(String s) {
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            Toast.makeText(FileViewerActivity.this, s, Toast.LENGTH_SHORT).show();
+        }, 2000);
+    }
+
     private ArrayList<Uri> getFilesFromLocation(String path){
         ArrayList<Uri> uris  = new ArrayList<>();
         File f = new File(path);
         File[] files = f.listFiles();
         if (files.length > 100){
             ts ("You can't share more than 100.");
+            isFilesUnderLimit = false;
             return null;
         } else {
             for (File file: files){
@@ -1369,18 +1380,19 @@ public class FileViewerActivity  extends AppCompatActivity {
                         uris.addAll(arrayList);
                         if (uris.size() > 100){
                             ts ("You can't share more than 100.");
-                            return null;
+                            isFilesUnderLimit = false;
+                            uris = null;
+                            break;
                         }
-                    } else {
-                        return null;
                     }
                 } else {
-//                    uris.add(Uri.fromFile(file));
                     uris.add(FileProvider.getUriForFile(FileViewerActivity.this,
                             FileViewerActivity.this.getApplicationContext().getPackageName() + ".provider", f));
                     if (uris.size() > 100){
                         ts ("You can't share more than 100.");
-                        return null;
+                        isFilesUnderLimit = false;
+                        uris = null;
+                        break;
                     }
                 }
             }
@@ -1388,4 +1400,8 @@ public class FileViewerActivity  extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 }

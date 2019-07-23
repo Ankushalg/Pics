@@ -59,10 +59,10 @@ public class MLaunchActivity extends AppCompatActivity {
     private ArrayList<ListItem> items = new ArrayList<>(),
             otherItems = new ArrayList<>();
 
-    private boolean isPendingSelection = false;
-    private ArrayList<String> selectedFiles;
-    private int selectedAction = 0;
-    private final int FILE_VIEWER = 101;
+//    private boolean isPendingSelection = false;
+//    private ArrayList<String> selectedFiles;
+//    private int selectedAction = 0;
+//    private final int FILE_VIEWER = 101;
 
     private boolean receiverRegistered = false;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -130,15 +130,15 @@ public class MLaunchActivity extends AppCompatActivity {
         mStorageRecyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FILE_VIEWER && resultCode == RESULT_OK && data != null){
-            isPendingSelection = true;
-            selectedFiles = data.getStringArrayListExtra("selectedFiles");
-            selectedAction = data.getIntExtra("action", 0);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == FILE_VIEWER && resultCode == RESULT_OK && data != null){
+//            isPendingSelection = true;
+//            selectedFiles = data.getStringArrayListExtra("selectedFiles");
+//            selectedAction = data.getIntExtra("action", 0);
+//        }
+//    }
 
     @SuppressLint("NewApi")
     private void listRoots() {
@@ -307,7 +307,7 @@ public class MLaunchActivity extends AppCompatActivity {
         bTSms = findViewById(R.id.al_main_backup_tools_sms);
         bTMore = findViewById(R.id.al_main_backup_tools_more);
         mStorageRecyclerView = findViewById(R.id.al_storage_recycle);
-        selectedFiles = new ArrayList<>();
+//        selectedFiles = new ArrayList<>();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -621,11 +621,12 @@ public class MLaunchActivity extends AppCompatActivity {
                 Intent i = new Intent(MLaunchActivity.this, FileViewerActivity.class);
                 i.putExtra("cDir",storageObject.file.getAbsolutePath());
                 i.putExtra("cDirName", storageObject.title);
-                if (isPendingSelection) {
-                    i.putExtra("action",selectedAction);
-                    i.putStringArrayListExtra("selectedFiles",selectedFiles);
-                }
-                startActivityForResult(i, FILE_VIEWER);
+//                if (isPendingSelection) {
+//                    i.putExtra("action",selectedAction);
+//                    i.putStringArrayListExtra("selectedFiles",selectedFiles);
+//                }
+//                startActivityForResult(i, FILE_VIEWER);
+                startActivity(i);
             });
         }
 
