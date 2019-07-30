@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.Set;
 
-public class SharedMemory {
+class SharedMemory {
     private SharedPreferences prefs;
     SharedMemory(Context ctx) {
         prefs = ctx.getSharedPreferences("PICS_MEMORY", Context.MODE_PRIVATE);
@@ -16,6 +16,11 @@ public class SharedMemory {
     }
     Set<String> getFileTask() {
         return prefs.getStringSet("FileTask",null);
+    }
+
+    void setRunningFileTask(Set<String> value) { prefs.edit().putStringSet("RunningFileTask", value).apply(); }
+    Set<String> getRunningFileTask() {
+        return prefs.getStringSet("RunningFileTask",null);
     }
 
     void setFileAction(int value) {
@@ -29,6 +34,5 @@ public class SharedMemory {
     String getFileDestination() {
         return prefs.getString("FileDestination","");
     }
-
 
 }

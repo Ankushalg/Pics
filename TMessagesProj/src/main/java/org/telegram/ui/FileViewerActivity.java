@@ -135,6 +135,12 @@ public class FileViewerActivity  extends AppCompatActivity {
         naNewFolder = findViewById(R.id.fv_sn_new);
         naPaste = findViewById(R.id.fv_sn_paste);
         naCancel = findViewById(R.id.fv_sn_cancel);
+
+        naPaste.setOnClickListener(v -> {
+            shared.setFileDestination(currentDir);
+            Intent i =  new Intent(FileViewerActivity.this, FileOperationsActivity.class);
+            startActivity(i);
+        });
         naShare.setOnClickListener(v -> {
             shareSelection();
         });
@@ -174,6 +180,7 @@ public class FileViewerActivity  extends AppCompatActivity {
             naBackup.setVisibility(View.GONE);
             naShare.setVisibility(View.GONE);
             naHide.setVisibility(View.GONE);
+            naOpen.setVisibility(View.GONE);
             naShow.setVisibility(View.GONE);
             naNewFolder.setVisibility(View.VISIBLE);
             naPaste.setVisibility(View.VISIBLE);
@@ -190,6 +197,7 @@ public class FileViewerActivity  extends AppCompatActivity {
             naRename.setVisibility(View.GONE);
             naDelete.setVisibility(View.GONE);
             naBackup.setVisibility(View.GONE);
+            naOpen.setVisibility(View.GONE);
             naShare.setVisibility(View.GONE);
             naHide.setVisibility(View.GONE);
             naShow.setVisibility(View.GONE);
@@ -281,21 +289,15 @@ public class FileViewerActivity  extends AppCompatActivity {
                 selectionBottomNavi.setVisibility(View.GONE);
             }
         });
+
     }
 
 
     private void deleteSelectedFiles(){
-//        int delFiles = 0;
-//        for (int i = 0; i < selectedFiles.size(); i++){
-//            File f = new File(selectedFiles.get(i));
-//            if (f.exists()){
-//                if (f.delete()){
-//                    delFiles++;
-//                }
-//            }
-//        }
-//        ts(delFiles + " / " + selectedFiles.size() + " files deleted.");
-        ts("We will delete files using async task later.");
+        shared.setFileTask(new HashSet<>(selectedFiles));
+        shared.setFileAction(3);
+        Intent i =  new Intent(FileViewerActivity.this, FileOperationsActivity.class);
+        startActivity(i);
         selectedFiles.clear();
         isSelection = false;
         if(shared.getFileAction() > 0){

@@ -99,6 +99,13 @@
             android:theme="@style/FileViewerTheme"/>
 
         <activity
+            android:name="org.telegram.ui.FileOperationsActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/FileViewerTheme"/>
+
+
+        <activity
             android:name="org.telegram.ui.PicsFileChooserActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
