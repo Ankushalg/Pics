@@ -98,11 +98,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/FileViewerTheme"/>
 
-        <activity
-            android:name="org.telegram.ui.FileOperationsActivity"
-            android:launchMode="singleTask"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/FileViewerTheme"/>
+        <!--<activity-->
+            <!--android:name="org.telegram.ui.FileOperationsActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:label="File Operations Window"-->
+            <!--android:configChanges="orientation|keyboardHidden"-->
+            <!--android:theme="@style/FileViewerTheme"/>-->
 
 
         <activity

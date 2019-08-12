@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -49,7 +50,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -58,6 +61,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class FileViewerActivity  extends AppCompatActivity {
@@ -67,7 +71,10 @@ public class FileViewerActivity  extends AppCompatActivity {
     private LinearLayout selectionBottomNavi;
     private String defaultStorage = Environment.getExternalStorageDirectory().getPath();
     private String currentDir = defaultStorage;
-    private SharedMemory shared;
+    private static SharedMemory shared;
+    private boolean isFirst = false;
+    private static final String PICS_STRING_BREAK = "<<!PicsBreak12846>>:";
+    private static final String PICS_ERROR = "<<!PicsError12846>>:";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,8 +96,15 @@ public class FileViewerActivity  extends AppCompatActivity {
             heading.setText(i.getStringExtra("cDirName"));
         }
         getCurrentDirContent();
+        isFirst = true;
         setUpRoots();
         checkSelection();
+    }
+
+    private void checkFOTask() {
+        if(shared.getCFileAction() > 0){
+            showFODialog();
+        }
     }
 
     private void checkSelection() {
@@ -110,17 +124,6 @@ public class FileViewerActivity  extends AppCompatActivity {
         }
     }
 
-//    private void checkIntent() {
-//        Intent i = getIntent();
-//        if (i.hasExtra("action")){
-//            selectionAction = i.getIntExtra("action", 0);
-//        }
-//        if (i.hasExtra("selectedFiles")) {
-//            selectionActionFilesList = i.getStringArrayListExtra("selectedFiles");
-//        }
-//
-//    }
-
     private TextView naCopy, naCut, naRename, naDelete, naHide, naShow, naBackup, naShare, naNewFolder, naPaste, naCancel, naOpen;
     private void setUpSelectionNavigation() {
         naCopy = findViewById(R.id.fv_sn_copy);
@@ -138,8 +141,21 @@ public class FileViewerActivity  extends AppCompatActivity {
 
         naPaste.setOnClickListener(v -> {
             shared.setFileDestination(currentDir);
-            Intent i =  new Intent(FileViewerActivity.this, FileOperationsActivity.class);
-            startActivity(i);
+//            Intent i =  new Intent(FileViewerActivity.this, FileOperationsActivity.class);
+//            startActivity(i);
+            doFileTask();
+            naCopy.setVisibility(View.VISIBLE);
+            naCut.setVisibility(View.VISIBLE);
+            naRename.setVisibility(View.VISIBLE);
+            naDelete.setVisibility(View.VISIBLE);
+            naBackup.setVisibility(View.VISIBLE);
+            naShare.setVisibility(View.VISIBLE);
+            naHide.setVisibility(View.VISIBLE);
+            naShow.setVisibility(View.VISIBLE);
+            naNewFolder.setVisibility(View.GONE);
+            naPaste.setVisibility(View.GONE);
+            naCancel.setVisibility(View.GONE);
+            selectionBottomNavi.setVisibility(View.GONE);
         });
         naShare.setOnClickListener(v -> {
             shareSelection();
@@ -289,33 +305,28 @@ public class FileViewerActivity  extends AppCompatActivity {
                 selectionBottomNavi.setVisibility(View.GONE);
             }
         });
-
     }
-
 
     private void deleteSelectedFiles(){
         shared.setFileTask(new HashSet<>(selectedFiles));
         shared.setFileAction(3);
-        Intent i =  new Intent(FileViewerActivity.this, FileOperationsActivity.class);
-        startActivity(i);
+//        Intent i =  new Intent(FileViewerActivity.this, FileOperationsActivity.class);
+//        startActivity(i);
+        doFileTask();
         selectedFiles.clear();
         isSelection = false;
-        if(shared.getFileAction() > 0){
-            naCopy.setVisibility(View.GONE);
-            naCut.setVisibility(View.GONE);
-            naRename.setVisibility(View.GONE);
-            naDelete.setVisibility(View.GONE);
-            naBackup.setVisibility(View.GONE);
-            naShare.setVisibility(View.GONE);
-            naHide.setVisibility(View.GONE);
-            naShow.setVisibility(View.GONE);
-            naNewFolder.setVisibility(View.VISIBLE);
-            naPaste.setVisibility(View.VISIBLE);
-            naCancel.setVisibility(View.VISIBLE);
-        } else {
-            selectionBottomNavi.setVisibility(View.GONE);
-        }
-        getCurrentDirContent();
+        naCopy.setVisibility(View.VISIBLE);
+        naCut.setVisibility(View.VISIBLE);
+        naRename.setVisibility(View.VISIBLE);
+        naDelete.setVisibility(View.VISIBLE);
+        naBackup.setVisibility(View.VISIBLE);
+        naShare.setVisibility(View.VISIBLE);
+        naHide.setVisibility(View.VISIBLE);
+        naShow.setVisibility(View.VISIBLE);
+        naNewFolder.setVisibility(View.GONE);
+        naPaste.setVisibility(View.GONE);
+        naCancel.setVisibility(View.GONE);
+        selectionBottomNavi.setVisibility(View.GONE);
     }
 
     private void setUpRoots() {
@@ -333,6 +344,15 @@ public class FileViewerActivity  extends AppCompatActivity {
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
             filter.addDataScheme("file");
             ApplicationLoader.applicationContext.registerReceiver(receiver, filter);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkFOTask();
+        if(isFirst){
+            getCurrentDirContent();
         }
     }
 
@@ -1406,4 +1426,333 @@ public class FileViewerActivity  extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+
+    // File Operations
+
+    private void doFileTask(){
+        new Thread(() -> {
+            ArrayList<String> work = new ArrayList<>();
+            if (shared.getFileAction() == 1 || shared.getFileAction() == 2){
+                // Copy Task
+                if (shared.getFileTask() != null && shared.getFileTask().size() > 0){
+                    for(String task: shared.getFileTask()){
+                        work.add(shared.getFileAction()   //  File Action
+                                + PICS_STRING_BREAK                     //
+                                + task                                  //  From Path
+                                + PICS_STRING_BREAK                     //
+                                + shared.getFileDestination()           //  To Path
+                                + PICS_STRING_BREAK                     //
+                                + 0);
+                    }
+                } else {
+                    shared.setFileAction(0);
+                }
+            } else if (shared.getFileAction() == 3){
+                // Delete Task
+                if (shared.getFileTask() != null && shared.getFileTask().size() > 0){
+                    for (String task : shared.getFileTask()){
+                        work.add(shared.getFileAction()   //  File Action
+                                + PICS_STRING_BREAK                       //
+                                + task                                    //  From Path
+                                + PICS_STRING_BREAK                       //
+                                + 0);                                     //  Progress
+                    }
+                } else {
+                    shared.setFileAction(0);
+                }
+            }
+            shared.setCFileAction(shared.getFileAction());
+            shared.setFileAction(0);
+            shared.setFileDestination("");
+            shared.setFileTask(null);
+            new DoTask().execute(work.toArray(new String[0]));
+            showFODialog();
+        }).start();
+    }
+
+    private Handler mHandler = new Handler();
+    Runnable mStateUpdater = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                refreshDialog();
+            } finally {
+                mHandler.postDelayed(mStateUpdater, 1000);
+            }
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hideFODialog();
+    }
+
+    private void startRefresh() {
+        new Thread(() -> {
+            mStateUpdater.run();
+        }).start();
+    }
+
+    private void stopRefresh() {
+        mHandler.removeCallbacks(mStateUpdater);
+    }
+
+    private void hideFODialog() {
+        stopRefresh();
+        FODialog.dismiss();
+        FODialog = null;
+    }
+
+    private TextView t;
+    private AlertDialog FODialog;
+    private TextView title, subT1, subT2, subA;
+    private ProgressBar pBar,pBar2,pBar3;
+    private Button FOCancel;
+    private void showFODialog() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(FileViewerActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.item_fo, null);
+        title = view.findViewById(R.id.ifo_title);
+        subA = view.findViewById(R.id.ifo_sub_title_arrow);
+        subT1 = view.findViewById(R.id.ifo_sub_title1);
+        subT2 = view.findViewById(R.id.ifo_sub_title2);
+        pBar = view.findViewById(R.id.ifo_pbar);
+        pBar2 = view.findViewById(R.id.ifo_pbar2);
+        pBar3 = view.findViewById(R.id.ifo_pbar3);
+        FOCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shared.setCFileAction(0);
+                hideFODialog();
+            }
+        });
+        mBuilder.setView(view);
+        FODialog = mBuilder.create();
+        FODialog.setCancelable(false);
+        FODialog.show();
+        startRefresh();
+    }
+
+    private void refreshDialog() {
+        try {
+            pBar.setProgress(shared.getCFileProgressThree());
+            pBar2.setProgress(shared.getCFileProgressTwo());
+            pBar3.setProgress(shared.getCFileProgress());
+            subT1.setText(shared.getCFileAction());
+            switch (shared.getCFileAction()){
+                case -1:
+                case -2:
+                    // Error
+                    title.setText("Error...");
+                    subA.setVisibility(View.GONE);
+                    subT2.setVisibility(View.GONE);
+                    break;
+                case 0:
+                    // Cancel
+                    title.setText("Canceled...");
+                    subA.setVisibility(View.GONE);
+                    subT2.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    // Copy
+                    title.setText("Copying...");
+                    subA.setVisibility(View.VISIBLE);
+                    subT2.setVisibility(View.VISIBLE);
+                    subT2.setText(shared.getCFileDestination());
+                    break;
+                case 2:
+                    // Cut
+                    title.setText("Moving...");
+                    subA.setVisibility(View.VISIBLE);
+                    subT2.setVisibility(View.VISIBLE);
+                    subT2.setText(shared.getCFileDestination());
+                    break;
+                case 3:
+                    // Delete
+                    title.setText("Deleting...");
+                    subA.setVisibility(View.GONE);
+                    subT2.setVisibility(View.GONE);
+                    break;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static class DoTask extends AsyncTask<String[],Integer,String> {
+        private int cFile = 0, tFile = 0, cTask, tTask, time = 0;
+        private Handler mHandler = new Handler();
+        private boolean isTaskError = false;
+
+        protected String doInBackground(String[]...tasks){
+            // For Copy, Cut:
+            // 0 - Action
+            // 1 - Source
+            // 2 - Destination
+            // 3 - Progress
+            // For Delete:
+            // 0 - Action
+            // 1 - Source
+            // 2 - Progress
+            cTask = 0;
+            tTask = tasks[0].length;
+            try{
+                startRefresh();
+                for(String work: tasks[0]){
+                    if(shared.getCFileAction() == 0){
+                        isTaskError = true;
+                        break;
+                    }
+                    String[] task = work.split(PICS_STRING_BREAK);
+                    int isError = 0, cTask = Integer.parseInt(task[0]);
+                    if(cTask == 0){
+                        isError = 1;
+                    } else if(cTask == 1){
+                        // Copy Task
+                        File source = new File(task[1]);
+                        File destination = new File(task[2] , source.getName());
+                        shared.setCFilePath(task[1]);
+                        shared.setCFileDestination(task[2]);
+                        shared.setCFileProgress(0);
+                        tFile = getTotalFiles(task[1]);
+                        cFile = 0;
+                        isError = copyDir(source, destination);
+                    } else if (cTask == 2){
+                        // Cut Task
+                        File source = new File(task[1]);
+                        File destination = new File(task[2] , source.getName());
+                        shared.setCFilePath(task[1]);
+                        shared.setCFileDestination(task[2]);
+                        shared.setCFileProgress(0);
+                        tFile = getTotalFiles(task[1]);
+                        cFile = 0;
+                        isError = copyDir(source, destination);
+                        if(isError == 0){
+                            boolean isE = deleteMyFile(task[1]);
+                            if(!isE){ isError = 3; }
+                        }
+                    } else if (cTask == 3){
+                        // Delete Task
+                        shared.setCFilePath(task[1]);
+                        shared.setCFileProgress(40);
+                        boolean isE = deleteMyFile(task[1]);
+                        if(!isE){ isError = 2; }
+                    }
+
+                    if (isError > 0) {
+                        isTaskError = true;
+                    }
+
+                    cTask++;
+                    shared.setCFileProgressThree((cTask*100)/tTask);
+                }
+            } finally {
+                stopRefresh();
+                if(isTaskError){
+                    shared.setIsFOR(-1);
+                } else {
+                    shared.setIsFOR(0);
+                }
+            }
+            return "Done";
+        }
+
+        Runnable mStateUpdater = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    shared.setIsFOR(time);
+                } finally {
+                    mHandler.postDelayed(mStateUpdater, 1000);
+                }
+            }
+        };
+
+        private void startRefresh() {
+            new Thread(() -> {
+                mStateUpdater.run();
+            }).start();
+        }
+
+        private void stopRefresh() {
+            mHandler.removeCallbacks(mStateUpdater);
+        }
+
+        private int getTotalFiles(String path) {
+            int total = 0;
+            File f = new File(path);
+            if(f.isDirectory()){
+                String[] children = f.list();
+                for (String child : children) {
+                    total += getTotalFiles(child);
+                }
+            } else {
+                total++;
+            }
+            return total;
+        }
+
+        private int copyDir(File source, File destination) {
+            int isError = 0;
+            if(source.isDirectory()){
+                if (!destination.exists() && !destination.mkdirs()) {
+                    isError = 2;
+                }
+                String[] children = source.list();
+                for (String child : children) {
+                    isError = copyDir(new File(source, child), new File(destination, child));
+                }
+            } else {
+                try {
+                    InputStream in = new FileInputStream(source);
+                    OutputStream out = new FileOutputStream(destination);
+                    long lengthOfFile = source.length();
+                    byte[] buf = new byte[1024];
+                    int len;
+                    long total = 0;
+                    while ((len = in.read(buf)) != -1) {
+                        total += len;
+                        cFile++;
+                        shared.setCFileProgress((int)((total*100)/lengthOfFile));
+                        if (shared.getCFileAction() < 1){
+                            isError = 1;
+                            break;
+                        }
+                        out.write(buf, 0, len);
+                    }
+                    cFile++;
+                    shared.setCFileProgressTwo(((cFile)*100) /tFile);
+                    in.close();
+                    out.close();
+                } catch (IOException e){
+                    isError = 2;
+                    e.printStackTrace();
+                }
+            }
+            return isError;
+        }
+
+        private boolean deleteMyFile(String s) {
+            File f = new File(s);
+            return delete(f);
+        }
+
+        private boolean delete(File path){
+            if(path.isDirectory()){
+                File[] files = path.listFiles();
+                if(files == null){
+                    return false;
+                } else {
+                    for (File f: files){
+                        delete(f);
+                    }
+                }
+                return path.delete();
+            } else {
+                return path.delete();
+            }
+        }
+
+    }
+
 }
