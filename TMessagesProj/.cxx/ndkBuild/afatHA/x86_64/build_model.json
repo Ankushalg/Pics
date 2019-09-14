@@ -1,0 +1,64 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "D:\\Pics",
+      "sdkFolder": "E:\\Android\\Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates",
+      "gradleModulePathName": ":TMessagesProj",
+      "moduleRootFolder": "D:\\Pics\\TMessagesProj",
+      "makeFile": "D:\\Pics\\TMessagesProj\\jni\\Android.mk",
+      "buildSystem": "NDK_BUILD",
+      "compilerSettingsCacheFolder": "D:\\Pics\\.cxx",
+      "cxxFolder": "D:\\Pics\\TMessagesProj\\.cxx",
+      "ndkFolder": "E:\\Android\\Sdk\\ndk\\20.0.5594570",
+      "ndkVersion": "20.0.5594570",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "NDK_APPLICATION_MK:\u003djni/Application.mk",
+      "APP_PLATFORM:\u003dandroid-16",
+      "-j8"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "afatHA",
+    "soFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afatHA\\lib",
+    "objFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afatHA\\obj\\local",
+    "jsonFolder": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA",
+    "gradleBuildOutputFolder": "D:\\Pics\\TMessagesProj\\.cxx\\cxx\\afatHA",
+    "isDebuggableEnabled": false,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "X86_64",
+  "abiPlatformVersion": 16,
+  "cxxBuildFolder": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64",
+  "jsonFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "D:\\Pics\\TMessagesProj\\.cxx\\cxx\\afatHA\\x86_64",
+  "objFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\afatHA\\obj\\local\\x86_64",
+  "buildCommandFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64\\build_command.txt",
+  "buildOutputFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64\\build_output.txt",
+  "modelOutputFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64\\build_model.json",
+  "jsonGenerationLoggingRecordFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64\\json_generation_record.json",
+  "compileCommandsJsonFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\afatHA\\x86_64\\compile_commands.json"
+}

@@ -1,0 +1,61 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "D:\\Pics",
+      "sdkFolder": "E:\\Android\\Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates",
+      "gradleModulePathName": ":TMessagesProj",
+      "moduleRootFolder": "D:\\Pics\\TMessagesProj",
+      "makeFile": "D:\\Pics\\TMessagesProj\\jni\\Android.mk",
+      "buildSystem": "NDK_BUILD",
+      "compilerSettingsCacheFolder": "D:\\Pics\\.cxx",
+      "cxxFolder": "D:\\Pics\\TMessagesProj\\.cxx",
+      "ndkFolder": "E:\\Android\\Sdk\\ndk\\20.0.5594570",
+      "ndkVersion": "20.0.5594570",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "NDK_APPLICATION_MK:\u003djni/Application.mk",
+      "APP_PLATFORM:\u003dandroid-16",
+      "-j8"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "armv7_SDK23Release",
+    "soFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\armv7_SDK23Release\\lib",
+    "objFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\armv7_SDK23Release\\obj\\local",
+    "jsonFolder": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release",
+    "gradleBuildOutputFolder": "D:\\Pics\\TMessagesProj\\.cxx\\cxx\\armv7_SDK23Release",
+    "isDebuggableEnabled": false,
+    "validAbiList": [
+      "ARMEABI_V7A"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 23,
+  "cxxBuildFolder": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a",
+  "jsonFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "D:\\Pics\\TMessagesProj\\.cxx\\cxx\\armv7_SDK23Release\\armeabi-v7a",
+  "objFolder": "D:\\Pics\\TMessagesProj\\build\\intermediates\\ndkBuild\\armv7_SDK23Release\\obj\\local\\armeabi-v7a",
+  "buildCommandFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a\\build_command.txt",
+  "buildOutputFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a\\build_output.txt",
+  "modelOutputFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a\\build_model.json",
+  "jsonGenerationLoggingRecordFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a\\json_generation_record.json",
+  "compileCommandsJsonFile": "D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\armv7_SDK23Release\\armeabi-v7a\\compile_commands.json"
+}

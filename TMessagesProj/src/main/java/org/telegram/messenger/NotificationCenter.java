@@ -72,6 +72,7 @@ public class NotificationCenter {
     public static final int chatSearchResultsLoading = totalEvents++;
     public static final int musicDidLoad = totalEvents++;
     public static final int needShowAlert = totalEvents++;
+    public static final int needShowPlayServicesAlert = totalEvents++;
     public static final int didUpdatedMessagesViews = totalEvents++;
     public static final int needReloadRecentDialogsSearch = totalEvents++;
     public static final int peerSettingsDidLoad = totalEvents++;
@@ -89,6 +90,12 @@ public class NotificationCenter {
     public static final int didUpdatePollResults = totalEvents++;
     public static final int chatOnlineCountDidLoad = totalEvents++;
     public static final int videoLoadingStateChanged = totalEvents++;
+    public static final int newPeopleNearbyAvailable = totalEvents++;
+    public static final int stopAllHeavyOperations = totalEvents++;
+    public static final int startAllHeavyOperations = totalEvents++;
+    public static final int sendingMessagesChanged = totalEvents++;
+    public static final int didUpdateReactions = totalEvents++;
+    public static final int scheduledMessagesUpdated = totalEvents++;
 
     public static final int httpFileDidLoad = totalEvents++;
     public static final int httpFileDidFailedLoad = totalEvents++;
@@ -100,7 +107,7 @@ public class NotificationCenter {
     public static final int FileUploadProgressChanged = totalEvents++;
     public static final int FileLoadProgressChanged = totalEvents++;
     public static final int fileDidLoad = totalEvents++;
-    public static final int fileDidFailedLoad = totalEvents++;
+    public static final int fileDidFailToLoad = totalEvents++;
     public static final int filePreparingStarted = totalEvents++;
     public static final int fileNewChunkAvailable = totalEvents++;
     public static final int filePreparingFailed = totalEvents++;
@@ -135,6 +142,9 @@ public class NotificationCenter {
 
     public static final int newEmojiSuggestionsAvailable = totalEvents++;
 
+    public static final int themeUploadedToServer = totalEvents++;
+    public static final int themeUploadError = totalEvents++;
+
     //global
     public static final int pushMessagesUpdated = totalEvents++;
     public static final int stopEncodingService = totalEvents++;
@@ -149,6 +159,7 @@ public class NotificationCenter {
     public static final int didSetNewTheme = totalEvents++;
     public static final int themeListUpdated = totalEvents++;
     public static final int needSetDayNightTheme = totalEvents++;
+    public static final int goingToPreviewTheme = totalEvents++;
     public static final int locationPermissionGranted = totalEvents++;
     public static final int reloadInterface = totalEvents++;
     public static final int suggestedLangpack = totalEvents++;
@@ -156,6 +167,7 @@ public class NotificationCenter {
     public static final int proxySettingsChanged = totalEvents++;
     public static final int proxyCheckDone = totalEvents++;
     public static final int liveLocationsChanged = totalEvents++;
+    public static final int newLocationAvailable = totalEvents++;
     public static final int liveLocationsCacheChanged = totalEvents++;
     public static final int notificationsCountUpdated = totalEvents++;
     public static final int playerDidStartPlaying = totalEvents++;
@@ -187,7 +199,8 @@ public class NotificationCenter {
     }
 
     private int currentAccount;
-    private static volatile NotificationCenter Instance[] = new NotificationCenter[UserConfig.MAX_ACCOUNT_COUNT];
+    private int currentHeavyOperationFlags;
+    private static volatile NotificationCenter[] Instance = new NotificationCenter[UserConfig.MAX_ACCOUNT_COUNT];
     private static volatile NotificationCenter globalInstance;
 
     @UiThread
@@ -222,11 +235,16 @@ public class NotificationCenter {
         currentAccount = account;
     }
 
-    public void setAllowedNotificationsDutingAnimation(int notifications[]) {
+    public void setAllowedNotificationsDutingAnimation(int[] notifications) {
         allowedNotifications = notifications;
     }
 
     public void setAnimationInProgress(boolean value) {
+        if (value) {
+            NotificationCenter.getGlobalInstance().postNotificationName(stopAllHeavyOperations, 512);
+        } else {
+            NotificationCenter.getGlobalInstance().postNotificationName(startAllHeavyOperations, 512);
+        }
         animationInProgress = value;
         if (!animationInProgress && !delayedPosts.isEmpty()) {
             for (int a = 0; a < delayedPosts.size(); a++) {
@@ -241,15 +259,26 @@ public class NotificationCenter {
         return animationInProgress;
     }
 
+    public int getCurrentHeavyOperationFlags() {
+        return currentHeavyOperationFlags;
+    }
+
     public void postNotificationName(int id, Object... args) {
-        boolean allowDuringAnimation = false;
-        if (allowedNotifications != null) {
+        boolean allowDuringAnimation = id == startAllHeavyOperations || id == stopAllHeavyOperations;
+        if (!allowDuringAnimation && allowedNotifications != null) {
             for (int a = 0; a < allowedNotifications.length; a++) {
                 if (allowedNotifications[a] == id) {
                     allowDuringAnimation = true;
                     break;
                 }
             }
+        }
+        if (id == startAllHeavyOperations) {
+            Integer flags = (Integer) args[0];
+            currentHeavyOperationFlags &=~ flags;
+        } else if (id == stopAllHeavyOperations) {
+            Integer flags = (Integer) args[0];
+            currentHeavyOperationFlags |= flags;
         }
         postNotificationNameInternal(id, allowDuringAnimation, args);
     }

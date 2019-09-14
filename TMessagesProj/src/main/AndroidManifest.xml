@@ -71,62 +71,12 @@
         android:allowBackup="false"
         android:hardwareAccelerated="@bool/useHardwareAcceleration"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:largeHeap="true"
         android:theme="@style/Theme.TMessages.Start"
         android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity"
         android:supportsRtl="false"
         tools:replace="android:supportsRtl">
-
-        <!--<Pics>-->
-        <activity android:name="org.telegram.ui.MLaunchActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="org.telegram.ui.PicsBaseActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name="org.telegram.ui.FileViewerActivity"
-            android:launchMode="singleTask"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/FileViewerTheme"/>
-
-        <!--<activity-->
-            <!--android:name="org.telegram.ui.FileOperationsActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:label="File Operations Window"-->
-            <!--android:configChanges="orientation|keyboardHidden"-->
-            <!--android:theme="@style/FileViewerTheme"/>-->
-
-
-        <activity
-            android:name="org.telegram.ui.PicsFileChooserActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name="org.telegram.ui.PicsMediaBackupActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name="org.telegram.ui.PicsMainActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name="org.telegram.ui.MIntroActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <!--</Pics>-->
 
         <activity
             android:name="org.telegram.ui.LaunchActivity"
@@ -134,11 +84,11 @@
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-                <!--<category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -185,7 +135,7 @@
                 <data android:host="t.me" android:scheme="http" />
                 <data android:host="t.me" android:scheme="https" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:priority="1">
+            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -201,7 +151,7 @@
             android:excludeFromRecents="true"
             android:stateNotNeeded="true"
             android:theme="@style/Theme.TMessages.Transparent">
-            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:priority="1">
+            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -213,7 +163,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher">
+            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round">
                 <action android:name="org.telegram.passport.AUTHORIZE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
@@ -326,7 +276,6 @@
         <service android:name=".BringAppForegroundService" android:enabled="true"/>
         <service android:name=".NotificationsService" android:enabled="true"/>
         <service android:name=".NotificationRepeat" android:exported="false"/>
-        <service android:name=".ClearCacheService" android:exported="false"/>
         <service android:name=".VideoEncodingService" android:enabled="true"/>
         <service android:name=".LocationSharingService" android:enabled="true"/>
         <service android:name=".voip.VoIPService" android:enabled="true"/>

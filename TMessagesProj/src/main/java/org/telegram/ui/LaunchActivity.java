@@ -8,6 +8,7 @@
 
 package org.telegram.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,11 +43,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+
+import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
-import org.telegram.messenger.DataQuery;
+import org.telegram.messenger.LocationController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.MediaController;
@@ -74,6 +80,7 @@ import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.Cells.DrawerAddCell;
 import org.telegram.ui.Cells.DrawerUserCell;
 import org.telegram.ui.Cells.LanguageCell;
+import org.telegram.ui.Cells.ThemesHorizontalListCell;
 import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BlockingUpdateView;
@@ -91,6 +98,7 @@ import org.telegram.ui.Components.ThemeEditorView;
 import org.telegram.ui.Components.UpdateAppAlertDialog;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -147,32 +155,30 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
     private boolean tabletFullSize;
 
+    private String loadingThemeFileName;
+    private String loadingThemeWallpaperName;
+    private Theme.ThemeInfo loadingThemeInfo;
+    private TLRPC.TL_theme loadingTheme;
+    private AlertDialog loadingThemeProgressDialog;
+
     private Runnable lockRunnable;
 
-    // <> Pics Comment :: Method is called when activity is first created. default method of Activity Class.
+    private static final int PLAY_SERVICES_REQUEST_CHECK_SETTINGS = 140;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // <> Pics Comment :: We are Initialising App here. Note that First Time Application is load is already done in ApplicationLoader Class.
         ApplicationLoader.postInitApplication();
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
-
-        // <> Pics Comment :: Getting current selected account.
         currentAccount = UserConfig.selectedAccount;
-
-        // <> Pics Comment :: Checking if account is active if not than we will send user to login activity.
         if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
             Intent intent = getIntent();
             boolean isProxy = false;
             if (intent != null && intent.getAction() != null) {
-                // <> Pics Comment :: Checking Coming Intent and deciding how to handle it. If any content is shared with the Intent,
-                //                    than we have to stop the activity as no user is currently logged in to the app.
                 if (Intent.ACTION_SEND.equals(intent.getAction()) || Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction())) {
                     super.onCreate(savedInstanceState);
                     finish();
                     return;
                 } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-                    // <> Pics Comment :: If the incoming intent is to view something than we will check if our app can view it or not.
-                    //                    Results are stored in proxy boolean
                     Uri uri = intent.getData();
                     if (uri != null) {
                         String url = uri.toString().toLowerCase();
@@ -180,11 +186,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 }
             }
-
             SharedPreferences preferences = MessagesController.getGlobalMainSettings();
             long crashed_time = preferences.getLong("intro_crashed_time", 0);
-
-            // <> Pics Comment :: Checking if activity is reopened via Intro Activity
             boolean fromIntro = intent.getBooleanExtra("fromIntro", false);
             if (fromIntro) {
                 preferences.edit().putLong("intro_crashed_time", 0).commit();
@@ -193,13 +196,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", MODE_PRIVATE);
                 Map<String, ?> state = preferences.getAll();
                 if (state.isEmpty()) {
-                    // <> Pics Comment :: Starting Intro in this case when app is launched first time.
-                    //                    i.e. No user is logged in and we are not viewing anything and
-                    //                    we had not come here from intro activity.
-//                    <> Pics
-                    Intent intent2 = new Intent(this, MIntroActivity.class);
-//                    Intent intent2 = new Intent(this, IntroActivity.class);
-//                    </> Pics
+                    Intent intent2 = new Intent(this, IntroActivity.class);
                     intent2.setData(intent.getData());
                     startActivity(intent2);
                     super.onCreate(savedInstanceState);
@@ -208,10 +205,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
             }
         }
-        // <> Pics Comment :: Removing App Bar and setting Diffrent styles for diffrent layouts
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setTheme(R.style.Theme_TMessages);
-        // <> Pics Comment :: Navigation bar color setup.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             try {
                 setTaskDescription(new ActivityManager.TaskDescription(null, null, Theme.getColor(Theme.key_actionBarDefault) | 0xff000000));
@@ -224,8 +220,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
             }
         }
+
         getWindow().setBackgroundDrawableResource(R.drawable.transparent);
-        // <> Pics Comment :: Checking if the app is protected via a Pass Code if so disallow screen capturing.
         if (SharedConfig.passcodeHash.length() > 0 && !SharedConfig.allowScreenCapture) {
             try {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -235,35 +231,28 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
 
         super.onCreate(savedInstanceState);
-        // <> Pics Comment :: Checking if app is open with other apps in multi screen mode/
         if (Build.VERSION.SDK_INT >= 24) {
             AndroidUtilities.isInMultiwindow = isInMultiWindowMode();
         }
-        // <> Pics Comment :: Initialise Text (Like Fonts).
         Theme.createChatResources(this, false);
-
-        // <> Pics Comment :: Checking if App is locked.
         if (SharedConfig.passcodeHash.length() != 0 && SharedConfig.appLocked) {
             SharedConfig.lastPauseTime = ConnectionsManager.getInstance(currentAccount).getCurrentTime();
         }
 
-        // <> Pics Comment :: Getting Status Bar Height
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             AndroidUtilities.statusBarHeight = getResources().getDimensionPixelSize(resourceId);
         }
 
-        // <> Pics Comment :: Creating ActionBar.
         actionBarLayout = new ActionBarLayout(this);
 
-        // <> Pics Comment :: This is the home layout. We will add diff. layout inside it later.
         drawerLayoutContainer = new DrawerLayoutContainer(this);
         drawerLayoutContainer.setBehindKeyboardColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         setContentView(drawerLayoutContainer, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        // <> Pics Comment :: We will setup layout according to space available on screen.
         if (AndroidUtilities.isTablet()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
             RelativeLayout launchLayout = new RelativeLayout(this) {
 
                 private boolean inLayout;
@@ -389,39 +378,28 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             layersActionBarLayout.setVisibility(layerFragmentsStack.isEmpty() ? View.GONE : View.VISIBLE);
             launchLayout.addView(layersActionBarLayout);
         } else {
-            // <> Pics Comment :: If we are not on tablet we will just need to add one layout.
             drawerLayoutContainer.addView(actionBarLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
-        // <> Pics Comment :: Setting up Side Navigation.
+
         sideMenu = new RecyclerListView(this);
         ((DefaultItemAnimator) sideMenu.getItemAnimator()).setDelayAnimations(false);
         sideMenu.setBackgroundColor(Theme.getColor(Theme.key_chats_menuBackground));
         sideMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         sideMenu.setAdapter(drawerLayoutAdapter = new DrawerLayoutAdapter(this));
-        // <> Pics Comment :: Adding Side Navigation Menu to main layout
         drawerLayoutContainer.setDrawerLayout(sideMenu);
-        // <> Pics Comment :: Setting Different properties of Side menu.
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) sideMenu.getLayoutParams();
         Point screenSize = AndroidUtilities.getRealScreenSize();
         layoutParams.width = AndroidUtilities.isTablet() ? AndroidUtilities.dp(320) : Math.min(AndroidUtilities.dp(320), Math.min(screenSize.x, screenSize.y) - AndroidUtilities.dp(56));
         layoutParams.height = LayoutHelper.MATCH_PARENT;
         sideMenu.setLayoutParams(layoutParams);
-        // <> Pics Comment :: Adding Item Listener to side menu.
         sideMenu.setOnItemClickListener((view, position) -> {
             if (position == 0) {
-                // <> Pics Comment :: This is user ID block. It contains User profile pic, name, mob. number. When This item is clicked than
-                //                    User add/change account visibility changes.
                 drawerLayoutAdapter.setAccountsShowed(!drawerLayoutAdapter.isAccountsShowed(), true);
             } else if (view instanceof DrawerUserCell) {
-                // <> Pics Comment :: This is the User change account section.
                 switchToAccount(((DrawerUserCell) view).getAccountNumber(), true);
                 drawerLayoutContainer.closeDrawer(false);
             } else if (view instanceof DrawerAddCell) {
-                // <> Pics Comment :: This is the User add account section.
                 int freeAccount = -1;
-                // <> Pics Comment :: We can only add max 3 accounts in one telegram app. So we first need to check if any account is free to
-                //                    use among these three accounts. Note that we can also increase this limit by Changing value of
-                //                    UserConfig.MAX_ACCOUNT_COUNT variable.
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                     if (!UserConfig.getInstance(a).isClientActivated()) {
                         freeAccount = a;
@@ -429,20 +407,16 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 }
                 if (freeAccount >= 0) {
-                    // <> Pics Comment :: Sending user to login activity.
                     presentFragment(new LoginActivity(freeAccount));
                 }
                 drawerLayoutContainer.closeDrawer(false);
             } else {
                 int id = drawerLayoutAdapter.getId(position);
                 if (id == 2) {
-                    // <> Pics Comment :: Creating New Group.
                     Bundle args = new Bundle();
                     presentFragment(new GroupCreateActivity(args));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 3) {
-                    // <> Pics Comment :: Creating New Secret Chat. Here we are sending user to select a contact to start chattig so we
-                    //                    are adding This args bundle to do this.
                     Bundle args = new Bundle();
                     args.putBoolean("onlyUsers", true);
                     args.putBoolean("destroyAfterSelect", true);
@@ -451,41 +425,32 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     presentFragment(new ContactsActivity(args));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 4) {
-                    // <> Pics Comment :: Creating New Channel. We are deciding whether user know about the channel creation or not.
-                    //                    If user is not aware than we will send user to channel intro activity and if he/she is aware,
-                    //                    we will send user to channel create activity.
                     SharedPreferences preferences = MessagesController.getGlobalMainSettings();
                     if (!BuildVars.DEBUG_VERSION && preferences.getBoolean("channel_intro", false)) {
                         Bundle args = new Bundle();
                         args.putInt("step", 0);
                         presentFragment(new ChannelCreateActivity(args));
                     } else {
-                        presentFragment(new ChannelIntroActivity());
+                        presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANNEL_CREATE));
                         preferences.edit().putBoolean("channel_intro", true).commit();
                     }
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 6) {
-                    // <> Pics Comment :: Opening Contacts.
                     presentFragment(new ContactsActivity(null));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 7) {
-                    // <> Pics Comment :: Inviting Users to Pics/Telegram
                     presentFragment(new InviteContactsActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 8) {
-                    // <> Pics Comment :: Opening Settings
                     presentFragment(new SettingsActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 9) {
-                    // <> Pics Comment :: Opening Telegram FAQs
                     Browser.openUrl(LaunchActivity.this, LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 10) {
-                    // <> Pics Comment :: Opening Call Logs of Pics/Telegram.
                     presentFragment(new CallLogActivity());
                     drawerLayoutContainer.closeDrawer(false);
                 } else if (id == 11) {
-                    // <> Pics Comment :: Opening Saved Messages <>
                     Bundle args = new Bundle();
                     args.putInt("user_id", UserConfig.getInstance(currentAccount).getClientUserId());
                     presentFragment(new ChatActivity(args));
@@ -493,23 +458,19 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
             }
         });
-        // <> Pics Comment :: Setting action bar layout as action bar.
+
         drawerLayoutContainer.setParentActionBarLayout(actionBarLayout);
         actionBarLayout.setDrawerLayoutContainer(drawerLayoutContainer);
         actionBarLayout.init(mainFragmentsStack);
         actionBarLayout.setDelegate(this);
 
-        // <> Pics Comment :: Loading App's Background Wallpaper.
         Theme.loadWallpaper();
 
-        // <> Pics Comment :: Adding Passcode view to main layout.
         passcodeView = new PasscodeView(this);
         drawerLayoutContainer.addView(passcodeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-        // <> Pics Comment :: Adding some observers and setting title according to network connection state.
         checkCurrentAccount();
 
-        // <> Pics Comment :: Adding Different Notification Observers
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.closeOtherAppActivities, this);
 
         currentConnectionState = ConnectionsManager.getInstance(currentAccount).getConnectionState();
@@ -524,36 +485,25 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.didSetNewWallpapper);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.notificationsCountUpdated);
 
-        // <> Pics Comment :: Checking if current fragment is present or not.
         if (actionBarLayout.fragmentsStack.isEmpty()) {
             if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
-                // <> Pics Comment :: If current user client is not active(Not logged in) than we will send user to log in activity.
                 actionBarLayout.addFragmentToStack(new LoginActivity());
-                // <> Pics Comment :: Stop User from opening side navigation menu so user can only open it after login.
                 drawerLayoutContainer.setAllowOpenDrawer(false, false);
             } else {
-                // <> Pics Comment :: Current Account is active, So we need to show Dialog Activity(Chat opening Activity).
                 DialogsActivity dialogsActivity = new DialogsActivity(null);
-                // <> Pics Comment :: Setting Side menu to dialog Activity.
                 dialogsActivity.setSideMenu(sideMenu);
-                // <> Pics Comment :: Adding Activity to action bar layout so it will get visible.
                 actionBarLayout.addFragmentToStack(dialogsActivity);
-                // <> Pics Comment :: Allowing user to open side navigation menu as he/she is logged in now.
                 drawerLayoutContainer.setAllowOpenDrawer(true, false);
             }
-            // <> Pics Comment :: Checking if saved Instance State contains any data.
-             try {
+
+            try {
                 if (savedInstanceState != null) {
                     String fragmentName = savedInstanceState.getString("fragment");
-                    // <> Pics Comment :: If any fragment is already open in past and it need to resume than we will resume it.
                     if (fragmentName != null) {
                         Bundle args = savedInstanceState.getBundle("args");
-                        // <> Pics Comment :: Checking Which fragment was opened.
                         switch (fragmentName) {
                             case "chat":
                                 if (args != null) {
-                                    // <> Pics Comment :: Chat fragment is opened. We will set Chat fragment. We are creating
-                                    //                    activity with previous data (args)
                                     ChatActivity chat = new ChatActivity(args);
                                     if (actionBarLayout.addFragmentToStack(chat)) {
                                         chat.restoreSelfArgs(savedInstanceState);
@@ -561,7 +511,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                                 break;
                             case "settings": {
-                                // <> Pics Comment :: Setting fragment was opened. Lets open it again and resume it with old data.
                                 SettingsActivity settings = new SettingsActivity();
                                 actionBarLayout.addFragmentToStack(settings);
                                 settings.restoreSelfArgs(savedInstanceState);
@@ -569,7 +518,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             }
                             case "group":
                                 if (args != null) {
-                                    // <> Pics Comment :: Lets open it again and resume it with old data.
                                     GroupCreateFinalActivity group = new GroupCreateFinalActivity(args);
                                     if (actionBarLayout.addFragmentToStack(group)) {
                                         group.restoreSelfArgs(savedInstanceState);
@@ -578,7 +526,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 break;
                             case "channel":
                                 if (args != null) {
-                                    // <> Pics Comment :: Lets open it again and resume it with old data.
                                     ChannelCreateActivity channel = new ChannelCreateActivity(args);
                                     if (actionBarLayout.addFragmentToStack(channel)) {
                                         channel.restoreSelfArgs(savedInstanceState);
@@ -587,7 +534,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 break;
                             case "chat_profile":
                                 if (args != null) {
-                                    // <> Pics Comment :: Lets open it again and resume it with old data.
                                     ProfileActivity profile = new ProfileActivity(args);
                                     if (actionBarLayout.addFragmentToStack(profile)) {
                                         profile.restoreSelfArgs(savedInstanceState);
@@ -595,7 +541,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                                 break;
                             case "wallpapers": {
-                                // <> Pics Comment :: Lets open it again and resume it with old data.
                                 WallpapersListActivity settings = new WallpapersListActivity(WallpapersListActivity.TYPE_ALL);
                                 actionBarLayout.addFragmentToStack(settings);
                                 settings.restoreSelfArgs(savedInstanceState);
@@ -608,15 +553,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 FileLog.e(e);
             }
         } else {
-            // <> Pics Comment :: We don't nee to worry to check last opened fragment as ur app still in ram and
-            //                    we just need to resume it as fragment is already opened.
             BaseFragment fragment = actionBarLayout.fragmentsStack.get(0);
             if (fragment instanceof DialogsActivity) {
-                // <> Pics Comment :: If our opened fragment is Dialog Activity than we also need to add side menu.
                 ((DialogsActivity) fragment).setSideMenu(sideMenu);
             }
-            // <> Pics Comment :: Checking if we can open side menu or not. If we are on login fragment than we need
-            //                    to disallow user from opening it.
             boolean allowOpen = true;
             if (AndroidUtilities.isTablet()) {
                 allowOpen = actionBarLayout.fragmentsStack.size() <= 1 && layersActionBarLayout.fragmentsStack.isEmpty();
@@ -629,13 +569,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
             drawerLayoutContainer.setAllowOpenDrawer(allowOpen, false);
         }
-        // <> Pics Comment :: Tablet Only Method.
         checkLayout();
 
-        // <> Pics Comment :: Handling Incoming Intent
         handleIntent(getIntent(), false, savedInstanceState != null, false);
 
-        // <> Pics Comment :: Lets we check if display size is ok or not. if not we will fix it.
         try {
             String os1 = Build.DISPLAY;
             String os2 = Build.USER;
@@ -649,11 +586,15 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             } else {
                 os2 = "";
             }
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("OS name " + os1 + " " + os2);
+            }
             if (os1.contains("flyme") || os2.contains("flyme")) {
                 AndroidUtilities.incorrectDisplaySizeFix = true;
                 final View view = getWindow().getDecorView().getRootView();
                 view.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener = () -> {
                     int height = view.getMeasuredHeight();
+                    FileLog.d("height = " + height + " displayHeight = " + AndroidUtilities.displaySize.y);
                     if (Build.VERSION.SDK_INT >= 21) {
                         height -= AndroidUtilities.statusBarHeight;
                     }
@@ -668,7 +609,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } catch (Exception e) {
             FileLog.e(e);
         }
-        // <> Pics Comment :: Setting Launch Activity as Base Activity of App.
         MediaController.getInstance().setBaseActivity(this, true);
     }
 
@@ -747,10 +687,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
                 rightActionBarLayout.fragmentsStack.clear();
             }
-//            <> Pics
-//            Intent intent2 = new Intent(this, IntroActivity.class);
-            Intent intent2 = new Intent(this, MIntroActivity.class);
-//            </> Pics
+            Intent intent2 = new Intent(this, IntroActivity.class);
             startActivity(intent2);
             onFinish();
             finish();
@@ -762,7 +699,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     }
 
     private void checkCurrentAccount() {
-        // <> Pics Comment :: Removing listeners if selected account is not the same as current account.
         if (currentAccount != UserConfig.selectedAccount) {
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.appDidLogout);
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.mainUserInfoChanged);
@@ -771,8 +707,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.wasUnableToFindCurrentLocation);
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.openArticle);
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.hasNewContactsToImport);
+            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.needShowPlayServicesAlert);
+            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileDidLoad);
+            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileDidFailToLoad);
         }
-        // <> Pics Comment :: Changing current user to selected account user and adding different listeners.
         currentAccount = UserConfig.selectedAccount;
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.appDidLogout);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.mainUserInfoChanged);
@@ -781,12 +719,13 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.wasUnableToFindCurrentLocation);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.openArticle);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.hasNewContactsToImport);
-        // <> Pics Comment :: Changing Title of Action bar according to network state.
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.needShowPlayServicesAlert);
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileDidLoad);
+        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileDidFailToLoad);
         updateCurrentConnectionState(currentAccount);
     }
 
     private void checkLayout() {
-        // <> Pics Comment :: This method is only for tablets.
         if (!AndroidUtilities.isTablet() || rightActionBarLayout == null) {
             return;
         }
@@ -835,7 +774,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
     }
 
-    private void showUpdateActivity(int account, TLRPC.TL_help_appUpdate update) {
+    private void showUpdateActivity(int account, TLRPC.TL_help_appUpdate update, boolean check) {
         if (blockingUpdateView == null) {
             blockingUpdateView = new BlockingUpdateView(LaunchActivity.this) {
                 @Override
@@ -848,7 +787,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             };
             drawerLayoutContainer.addView(blockingUpdateView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         }
-        blockingUpdateView.show(account, update);
+        blockingUpdateView.show(account, update, check);
         drawerLayoutContainer.setAllowOpenDrawer(false, false);
     }
 
@@ -923,9 +862,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
     }
 
-    // <> Pics Comment :: Handling incoming intent.
     private boolean handleIntent(Intent intent, boolean isNew, boolean restore, boolean fromPassword) {
-        // <> Pics Comment :: if We are coming from proxy Activities than we just need to show the last fragment.
         if (AndroidUtilities.handleProxyIntent(this, intent)) {
             actionBarLayout.showLastFragment();
             if (AndroidUtilities.isTablet()) {
@@ -934,18 +871,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
             return true;
         }
-        // <> Pics Comment :: Closing PhotoViewer if it is opened and not required.
         if (PhotoViewer.hasInstance() && PhotoViewer.getInstance().isVisible()) {
             if (intent == null || !Intent.ACTION_MAIN.equals(intent.getAction())) {
                 PhotoViewer.getInstance().closePhoto(false, true);
             }
         }
-
         int flags = intent.getFlags();
         final int[] intentAccount = new int[]{intent.getIntExtra("currentAccount", UserConfig.selectedAccount)};
         switchToAccount(intentAccount[0], true);
-
-        // <> Pics Comment :: Checking if user is coming from password activity or not if user had activated password feature.
         if (!fromPassword && (AndroidUtilities.needShowPasscode(true) || SharedConfig.isWaitingForPasscodeEnter)) {
             showPasscodeActivity();
             passcodeSaveIntent = intent;
@@ -953,7 +886,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             passcodeSaveIntentIsRestore = restore;
             UserConfig.getInstance(currentAccount).saveConfig(false);
         } else {
-            // <> Pics Comment :: User already coming from pass code activity.
             boolean pushOpened = false;
 
             int push_user_id = 0;
@@ -963,7 +895,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             int open_settings = 0;
             int open_new_dialog = 0;
             long dialogId = 0;
-            // <> Pics Comment :: Checking if a message or file is shared within app.
             if (SharedConfig.directShare && intent != null && intent.getExtras() != null) {
                 dialogId = intent.getExtras().getLong("dialogId", 0);
                 long hash = intent.getExtras().getLong("hash", 0);
@@ -984,17 +915,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             documentsUrisArray = null;
             contactsToSend = null;
             contactsToSendUri = null;
+
             if ((flags & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
-                // <> Pics Comment :: Checking if incoming intent has any action to do. And we are not getting this
-                //                    action by Pass code Activity. (!restore).
                 if (intent != null && intent.getAction() != null && !restore) {
-                    // <> Pics Comment :: Checking if anything is send to our app.
                     if (Intent.ACTION_SEND.equals(intent.getAction())) {
                         boolean error = false;
-                        // <> Pics Comment :: Getting Content type.
                         String type = intent.getType();
-                        // <> Pics Comment :: If contacts list is send to app than we will get the list of all those
-                        //                    contacts in contactsToSend List
                         if (type != null && type.equals(ContactsContract.Contacts.CONTENT_VCARD_TYPE)) {
                             try {
                                 Uri uri = (Uri) intent.getExtras().get(Intent.EXTRA_STREAM);
@@ -1009,8 +935,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 error = true;
                             }
                         } else {
-                            // <> Pics Comment :: If send item is not contacts vcard than we will Handle it here.
-                            //                    We are trying to featch the text message send via intent.
                             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
                             if (text == null) {
                                 CharSequence textSequence = intent.getCharSequenceExtra(Intent.EXTRA_TEXT);
@@ -1019,10 +943,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                             }
                             String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-                            // <> Pics Comment :: Checking if text message is not empty and if it is a url. If it is
-                            //                    a url than we will convert this url as a text message by adding subject
-                            //                    and url in a message. If it is not a url than we will just count the
-                            //                    subject as sending message.
+
                             if (!TextUtils.isEmpty(text)) {
                                 if ((text.startsWith("http://") || text.startsWith("https://")) && !TextUtils.isEmpty(subject)) {
                                     text = subject + "\n" + text;
@@ -1031,7 +952,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             } else if (!TextUtils.isEmpty(subject)) {
                                 sendingText = subject;
                             }
-                            // <> Pics Comment :: We will check if the incoming intent contains any media file (Like Photo,Video).
+
                             Parcelable parcelable = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                             if (parcelable != null) {
                                 String path;
@@ -1046,7 +967,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                                 if (!error) {
                                     if (uri != null && (type != null && type.startsWith("image/") || uri.toString().toLowerCase().endsWith(".jpg"))) {
-                                        // <> Pics Comment :: If intent contains image with it. We will add all paths to an photoPathArray
                                         if (photoPathsArray == null) {
                                             photoPathsArray = new ArrayList<>();
                                         }
@@ -1054,20 +974,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         info.uri = uri;
                                         photoPathsArray.add(info);
                                     } else {
-                                        // <> Pics Comment :: intent does not contains photo So we will check further.
                                         path = AndroidUtilities.getPath(uri);
                                         if (path != null) {
                                             if (path.startsWith("file:")) {
-                                                // <> Pics Comment :: if intent contains any file than we will address that here.
                                                 path = path.replace("file://", "");
                                             }
                                             if (type != null && type.startsWith("video/")) {
-                                                // <> Pics Comment :: if intent contains vidoe file than we will address it here.
                                                 videoPath = path;
                                             } else {
-                                                // <> Pics Comment :: if intent does not cantains any video file than it may contain
-                                                //                    any other file (Like an document). So we will add all those
-                                                //                    documents paths in an array.
                                                 if (documentsPathsArray == null) {
                                                     documentsPathsArray = new ArrayList<>();
                                                     documentsOriginalPathsArray = new ArrayList<>();
@@ -1076,8 +990,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                 documentsOriginalPathsArray.add(uri.toString());
                                             }
                                         } else {
-                                            // <> Pics Comment :: if path is null than we will count the attached file as a normal
-                                            //                    document file and add it in document array.
                                             if (documentsUrisArray == null) {
                                                 documentsUrisArray = new ArrayList<>();
                                             }
@@ -1091,15 +1003,11 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             }
                         }
                         if (error) {
-                            // <> Pics Comment :: We counter with an error. We are not able to featch the data from intent. It may be possible that the file is
-                            //                    unsupported so tell that to user.
                             Toast.makeText(this, "Unsupported content", Toast.LENGTH_SHORT).show();
                         }
                     } else if (Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction())) {
-                        // <> Pics Comment :: If user had send multiple files to the app than we will handle tha here.
                         boolean error = false;
                         try {
-                            // <> Pics Comment :: Getting all files uri and type. We will also check all files.
                             ArrayList<Parcelable> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
                             String type = intent.getType();
                             if (uris != null) {
@@ -1121,9 +1029,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                             }
                             if (uris != null) {
-                                // <> Pics Comment :: Now we have a list of all files uri in uris.
                                 if (type != null && type.startsWith("image/")) {
-                                    // <> Pics Comment :: If files are images we will add them in photoArrayList.
                                     for (int a = 0; a < uris.size(); a++) {
                                         Parcelable parcelable = uris.get(a);
                                         if (!(parcelable instanceof Uri)) {
@@ -1138,7 +1044,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         photoPathsArray.add(info);
                                     }
                                 } else {
-                                    // <> Pics Comment :: If files are not photos than we will add them as documents.
                                     for (int a = 0; a < uris.size(); a++) {
                                         Parcelable parcelable = uris.get(a);
                                         if (!(parcelable instanceof Uri)) {
@@ -1177,12 +1082,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             error = true;
                         }
                         if (error) {
-                            // <> Pics Comment :: We counter with an error. We are not able to featch the data from intent. It may be possible that the file is
-                            //                    unsupported so tell that to user.
                             Toast.makeText(this, "Unsupported content", Toast.LENGTH_SHORT).show();
                         }
                     } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-                        // <> Pics Comment :: If intent if for viewing any data that we will handle it here.
                         Uri data = intent.getData();
                         if (data != null) {
                             String username = null;
@@ -1197,30 +1099,24 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             String game = null;
                             String phoneHash = null;
                             String lang = null;
+                            String theme = null;
                             String code = null;
                             TLRPC.TL_wallPaper wallPaper = null;
                             Integer messageId = null;
                             Integer channelId = null;
                             boolean hasUrl = false;
                             String scheme = data.getScheme();
-                            // <> Pics Comment :: If data contans scheme we will handle it here.
                             if (scheme != null) {
-                                // <> Pics Comment :: if scheme contains a url and url.
                                 if ((scheme.equals("http") || scheme.equals("https"))) {
                                     String host = data.getHost().toLowerCase();
-                                    // <> Pics Comment :: if scheme url is a telegram url we will handle it here.
                                     if (host.equals("telegram.me") || host.equals("t.me") || host.equals("telegram.dog")) {
                                         String path = data.getPath();
                                         if (path != null && path.length() > 1) {
                                             path = path.substring(1);
                                             if (path.startsWith("bg/")) {
-                                                // <> Pics Comment :: So, the scheme url is a telegram url and it is of background url. (Telegram Wallpaper).
                                                 wallPaper = new TLRPC.TL_wallPaper();
                                                 wallPaper.settings = new TLRPC.TL_wallPaperSettings();
                                                 wallPaper.slug = path.replace("bg/", "");
-                                                // <> Pics Comment :: We will check the passed parameters here. (Like if wallpaper is set as blurred or it
-                                                //                    is in motion). If wallpaper slug length is 6 than there is no such parameter. So we
-                                                //                    will only get the color value of wallpaper.
                                                 if (wallPaper.slug != null && wallPaper.slug.length() == 6) {
                                                     try {
                                                         wallPaper.settings.background_color = Integer.parseInt(wallPaper.slug, 16) | 0xff000000;
@@ -1261,16 +1157,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                     }
                                                 }
                                             } else if (path.startsWith("login/")) {
-                                                // <> Pics Comment :: if url is a login url.
                                                 code = path.replace("login/", "");
                                             } else if (path.startsWith("joinchat/")) {
-                                                // <> Pics Comment :: If url is a chat invitaion.
                                                 group = path.replace("joinchat/", "");
                                             } else if (path.startsWith("addstickers/")) {
-                                                // <> Pics Comment :: if url is to add stickers.
                                                 sticker = path.replace("addstickers/", "");
                                             } else if (path.startsWith("msg/") || path.startsWith("share/")) {
-                                                // <> Pics Comment :: if url is a message sharing url.
                                                 message = data.getQueryParameter("url");
                                                 if (message == null) {
                                                     message = "";
@@ -1289,14 +1181,13 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                     message = message.substring(0, message.length() - 1);
                                                 }
                                             } else if (path.startsWith("confirmphone")) {
-                                                // <> Pics Comment :: If url is to confirm mob. number.
                                                 phone = data.getQueryParameter("phone");
                                                 phoneHash = data.getQueryParameter("hash");
                                             } else if (path.startsWith("setlanguage/")) {
-                                                // <> Pics Comment :: if url is to set Language.
                                                 lang = path.substring(12);
+                                            } else if (path.startsWith("addtheme/")) {
+                                                theme = path.substring(9);
                                             } else if (path.startsWith("c/")) {
-                                                // <> Pics Comment :: if url is pointing to a particular telegram channel or particular message on a telegram channel.
                                                 List<String> segments = data.getPathSegments();
                                                 if (segments.size() == 3) {
                                                     channelId = Utilities.parseInt(segments.get(1));
@@ -1307,8 +1198,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                     }
                                                 }
                                             } else if (path.length() >= 1) {
-                                                // <> Pics Comment :: if url is exist and is of another type (Like Bot, Game).
-                                                List<String> segments = data.getPathSegments();
+                                                ArrayList<String> segments = new ArrayList<>(data.getPathSegments());
+                                                if (segments.size() > 0 && segments.get(0).equals("s")) {
+                                                    segments.remove(0);
+                                                }
                                                 if (segments.size() > 0) {
                                                     username = segments.get(0);
                                                     if (segments.size() > 1) {
@@ -1325,14 +1218,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         }
                                     }
                                 } else if (scheme.equals("tg")) {
-                                    // <> Pics Comment :: if scheme is not a normal http url and is of tg type url, we will handle it here.
                                     String url = data.toString();
                                     if (url.startsWith("tg:resolve") || url.startsWith("tg://resolve")) {
                                         url = url.replace("tg:resolve", "tg://telegram.org").replace("tg://resolve", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         username = data.getQueryParameter("domain");
                                         if ("telegrampassport".equals(username)) {
-                                            // <> Pics Comment :: Checking if tg url is a telegram passport id for authentication. if so, we will put this info in auth.
                                             username = null;
                                             auth = new HashMap<>();
                                             String scope = data.getQueryParameter("scope");
@@ -1346,7 +1237,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             auth.put("public_key", data.getQueryParameter("public_key"));
                                             auth.put("callback_url", data.getQueryParameter("callback_url"));
                                         } else {
-                                            // <> Pics Comment :: this is not a tg passport id info. It may be a bot or game url.
                                             botUser = data.getQueryParameter("start");
                                             botChat = data.getQueryParameter("startgroup");
                                             game = data.getQueryParameter("game");
@@ -1356,7 +1246,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             }
                                         }
                                     } else if (url.startsWith("tg:privatepost") || url.startsWith("tg://privatepost")) {
-                                        // <> Pics Comment :: if the tg url is to post a message in a private channel.
                                         url = url.replace("tg:privatepost", "tg://telegram.org").replace("tg://privatepost", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         messageId = Utilities.parseInt(data.getQueryParameter("post"));
@@ -1366,7 +1255,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             channelId = null;
                                         }
                                     } else if (url.startsWith("tg:bg") || url.startsWith("tg://bg")) {
-                                        // <> Pics Comment :: if tg url is to change the background.
                                         url = url.replace("tg:bg", "tg://telegram.org").replace("tg://bg", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         wallPaper = new TLRPC.TL_wallPaper();
@@ -1408,17 +1296,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             }
                                         }
                                     } else if (url.startsWith("tg:join") || url.startsWith("tg://join")) {
-                                        // <> Pics Comment :: if tg url is an invitation url.
                                         url = url.replace("tg:join", "tg://telegram.org").replace("tg://join", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         group = data.getQueryParameter("invite");
                                     } else if (url.startsWith("tg:addstickers") || url.startsWith("tg://addstickers")) {
-                                        // <> Pics Comment :: if tg url is to add stickers.
                                         url = url.replace("tg:addstickers", "tg://telegram.org").replace("tg://addstickers", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         sticker = data.getQueryParameter("set");
                                     } else if (url.startsWith("tg:msg") || url.startsWith("tg://msg") || url.startsWith("tg://share") || url.startsWith("tg:share")) {
-                                        // <> Pics Comment :: if tg url is to share a message.
                                         url = url.replace("tg:msg", "tg://telegram.org").replace("tg://msg", "tg://telegram.org").replace("tg://share", "tg://telegram.org").replace("tg:share", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         message = data.getQueryParameter("url");
@@ -1439,20 +1324,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             message = message.substring(0, message.length() - 1);
                                         }
                                     } else if (url.startsWith("tg:confirmphone") || url.startsWith("tg://confirmphone")) {
-                                        // <> Pics Comment :: if tg url is to confirm mob. number.
                                         url = url.replace("tg:confirmphone", "tg://telegram.org").replace("tg://confirmphone", "tg://telegram.org");
                                         data = Uri.parse(url);
 
                                         phone = data.getQueryParameter("phone");
                                         phoneHash = data.getQueryParameter("hash");
                                     } else if (url.startsWith("tg:login") || url.startsWith("tg://login")) {
-                                        // <> Pics Comment :: if tg url is to login
                                         url = url.replace("tg:login", "tg://telegram.org").replace("tg://login", "tg://telegram.org");
                                         data = Uri.parse(url);
 
                                         code = data.getQueryParameter("code");
                                     } else if (url.startsWith("tg:openmessage") || url.startsWith("tg://openmessage")) {
-                                        // <> Pics Comment :: if tg url is to open a message in a particular chat.
                                         url = url.replace("tg:openmessage", "tg://telegram.org").replace("tg://openmessage", "tg://telegram.org");
                                         data = Uri.parse(url);
 
@@ -1477,7 +1359,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             }
                                         }
                                     } else if (url.startsWith("tg:passport") || url.startsWith("tg://passport") || url.startsWith("tg:secureid")) {
-                                        // <> Pics Comment :: if tg url is a passport id for a bot.
                                         url = url.replace("tg:passport", "tg://telegram.org").replace("tg://passport", "tg://telegram.org").replace("tg:secureid", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         auth = new HashMap<>();
@@ -1492,12 +1373,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         auth.put("public_key", data.getQueryParameter("public_key"));
                                         auth.put("callback_url", data.getQueryParameter("callback_url"));
                                     } else if (url.startsWith("tg:setlanguage") || url.startsWith("tg://setlanguage")) {
-                                        // <> Pics Comment :: if tg url is to set language.
                                         url = url.replace("tg:setlanguage", "tg://telegram.org").replace("tg://setlanguage", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         lang = data.getQueryParameter("lang");
+                                    } else if (url.startsWith("tg:addtheme") || url.startsWith("tg://addtheme")) {
+                                        url = url.replace("tg:addtheme", "tg://telegram.org").replace("tg://addtheme", "tg://telegram.org");
+                                        data = Uri.parse(url);
+                                        theme = data.getQueryParameter("slug");
                                     } else {
-                                        // <> Pics Comment :: if tg url is unknown type.
                                         unsupportedUrl = url.replace("tg://", "").replace("tg:", "");
                                         int index;
                                         if ((index = unsupportedUrl.indexOf('?')) >= 0) {
@@ -1507,17 +1390,16 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 }
                             }
                             if (code != null || UserConfig.getInstance(currentAccount).isClientActivated()) {
-                                // <> Pics Comment :: if incoming intent is to cancel telegram account deletion.
                                 if (phone != null || phoneHash != null) {
                                     final Bundle args = new Bundle();
                                     args.putString("phone", phone);
                                     args.putString("hash", phoneHash);
                                     AndroidUtilities.runOnUIThread(() -> presentFragment(new CancelAccountDeletionActivity(args)));
-                                } else if (username != null || group != null || sticker != null || message != null || game != null || auth != null || unsupportedUrl != null || lang != null || code != null || wallPaper != null || channelId != null) {
+                                } else if (username != null || group != null || sticker != null || message != null || game != null || auth != null || unsupportedUrl != null || lang != null || code != null || wallPaper != null || channelId != null || theme != null) {
                                     if (message != null && message.startsWith("@")) {
                                         message = " " + message;
                                     }
-                                    runLinkRequest(intentAccount[0], username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, 0);
+                                    runLinkRequest(intentAccount[0], username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, theme, 0);
                                 } else {
                                     try (Cursor cursor = getContentResolver().query(intent.getData(), null, null, null, null)) {
                                         if (cursor != null) {
@@ -1542,13 +1424,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             }
                         }
                     } else if (intent.getAction().equals("org.telegram.messenger.OPEN_ACCOUNT")) {
-                        // <> Pics Comment :: So Intent action is neither to share anything nor to view anything. It is to open a account.
                         open_settings = 1;
                     } else if (intent.getAction().equals("new_dialog")) {
-                        // <> Pics Comment :: Incoming Intent action is to open a dialog.
                         open_new_dialog = 1;
                     } else if (intent.getAction().startsWith("com.tmessages.openchat")) {
-                        // <> Pics Comment :: Intent action is to open a chat.
                         int chatId = intent.getIntExtra("chatId", 0);
                         int userId = intent.getIntExtra("userId", 0);
                         int encId = intent.getIntExtra("encId", 0);
@@ -1565,18 +1444,15 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             showDialogsList = true;
                         }
                     } else if (intent.getAction().equals("com.tmessages.openplayer")) {
-                        // <> Pics Comment :: Intent action is to open telegram media player.
                         showPlayer = true;
                     } else if (intent.getAction().equals("org.tmessages.openlocations")) {
-                        // <> Pics Comment :: Intent is to open location.
                         showLocations = true;
                     }
                 }
             }
-            // <> Pics Comment :: Before opening any chat, or any other avtivity requested by intent, we will first check if user is logded in or not.
+
             if (UserConfig.getInstance(currentAccount).isClientActivated()) {
                 if (push_user_id != 0) {
-                    // <> Pics Comment :: Creating args bundle to opening any activity to open chat activity for a particular user chat.
                     Bundle args = new Bundle();
                     args.putInt("user_id", push_user_id);
                     if (push_msg_id != 0)
@@ -1588,7 +1464,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         }
                     }
                 } else if (push_chat_id != 0) {
-                    // <> Pics Comment :: Creating args bundle to opening any activity to open chat activity for a particular chat.
                     Bundle args = new Bundle();
                     args.putInt("chat_id", push_chat_id);
                     if (push_msg_id != 0)
@@ -1600,7 +1475,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         }
                     }
                 } else if (push_enc_id != 0) {
-                    // <> Pics Comment :: Creating args bundle to opening any activity to open chat activity for a particular encripted chat.
                     Bundle args = new Bundle();
                     args.putInt("enc_id", push_enc_id);
                     ChatActivity fragment = new ChatActivity(args);
@@ -1608,7 +1482,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         pushOpened = true;
                     }
                 } else if (showDialogsList) {
-                    // <> Pics Comment :: We did not need to open chat activity as intent is to show dialog list. We will first remove all fragments.
                     if (!AndroidUtilities.isTablet()) {
                         actionBarLayout.removeAllFragments();
                     } else {
@@ -1623,14 +1496,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     pushOpened = false;
                     isNew = false;
                 } else if (showPlayer) {
-                    // <> Pics Comment :: Showing audio player dialog on top of current fragment.
                     if (!actionBarLayout.fragmentsStack.isEmpty()) {
                         BaseFragment fragment = actionBarLayout.fragmentsStack.get(0);
                         fragment.showDialog(new AudioPlayerAlert(this));
                     }
                     pushOpened = false;
                 } else if (showLocations) {
-                    // <> Pics Comment :: Opening Location Activity.
                     if (!actionBarLayout.fragmentsStack.isEmpty()) {
                         BaseFragment fragment = actionBarLayout.fragmentsStack.get(0);
                         fragment.showDialog(new SharingLocationsAlert(this, info -> {
@@ -1640,13 +1511,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             LocationActivity locationActivity = new LocationActivity(2);
                             locationActivity.setMessageObject(info.messageObject);
                             final long dialog_id = info.messageObject.getDialogId();
-                            locationActivity.setDelegate((location, live) -> SendMessagesHelper.getInstance(intentAccount[0]).sendMessage(location, dialog_id, null, null, null));
+                            locationActivity.setDelegate((location, live, notify, scheduleDate) -> SendMessagesHelper.getInstance(intentAccount[0]).sendMessage(location, dialog_id, null, null, null, notify, scheduleDate));
                             presentFragment(locationActivity);
                         }));
                     }
                     pushOpened = false;
                 } else if (videoPath != null || photoPathsArray != null || sendingText != null || documentsPathsArray != null || contactsToSend != null || documentsUrisArray != null) {
-                    // <> Pics Comment :: If we have to share data than we will show the list of chats to select. Oviously, it will be done using dialog activity.
                     if (!AndroidUtilities.isTablet()) {
                         NotificationCenter.getInstance(intentAccount[0]).postNotificationName(NotificationCenter.closeChats);
                     }
@@ -1695,7 +1565,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         didSelectDialogs(null, dids, null, false);
                     }
                 } else if (open_settings != 0) {
-                    // <> Pics Comment :: So intent is to open settings. We will open it here.
                     actionBarLayout.presentFragment(new SettingsActivity(), false, true, true, false);
                     if (AndroidUtilities.isTablet()) {
                         actionBarLayout.showLastFragment();
@@ -1706,7 +1575,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                     pushOpened = true;
                 } else if (open_new_dialog != 0) {
-                    // <> Pics Comment :: Intent is to open dialog.
                     Bundle args = new Bundle();
                     args.putBoolean("destroyAfterSelect", true);
                     actionBarLayout.presentFragment(new ContactsActivity(args), false, true, true, false);
@@ -1722,9 +1590,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
 
             if (!pushOpened && !isNew) {
-                // <> Pics Comment :: if no new activity is opened like chat activity, we will check if user is logged in or not.
-                //                    if he/she is logged in than we will show dialog activity otherwise we will send user to login
-                //                    activity.
                 if (AndroidUtilities.isTablet()) {
                     if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
                         if (layersActionBarLayout.fragmentsStack.isEmpty()) {
@@ -1781,13 +1646,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 final String unsupportedUrl,
                                 final String code,
                                 final TLRPC.TL_wallPaper wallPaper,
+                                final String theme,
                                 final int state) {
         if (state == 0 && UserConfig.getActivatedAccountsCount() >= 2 && auth != null) {
             AlertsCreator.createAccountSelectDialog(this, account -> {
                 if (account != intentAccount) {
                     switchToAccount(account, true);
                 }
-                runLinkRequest(account, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, 1);
+                runLinkRequest(account, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, theme, 1);
             }).show();
             return;
         } else if (code != null) {
@@ -1804,6 +1670,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
         final AlertDialog progressDialog = new AlertDialog(this, 3);
         final int[] requestId = new int[]{0};
+        Runnable cancelRunnable = null;
 
         if (username != null) {
             TLRPC.TL_contacts_resolveUsername req = new TLRPC.TL_contacts_resolveUsername();
@@ -1841,14 +1708,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 int lower_part = (int) did;
                                 int high_id = (int) (did >> 32);
                                 if (lower_part != 0) {
-                                    if (high_id == 1) {
-                                        args1.putInt("chat_id", lower_part);
-                                    } else {
-                                        if (lower_part > 0) {
-                                            args1.putInt("user_id", lower_part);
-                                        } else if (lower_part < 0) {
-                                            args1.putInt("chat_id", -lower_part);
-                                        }
+                                    if (lower_part > 0) {
+                                        args1.putInt("user_id", lower_part);
+                                    } else if (lower_part < 0) {
+                                        args1.putInt("chat_id", -lower_part);
                                     }
                                 } else {
                                     args1.putInt("enc_id", high_id);
@@ -1976,7 +1839,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                     AlertDialog.Builder builder = new AlertDialog.Builder(LaunchActivity.this);
                                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                                     builder.setMessage(LocaleController.formatString("ChannelJoinTo", R.string.ChannelJoinTo, invite.chat != null ? invite.chat.title : invite.title));
-                                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> runLinkRequest(intentAccount, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, 1));
+                                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> runLinkRequest(intentAccount, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, game, auth, lang, unsupportedUrl, code, wallPaper, theme, 1));
                                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                                     showAlertDialog(builder);
                                 }
@@ -2064,21 +1927,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 int lower_part = (int) did;
                 int high_id = (int) (did >> 32);
                 if (lower_part != 0) {
-                    if (high_id == 1) {
-                        args13.putInt("chat_id", lower_part);
-                    } else {
-                        if (lower_part > 0) {
-                            args13.putInt("user_id", lower_part);
-                        } else if (lower_part < 0) {
-                            args13.putInt("chat_id", -lower_part);
-                        }
+                    if (lower_part > 0) {
+                        args13.putInt("user_id", lower_part);
+                    } else if (lower_part < 0) {
+                        args13.putInt("chat_id", -lower_part);
                     }
                 } else {
                     args13.putInt("enc_id", high_id);
                 }
                 if (MessagesController.getInstance(intentAccount).checkCanOpenChat(args13, fragment13)) {
                     NotificationCenter.getInstance(intentAccount).postNotificationName(NotificationCenter.closeChats);
-                    DataQuery.getInstance(intentAccount).saveDraft(did, message, null, null, false);
+                    MediaDataController.getInstance(intentAccount).saveDraft(did, message, null, null, false);
                     actionBarLayout.presentFragment(new ChatActivity(args13), true, false, true, false);
                 }
             });
@@ -2203,6 +2062,48 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 }));
             }
+        } else if (theme != null) {
+            cancelRunnable = () -> {
+                loadingThemeFileName = null;
+                loadingThemeWallpaperName = null;
+                loadingThemeInfo = null;
+                loadingThemeProgressDialog = null;
+                loadingTheme = null;
+            };
+            TLRPC.TL_account_getTheme req = new TLRPC.TL_account_getTheme();
+            req.format = "android";
+            TLRPC.TL_inputThemeSlug inputThemeSlug = new TLRPC.TL_inputThemeSlug();
+            inputThemeSlug.slug = theme;
+            req.theme = inputThemeSlug;
+            requestId[0] = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                int notFound = 2;
+                if (response instanceof TLRPC.TL_theme) {
+                    TLRPC.TL_theme t = (TLRPC.TL_theme) response;
+                    if (t.document != null) {
+                        loadingTheme = t;
+                        loadingThemeFileName = FileLoader.getAttachFileName(loadingTheme.document);
+                        loadingThemeProgressDialog = progressDialog;
+                        FileLoader.getInstance(currentAccount).loadFile(loadingTheme.document, t, 1, 1);
+                        notFound = 0;
+                    } else {
+                        notFound = 1;
+                    }
+                } else if (error != null && "THEME_FORMAT_INVALID".equals(error.text)) {
+                    notFound = 1;
+                }
+                if (notFound != 0) {
+                    try {
+                        progressDialog.dismiss();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                    if (notFound == 1) {
+                        showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("Theme", R.string.Theme), LocaleController.getString("ThemeNotSupported", R.string.ThemeNotSupported)));
+                    } else {
+                        showAlertDialog(AlertsCreator.createSimpleAlert(LaunchActivity.this, LocaleController.getString("Theme", R.string.Theme), LocaleController.getString("ThemeNotFound", R.string.ThemeNotFound)));
+                    }
+                }
+            }));
         } else if (channelId != null && messageId != null) {
             Bundle args = new Bundle();
             args.putInt("chat_id", channelId);
@@ -2243,7 +2144,13 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
 
         if (requestId[0] != 0) {
-            progressDialog.setOnCancelListener(dialog -> ConnectionsManager.getInstance(intentAccount).cancelRequest(requestId[0], true));
+            final Runnable cancelRunnableFinal = cancelRunnable;
+            progressDialog.setOnCancelListener(dialog -> {
+                ConnectionsManager.getInstance(intentAccount).cancelRequest(requestId[0], true);
+                if (cancelRunnableFinal != null) {
+                    cancelRunnableFinal.run();
+                }
+            });
             try {
                 progressDialog.show();
             } catch (Exception ignore) {
@@ -2275,12 +2182,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             if (response instanceof TLRPC.TL_help_appUpdate) {
                 final TLRPC.TL_help_appUpdate res = (TLRPC.TL_help_appUpdate) response;
                 AndroidUtilities.runOnUIThread(() -> {
-                    if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                        res.popup = Utilities.random.nextBoolean();
-                    }
-                    if (!res.popup) {
-                        (new UpdateAppAlertDialog(LaunchActivity.this, res, accountNum)).show();
-                    } else {
+                    if (res.can_not_skip) {
                         UserConfig.getInstance(0).pendingAppUpdate = res;
                         UserConfig.getInstance(0).pendingAppUpdateBuildVersion = BuildVars.BUILD_VERSION;
                         try {
@@ -2291,7 +2193,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             UserConfig.getInstance(0).pendingAppUpdateInstallTime = 0;
                         }
                         UserConfig.getInstance(0).saveConfig(false);
-                        showUpdateActivity(accountNum, res);
+                        showUpdateActivity(accountNum, res, false);
+                    } else {
+                        (new UpdateAppAlertDialog(LaunchActivity.this, res, accountNum)).show();
                     }
                 });
             }
@@ -2356,6 +2260,29 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         int lower_part = (int) did;
         int high_id = (int) (did >> 32);
 
+        int attachesCount = 0;
+        if (contactsToSend != null) {
+            attachesCount += contactsToSend.size();
+        }
+        if (videoPath != null) {
+            attachesCount++;
+        }
+        if (photoPathsArray != null) {
+            attachesCount += photoPathsArray.size();
+        }
+        if (documentsPathsArray != null) {
+            attachesCount += documentsPathsArray.size();
+        }
+        if (documentsUrisArray != null) {
+            attachesCount += documentsUrisArray.size();
+        }
+        if (videoPath == null && photoPathsArray == null && documentsPathsArray == null && documentsUrisArray == null && sendingText != null) {
+            attachesCount++;
+        }
+        if (AlertsCreator.checkSlowMode(this, currentAccount, did, attachesCount > 1)) {
+            return;
+        }
+
         Bundle args = new Bundle();
         final int account = dialogsFragment != null ? dialogsFragment.getCurrentAccount() : currentAccount;
         args.putBoolean("scrollToTopOnResume", true);
@@ -2363,14 +2290,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             NotificationCenter.getInstance(account).postNotificationName(NotificationCenter.closeChats);
         }
         if (lower_part != 0) {
-            if (high_id == 1) {
-                args.putInt("chat_id", lower_part);
-            } else {
-                if (lower_part > 0) {
-                    args.putInt("user_id", lower_part);
-                } else if (lower_part < 0) {
-                    args.putInt("chat_id", -lower_part);
-                }
+            if (lower_part > 0) {
+                args.putInt("user_id", lower_part);
+            } else if (lower_part < 0) {
+                args.putInt("chat_id", -lower_part);
             }
         } else {
             args.putInt("enc_id", high_id);
@@ -2382,13 +2305,14 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         if (contactsToSend != null && contactsToSend.size() == 1) {
             if (contactsToSend.size() == 1) {
                 PhonebookShareActivity contactFragment = new PhonebookShareActivity(null, contactsToSendUri, null, null);
-                contactFragment.setDelegate(user -> {
+                contactFragment.setDelegate((user, notify, scheduleDate) -> {
                     actionBarLayout.presentFragment(fragment, true, false, true, false);
-                    SendMessagesHelper.getInstance(account).sendMessage(user, did, null, null, null);
+                    SendMessagesHelper.getInstance(account).sendMessage(user, did, null, null, null, notify, scheduleDate);
                 });
                 actionBarLayout.presentFragment(contactFragment, dialogsFragment != null, dialogsFragment == null, true, false);
             }
         } else {
+            AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
             actionBarLayout.presentFragment(fragment, dialogsFragment != null, dialogsFragment == null, true, false);
             if (videoPath != null) {
                 fragment.openVideoEditor(videoPath, sendingText);
@@ -2399,7 +2323,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     photoPathsArray.get(0).caption = sendingText;
                     sendingText = null;
                 }
-                SendMessagesHelper.prepareSendingMedia(photoPathsArray, did, null, null, false, false, null);
+                SendMessagesHelper.prepareSendingMedia(accountInstance, photoPathsArray, did, null, null, false, false, null, true, 0);
             }
             if (documentsPathsArray != null || documentsUrisArray != null) {
                 String caption = null;
@@ -2407,15 +2331,15 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     caption = sendingText;
                     sendingText = null;
                 }
-                SendMessagesHelper.prepareSendingDocuments(documentsPathsArray, documentsOriginalPathsArray, documentsUrisArray, caption, documentsMimeType, did, null, null, null);
+                SendMessagesHelper.prepareSendingDocuments(accountInstance, documentsPathsArray, documentsOriginalPathsArray, documentsUrisArray, caption, documentsMimeType, did, null, null, null, true, 0);
             }
             if (sendingText != null) {
-                SendMessagesHelper.prepareSendingText(sendingText, did);
+                SendMessagesHelper.prepareSendingText(accountInstance, sendingText, did, true, 0);
             }
             if (contactsToSend != null && !contactsToSend.isEmpty()) {
                 for (int a = 0; a < contactsToSend.size(); a++) {
                     TLRPC.User user = contactsToSend.get(a);
-                    SendMessagesHelper.getInstance(account).sendMessage(user, did, null, null, null);
+                    SendMessagesHelper.getInstance(account).sendMessage(user, did, null, null, null, true, 0);
                 }
             }
         }
@@ -2486,22 +2410,26 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             UserConfig.getInstance(currentAccount).saveConfig(false);
         }
         super.onActivityResult(requestCode, resultCode, data);
-        ThemeEditorView editorView = ThemeEditorView.getInstance();
-        if (editorView != null) {
-            editorView.onActivityResult(requestCode, resultCode, data);
-        }
-        if (actionBarLayout.fragmentsStack.size() != 0) {
-            BaseFragment fragment = actionBarLayout.fragmentsStack.get(actionBarLayout.fragmentsStack.size() - 1);
-            fragment.onActivityResultFragment(requestCode, resultCode, data);
-        }
-        if (AndroidUtilities.isTablet()) {
-            if (rightActionBarLayout.fragmentsStack.size() != 0) {
-                BaseFragment fragment = rightActionBarLayout.fragmentsStack.get(rightActionBarLayout.fragmentsStack.size() - 1);
+        if (requestCode == PLAY_SERVICES_REQUEST_CHECK_SETTINGS) {
+            LocationController.getInstance(currentAccount).startFusedLocationRequest(resultCode == Activity.RESULT_OK);
+        } else {
+            ThemeEditorView editorView = ThemeEditorView.getInstance();
+            if (editorView != null) {
+                editorView.onActivityResult(requestCode, resultCode, data);
+            }
+            if (actionBarLayout.fragmentsStack.size() != 0) {
+                BaseFragment fragment = actionBarLayout.fragmentsStack.get(actionBarLayout.fragmentsStack.size() - 1);
                 fragment.onActivityResultFragment(requestCode, resultCode, data);
             }
-            if (layersActionBarLayout.fragmentsStack.size() != 0) {
-                BaseFragment fragment = layersActionBarLayout.fragmentsStack.get(layersActionBarLayout.fragmentsStack.size() - 1);
-                fragment.onActivityResultFragment(requestCode, resultCode, data);
+            if (AndroidUtilities.isTablet()) {
+                if (rightActionBarLayout.fragmentsStack.size() != 0) {
+                    BaseFragment fragment = rightActionBarLayout.fragmentsStack.get(rightActionBarLayout.fragmentsStack.size() - 1);
+                    fragment.onActivityResultFragment(requestCode, resultCode, data);
+                }
+                if (layersActionBarLayout.fragmentsStack.size() != 0) {
+                    BaseFragment fragment = layersActionBarLayout.fragmentsStack.get(layersActionBarLayout.fragmentsStack.size() - 1);
+                    fragment.onActivityResultFragment(requestCode, resultCode, data);
+                }
             }
         }
     }
@@ -2509,51 +2437,48 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 3 || requestCode == 4 || requestCode == 5 || requestCode == 19 || requestCode == 20 || requestCode == 22) {
-            boolean showAlert = true;
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (requestCode == 4) {
-                    ImageLoader.getInstance().checkMediaPaths();
-                    return;
-                } else if (requestCode == 5) {
-                    ContactsController.getInstance(currentAccount).forceImportContacts();
-                    return;
-                } else if (requestCode == 3) {
-                    if (SharedConfig.inappCamera) {
-                        CameraController.getInstance().initCamera(null);
-                    }
-                    return;
-                } else if (requestCode == 19 || requestCode == 20 || requestCode == 22) {
-                    showAlert = false;
-                }
+
+        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+        if (requestCode == 4) {
+            if (!granted) {
+                showPermissionErrorAlert(LocaleController.getString("PermissionStorage", R.string.PermissionStorage));
+            } else {
+                ImageLoader.getInstance().checkMediaPaths();
             }
-            if (showAlert) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-                if (requestCode == 3) {
-                    builder.setMessage(LocaleController.getString("PermissionNoAudio", R.string.PermissionNoAudio));
-                } else if (requestCode == 4) {
-                    builder.setMessage(LocaleController.getString("PermissionStorage", R.string.PermissionStorage));
-                } else if (requestCode == 5) {
-                    builder.setMessage(LocaleController.getString("PermissionContacts", R.string.PermissionContacts));
-                } else if (requestCode == 19 || requestCode == 20 || requestCode == 22) {
-                    builder.setMessage(LocaleController.getString("PermissionNoCamera", R.string.PermissionNoCamera));
-                }
-                builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), (dialog, which) -> {
-                    try {
-                        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                });
-                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                builder.show();
+        } else if (requestCode == 5) {
+            if (!granted) {
+                ContactsController.getInstance(currentAccount).forceImportContacts();
+            } else {
+                showPermissionErrorAlert(LocaleController.getString("PermissionContacts", R.string.PermissionContacts));
                 return;
             }
+        } else if (requestCode == 3) {
+            boolean audioGranted = true;
+            boolean cameraGranted = true;
+            for (int i = 0, size = permissions.length; i < size; i++) {
+                if (Manifest.permission.RECORD_AUDIO.equals(permissions[i])) {
+                    audioGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                } else if (Manifest.permission.CAMERA.equals(permissions[i])) {
+                    cameraGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+                }
+            }
+            if (!audioGranted) {
+                showPermissionErrorAlert(LocaleController.getString("PermissionNoAudio", R.string.PermissionNoAudio));
+            } else if (!cameraGranted) {
+                showPermissionErrorAlert(LocaleController.getString("PermissionNoCamera", R.string.PermissionNoCamera));
+            } else {
+                if (SharedConfig.inappCamera) {
+                    CameraController.getInstance().initCamera(null);
+                }
+                return;
+            }
+        } else if (requestCode == 18 || requestCode == 19 || requestCode == 20 || requestCode == 22) {
+            if (!granted) {
+                showPermissionErrorAlert(LocaleController.getString("PermissionNoCamera", R.string.PermissionNoCamera));
+            }
         } else if (requestCode == 2) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (granted) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.locationPermissionGranted);
             }
         }
@@ -2573,9 +2498,27 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
     }
 
+    private void showPermissionErrorAlert(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+        builder.setMessage(message);
+        builder.setNegativeButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), (dialog, which) -> {
+            try {
+                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
+                startActivity(intent);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        });
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+        builder.show();
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 4096);
         SharedConfig.lastAppPauseTime = System.currentTimeMillis();
         ApplicationLoader.mainInterfacePaused = true;
         Utilities.stageQueue.postRunnable(() -> {
@@ -2665,6 +2608,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     @Override
     protected void onResume() {
         super.onResume();
+        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.startAllHeavyOperations, 4096);
         MediaController.getInstance().setFeedbackView(actionBarLayout, true);
         ApplicationLoader.mainInterfacePaused = false;
         showLanguageAlert(false);
@@ -2706,7 +2650,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         if (UserConfig.getInstance(UserConfig.selectedAccount).unacceptedTermsOfService != null) {
             showTosActivity(UserConfig.selectedAccount, UserConfig.getInstance(UserConfig.selectedAccount).unacceptedTermsOfService);
         } else if (UserConfig.getInstance(0).pendingAppUpdate != null) {
-            showUpdateActivity(UserConfig.selectedAccount, UserConfig.getInstance(0).pendingAppUpdate);
+            showUpdateActivity(UserConfig.selectedAccount, UserConfig.getInstance(0).pendingAppUpdate, true);
         }
         checkAppUpdate(false);
     }
@@ -2819,10 +2763,10 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     return;
                 }
                 LocationActivity fragment = new LocationActivity(0);
-                fragment.setDelegate((location, live) -> {
+                fragment.setDelegate((location, live, notify, scheduleDate) -> {
                     for (HashMap.Entry<String, MessageObject> entry : waitingForLocation.entrySet()) {
                         MessageObject messageObject = entry.getValue();
-                        SendMessagesHelper.getInstance(account).sendMessage(location, messageObject.getDialogId(), messageObject, null, null);
+                        SendMessagesHelper.getInstance(account).sendMessage(location, messageObject.getDialogId(), messageObject, null, null, notify, scheduleDate);
                     }
                 });
                 presentFragment(fragment);
@@ -2922,6 +2866,81 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 }
             }
+        } else if (id == NotificationCenter.needShowPlayServicesAlert) {
+            try {
+                final Status status = (Status) args[0];
+                status.startResolutionForResult(this, PLAY_SERVICES_REQUEST_CHECK_SETTINGS);
+            } catch (Throwable ignore) {
+
+            }
+        } else if (id == NotificationCenter.fileDidLoad) {
+            if (loadingThemeFileName != null) {
+                String path = (String) args[0];
+                if (loadingThemeFileName.equals(path)) {
+                    loadingThemeFileName = null;
+                    File locFile = new File(ApplicationLoader.getFilesDirFixed(), "remote" + loadingTheme.id + ".attheme");
+                    Theme.ThemeInfo themeInfo = Theme.fillThemeValues(locFile, loadingTheme.title, loadingTheme);
+                    if (themeInfo != null) {
+                        if (themeInfo.pathToWallpaper != null) {
+                            File file = new File(themeInfo.pathToWallpaper);
+                            if (!file.exists()) {
+                                TLRPC.TL_account_getWallPaper req = new TLRPC.TL_account_getWallPaper();
+                                TLRPC.TL_inputWallPaperSlug inputWallPaperSlug = new TLRPC.TL_inputWallPaperSlug();
+                                inputWallPaperSlug.slug = themeInfo.slug;
+                                req.wallpaper = inputWallPaperSlug;
+                                ConnectionsManager.getInstance(themeInfo.account).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                                    if (response instanceof TLRPC.TL_wallPaper) {
+                                        TLRPC.TL_wallPaper wallPaper = (TLRPC.TL_wallPaper) response;
+                                        loadingThemeInfo = themeInfo;
+                                        loadingThemeWallpaperName = FileLoader.getAttachFileName(wallPaper.document);
+                                        FileLoader.getInstance(themeInfo.account).loadFile(wallPaper.document, wallPaper, 1, 1);
+                                    } else {
+                                        onThemeLoadFinish();
+                                    }
+                                }));
+                                return;
+                            }
+                        }
+                        Theme.ThemeInfo finalThemeInfo = Theme.applyThemeFile(locFile, loadingTheme.title, loadingTheme, true);
+                        if (finalThemeInfo != null) {
+                            presentFragment(new ThemePreviewActivity(finalThemeInfo, true, ThemePreviewActivity.SCREEN_TYPE_PREVIEW, false));
+                        }
+                    }
+                    onThemeLoadFinish();
+                }
+            } else if (loadingThemeWallpaperName != null) {
+                String path = (String) args[0];
+                if (loadingThemeWallpaperName.equals(path)) {
+                    loadingThemeWallpaperName = null;
+                    File file = (File) args[1];
+                    Utilities.globalQueue.postRunnable(() -> {
+                        try {
+                            Bitmap bitmap = ThemesHorizontalListCell.getScaledBitmap(AndroidUtilities.dp(640), AndroidUtilities.dp(360), file.getAbsolutePath(), null, 0);
+                            if (loadingThemeInfo.isBlured) {
+                                bitmap = Utilities.blurWallpaper(bitmap);
+                            }
+                            FileOutputStream stream = new FileOutputStream(loadingThemeInfo.pathToWallpaper);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 87, stream);
+                            stream.close();
+                        } catch (Throwable e) {
+                            FileLog.e(e);
+                        }
+                        AndroidUtilities.runOnUIThread(() -> {
+                            File locFile = new File(ApplicationLoader.getFilesDirFixed(), "remote" + loadingTheme.id + ".attheme");
+                            Theme.ThemeInfo finalThemeInfo = Theme.applyThemeFile(locFile, loadingTheme.title, loadingTheme, true);
+                            if (finalThemeInfo != null) {
+                                presentFragment(new ThemePreviewActivity(finalThemeInfo, true, ThemePreviewActivity.SCREEN_TYPE_PREVIEW, false));
+                            }
+                            onThemeLoadFinish();
+                        });
+                    });
+                }
+            }
+        } else if (id == NotificationCenter.fileDidFailToLoad) {
+            String path = (String) args[0];
+            if (path.equals(loadingThemeFileName) || path.equals(loadingThemeWallpaperName)) {
+                onThemeLoadFinish();
+            }
         }
     }
 
@@ -2933,7 +2952,22 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         return value;
     }
 
+    private void onThemeLoadFinish() {
+        if (loadingThemeProgressDialog != null) {
+            try {
+                loadingThemeProgressDialog.dismiss();
+            } finally {
+                loadingThemeProgressDialog = null;
+            }
+        }
+        loadingThemeWallpaperName = null;
+        loadingThemeInfo = null;
+        loadingThemeFileName = null;
+        loadingTheme = null;
+    }
+
     private void checkFreeDiscSpace() {
+        SharedConfig.checkKeepMedia();
         if (Build.VERSION.SDK_INT >= 26) {
             return;
         }
@@ -3180,11 +3214,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     }
 
     private void updateCurrentConnectionState(int account) {
-        // <> Pics Comment :: Checking if Action bar is active or not. if not than we do not need to do anything here.
         if (actionBarLayout == null) {
             return;
         }
-        // <> Pics Comment :: We will update actionbar title according to network status.
         String title = null;
         int titleId = 0;
         Runnable action = null;
@@ -3202,8 +3234,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             title = "Connecting";
             titleId = R.string.Connecting;
         }
-        // <> Pics Comment :: Checking if internet is connecting and we need to send user to proxy Activity to allow user
-        //                    to change proxy to make internet connection proper.
         if (currentConnectionState == ConnectionsManager.ConnectionStateConnecting || currentConnectionState == ConnectionsManager.ConnectionStateConnectingToProxy) {
             action = () -> {
                 BaseFragment lastFragment = null;
@@ -3222,7 +3252,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 presentFragment(new ProxyListActivity());
             };
         }
-        // <> Pics Comment :: Setting Actionbar Title.
         actionBarLayout.setTitleOverlayText(title, titleId, action);
     }
 
@@ -3459,7 +3488,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     return false;
                 }
             }
-            if (fragment instanceof ChatActivity) {
+            if (fragment instanceof ChatActivity && !((ChatActivity) fragment).isInScheduleMode()) {
                 if (!tabletFullSize && layout == rightActionBarLayout || tabletFullSize && layout == actionBarLayout) {
                     boolean result = !(tabletFullSize && layout == actionBarLayout && actionBarLayout.fragmentsStack.size() == 1);
                     if (!layersActionBarLayout.fragmentsStack.isEmpty()) {
@@ -3557,7 +3586,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                     return false;
                 }
-            } else if (fragment instanceof ChatActivity) {
+            } else if (fragment instanceof ChatActivity && !((ChatActivity) fragment).isInScheduleMode()) {
                 if (!tabletFullSize && layout != rightActionBarLayout) {
                     rightActionBarLayout.setVisibility(View.VISIBLE);
                     backgroundTablet.setVisibility(View.GONE);
