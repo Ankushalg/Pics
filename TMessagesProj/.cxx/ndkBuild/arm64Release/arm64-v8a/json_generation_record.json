@@ -9,15 +9,11 @@
   },
   {
     "level": "INFO",
-    "message": "- expected json D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\arm64Release\\arm64-v8a\\android_gradle_build.json file is not present, will remove stale json folder"
+    "message": "- force flag, will remove stale json folder"
   },
   {
     "level": "INFO",
-    "message": "- missing previous command file D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\arm64Release\\arm64-v8a\\build_command.txt, will remove stale json folder"
-  },
-  {
-    "level": "INFO",
-    "message": "- command changed from previous, will remove stale json folder"
+    "message": "removing stale contents from \u0027D:\\Pics\\TMessagesProj\\.cxx\\ndkBuild\\arm64Release\\arm64-v8a\u0027"
   },
   {
     "level": "INFO",

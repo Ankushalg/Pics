@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Telegram</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">Pics</string>
+    <string name="AppNameBeta">Pics Beta</string>
     <string name="LanguageName">English</string>
     <string name="English">English</string>
     <string name="LanguageNameInEnglish">English</string>
@@ -3047,4 +3047,17 @@
     <string name="RemindTodayAt">\'Remind today at\' HH:mm</string>
     <string name="RemindDayAt">\'Remind on\' MMM d \'at\' HH:mm</string>
     <string name="RemindDayYearAt">\'Remind on\' MMM d yyyy \'at\' HH:mm</string>
+
+    <!--MIntroActivity-->
+
+    <string name="make_it_simple" translatable="false">Make It Simple</string>
+    <string name="intro_page_1_text_1" translatable="false">WELCOME TO PICS</string>
+    <string name="skip" translatable="false">Skip</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="verify" translatable="false">Verify</string>
+    <string name="intro_page_2_text_1" translatable="false"><![CDATA[Store unlimited\nHigh Quality +\nORIGINAL Quality \n Photos for Free…]]></string>
+    <string name="intro_page_4_text_1" translatable="false"><![CDATA[Engage in chatting\nwith Friends.\nHighly secured Telegram Messaging Service\n is here…No limits…]]></string>
+    <string name="intro_page_5_text_1" translatable="false"><![CDATA[Free Personal Cloud Storage…\nStore as much as you want…]]></string>
+    <string name="intro_page_6_text_1" translatable="false"><![CDATA[Pics Messenger\nis based on highly secured\nTelegram Messenger…\nVerify Your Telegram\nMobile Number…]]></string>
+
 </resources>

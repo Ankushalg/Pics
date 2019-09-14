@@ -9,6 +9,33 @@
 <resources
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--<Pics>-->
+
+    <!--Full App-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!--M Intro Activity Theme-->
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorBlack</item>
+        <item name="colorPrimaryDark">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!--File Viewer Theme-->
+    <style name="FileViewerTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!--</Pics>-->
+
+
     <!--THEMES-->
 
     <style name="Theme.TMessages.Start" parent="@android:style/Theme.Material">
