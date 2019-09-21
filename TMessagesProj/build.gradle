@@ -46,11 +46,17 @@ android {
     defaultConfig.multiDexEnabled = true
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
-
-    externalNativeBuild {
-        ndkBuild {
-            path "jni/Android.mk"
-        }
+//    CMD Command: ndk-build APP_ABI=all
+//    Path: Pics/TMessages/
+//    TRY WITH DIFF. NDK V
+//    externalNativeBuild {
+//        ndkBuild {
+//            path "jni/Android.mk"
+//        }
+//    }
+    sourceSets.main {
+        jniLibs.srcDir 'libs'
+        jni.srcDirs = [] //disable automatic ndk-build call
     }
 
     lintOptions {
@@ -286,12 +292,12 @@ android {
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
-        externalNativeBuild {
-            ndkBuild {
-                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-16", "-j8"
-                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-            }
-        }
+//        externalNativeBuild {
+//            ndkBuild {
+//                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-16", "-j8"
+//                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+//            }
+//        }
 
         manifestPlaceholders = [applicationClassName: "ApplicationLoader"]
     }
