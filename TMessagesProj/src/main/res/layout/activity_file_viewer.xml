@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="4dp"
+        android:background="@color/colorWhite"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="34dp"
+            android:id="@+id/fv_close"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_clear_black_24dp"
+            android:layout_height="56dp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/fv_heading"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/colorBlack"
+                android:text="Internal Storage"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:textSize="14sp"
+                android:id="@+id/fv_sub_heading"
+                android:ellipsize="start"
+                android:textColor="@color/colorBlack"
+                android:text="/storage/"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="34dp"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/fv_info"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_new_releases_black_24dp"
+            android:layout_height="56dp" />
+        <ImageView
+            android:layout_width="34dp"
+            android:id="@+id/fv_menu"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:src="@drawable/ic_chevron_right_black_24dp"
+            android:layout_height="56dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/mlaunch_activity_background"
+        android:layout_height="2dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ListView
+            android:id="@+id/fv_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ProgressBar
+            android:id="@+id/fv_p_bar"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:background="@drawable/selected_navi_back"
+            android:id="@+id/fv_selection_navigation"
+            android:padding="4dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="64dp"
+                android:id="@+id/fv_sn_copy"
+                android:text="Copy"
+                android:textSize="14sp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:drawableTop="@drawable/ic_ab_copy"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:drawableTop="@drawable/ic_content_cut_black_24dp"
+                android:paddingTop="4dp"
+                android:id="@+id/fv_sn_cut"
+                android:paddingBottom="4dp"
+                android:text="Cut"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:text="Delete"
+                android:drawableTop="@drawable/ic_ab_delete"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:id="@+id/fv_sn_delete"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:paddingTop="4dp"
+                android:drawableTop="@drawable/ic_first_page_24dp"
+                android:paddingBottom="4dp"
+                android:id="@+id/fv_sn_rename"
+                android:gravity="center"
+                android:text="Rename"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:drawableTop="@drawable/ic_visibility_off_24dp"
+                android:text="Hide"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_hide"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:drawableTop="@drawable/ic_visibility_black_24dp"
+                android:text="Show"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_show"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:drawableTop="@drawable/ic_cloud_upload_white_24dp"
+                android:text="Backup"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_backup"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:drawableTop="@drawable/ic_open_in_new_24dp"
+                android:text="Open As"
+                android:paddingTop="4dp"
+                android:visibility="gone"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_open"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="64dp"
+                android:drawableTop="@drawable/msg_share"
+                android:text="Share"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_share"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="74dp"
+                android:drawableTop="@drawable/ic_content_paste_white_24dp"
+                android:text="Paste"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:id="@+id/fv_sn_paste"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="74dp"
+                android:drawableTop="@drawable/ic_add_white_24dp"
+                android:text="New"
+                android:visibility="gone"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_new"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="74dp"
+                android:drawableTop="@drawable/ic_clear_white_24dp"
+                android:text="Cancel"
+                android:visibility="gone"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:gravity="center"
+                android:id="@+id/fv_sn_cancel"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

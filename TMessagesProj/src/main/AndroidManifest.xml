@@ -78,17 +78,55 @@
         android:supportsRtl="false"
         tools:replace="android:supportsRtl">
 
+        <!--<Pics>-->
+        <activity android:name="org.telegram.ui.MLaunchActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="org.telegram.ui.FileViewerActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/FileViewerTheme"/>
+
+<!--        <activity-->
+<!--            android:name="org.telegram.ui.PicsFileChooserActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:theme="@style/AppTheme.NoActionBar"/>-->
+
+        <activity
+            android:name="org.telegram.ui.PicsMediaBackupActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+<!--        <activity-->
+<!--            android:name="org.telegram.ui.PicsMainActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:theme="@style/AppTheme.NoActionBar"/>-->
+
+        <activity
+            android:name="org.telegram.ui.MIntroActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!--</Pics>-->
+
+
         <activity
             android:name="org.telegram.ui.LaunchActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="@bool/useHardwareAcceleration"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />-->
+<!--            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
                 <category android:name="android.intent.category.DEFAULT"/>
